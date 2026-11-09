@@ -40,6 +40,7 @@
       "applicationSubCategory": "Tiffin and meal subscription management",
       "operatingSystem": "Web browser, on phone or computer",
       "description": "Software for tiffin services and meal subscription kitchens. Customers buy and manage their plan on their phone. The kitchen gets its cooking sheet, delivery list and payment records.",
+      "screenshot": ["https://hii2023.github.io/tiffora-demo/img/admin-kitchen.webp", "https://hii2023.github.io/tiffora-demo/img/admin-payments.webp", "https://hii2023.github.io/tiffora-demo/img/cust-home.webp"],
       "offers": { "@type": "Offer", "price": "10000", "priceCurrency": "INR", "category": "Monthly rent" }
     },
     {
@@ -49,6 +50,7 @@
         { "@type": "Question", "name": "Can I bring my existing customers?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Your team can add each customer with their plan and the meals they have left, so nobody starts again from zero." } },
         { "@type": "Question", "name": "Where does the customer's money go?", "acceptedAnswer": { "@type": "Answer", "text": "Straight into your own Razorpay account. Tiffora does not hold your money and takes no share of your sales. Razorpay's usual charges are between you and Razorpay." } },
         { "@type": "Question", "name": "I have many cash customers. Will it still work?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Your team can record cash, UPI or bank payments against a customer, and the pending amount updates by itself." } },
+        { "@type": "Question", "name": "Will it match my bank statement automatically?", "acceptedAnswer": { "@type": "Answer", "text": "No. Tiffora records every payment and gives you totals for online, UPI, bank and cash for any dates. You compare those totals with your cash box, bank account and Razorpay account." } },
         { "@type": "Question", "name": "What if a customer wants to skip after the cut-off time?", "acceptedAnswer": { "@type": "Answer", "text": "They cannot, because you have already started cooking. You choose the cut-off time for each meal. Once it passes, that meal is locked and your count stays correct." } },
         { "@type": "Question", "name": "Is there a delivery boy app or WhatsApp messaging?", "acceptedAnswer": { "@type": "Answer", "text": "Not yet. Today you get a delivery list that you can download and share with your delivery staff. A delivery app and WhatsApp reminders are the next things we are building." } }
       ]
@@ -102,6 +104,44 @@
   .sub-h { font-size: 13px; color: var(--muted); margin: 16px 0 4px; }
   .note { margin-top: 14px; padding: 11px 13px; background: var(--tint); border-radius: 8px; font-size: 14px; }
 
+  figure { margin: 0; }
+  figcaption { font-size: 15px; color: var(--muted); margin-top: 12px; line-height: 1.45; }
+  figcaption b { display: block; font-weight: 500; color: var(--ink); }
+  .frame { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 14px 34px -22px rgba(27,27,25,.35); }
+  .phone { border: 5px solid #23231f; border-radius: 26px; overflow: hidden; background: #fff; box-shadow: 0 14px 34px -22px rgba(27,27,25,.45); }
+  .frame img, .phone img { display: block; width: 100%; height: auto; }
+  .small-note { font-size: 15px; margin-top: 14px; }
+
+  .benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px 40px; margin-top: 40px; }
+  .benefit { border-top: 2px solid var(--green); padding-top: 14px; }
+  .benefit p { color: var(--muted); margin-top: 6px; }
+
+  .phones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; max-width: 880px; margin: 46px auto 0; text-align: center; }
+  .swap-title { margin-top: 60px; }
+  .swap { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; margin-top: 14px; border-top: 1px solid var(--line); }
+  .swap-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+  .msg { background: #e4efe5; border-radius: 10px 10px 10px 2px; padding: 7px 12px; font-size: 15px; line-height: 1.4; flex: 1 1 54%; }
+  .act { font-size: 15px; line-height: 1.4; color: var(--muted); flex: 1 1 46%; }
+
+  .pair { display: grid; grid-template-columns: 250px 1fr; gap: 44px; align-items: start; margin-top: 44px; }
+  .points { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; margin-top: 44px; }
+  .points p { color: var(--muted); margin-top: 6px; }
+
+  .calc { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; margin-top: 52px; }
+  .calc h3 { margin-bottom: 12px; }
+  .chain { list-style: none; margin: 0; padding: 0; counter-reset: c; }
+  .chain li { counter-increment: c; position: relative; padding: 0 0 18px 38px; }
+  .chain li::before { content: counter(c); position: absolute; left: 0; top: 0; width: 25px; height: 25px; border-radius: 50%; background: var(--tint); color: var(--green); font-size: 14px; font-weight: 600; display: grid; place-items: center; }
+  .chain li:not(:last-child)::after { content: ''; position: absolute; left: 12px; top: 27px; bottom: 2px; width: 1px; background: #c5d8cc; }
+  .chain li:last-child { padding-bottom: 0; }
+
+  .media { display: grid; grid-template-columns: 1fr 1.12fr; gap: 56px; align-items: center; }
+  .media .ticks { margin-top: 20px; }
+
+  .tour { display: grid; grid-template-columns: 1fr 1fr; gap: 44px 40px; margin-top: 42px; }
+  .tour-phone { display: grid; grid-template-columns: 170px 1fr; gap: 24px; align-items: center; }
+  .tour-phone figcaption { margin-top: 0; }
+
   .white { background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .problems { margin-top: 40px; border-top: 1px solid var(--line); }
   .problem { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding: 26px 0; border-bottom: 1px solid var(--line); }
@@ -153,6 +193,7 @@
   footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
   [hidden] { display: none !important; }
 
+  @media (max-width: 960px) { nav a:not(.btn) { display: none; } }
   @media (max-width: 860px) {
     section { padding: 56px 0; }
     .wrap { padding: 0 16px; }
@@ -163,6 +204,15 @@
     .features, .split, .price { gap: 36px; }
     .steps { gap: 26px; }
     .problem { grid-template-columns: 1fr; gap: 16px; }
+    .benefits, .points, .calc, .media, .tour, .swap { grid-template-columns: 1fr; }
+    .benefits { gap: 24px; }
+    .points { gap: 22px; }
+    .calc, .media { gap: 34px; }
+    .phones { display: flex; gap: 16px; max-width: none; margin-right: -16px; padding: 0 16px 8px 0; overflow-x: auto; scroll-snap-type: x mandatory; }
+    .phones figure { flex: 0 0 66%; scroll-snap-align: start; }
+    .pair { grid-template-columns: 1fr; gap: 30px; }
+    .pair > figure:first-child { max-width: 250px; margin: 0 auto; text-align: center; }
+    .swap-row { align-items: flex-start; }
     .cta .btn { flex: 1 1 100%; }
   }
 </style>
@@ -173,8 +223,10 @@
   <div class="wrap bar">
     <a class="brand" href="#top">Tiffora</a>
     <nav aria-label="Main">
+      <a href="#benefits">Benefits</a>
       <a href="#problems">Problems we solve</a>
-      <a href="#features">Features</a>
+      <a href="#one-page">How customers use it</a>
+      <a href="#payments">Payments</a>
       <a href="#price">Price</a>
       <a href="#questions">Questions</a>
       <a class="btn" href="#talk">Talk to us</a>
@@ -191,7 +243,7 @@
       <p class="lead">Tiffora is simple software for kitchens that sell meal plans. Your customers buy and manage their own plan on their phone. Your team sees exactly what to cook and where to send it.</p>
       <div class="cta">
         <a class="btn" href="#talk">Talk to us</a>
-        <a class="btn plain" href="#problems">See what it fixes</a>
+        <a class="btn plain" href="#one-page">See it working</a>
       </div>
     </div>
     <aside class="sheet" aria-label="Sample kitchen sheet">
@@ -210,6 +262,21 @@
     </aside>
   </div>
 </div>
+
+<section id="benefits">
+  <div class="wrap">
+    <h2>What changes in your business</h2>
+    <p class="lead">Less running around every day, and a clear view of your food, your customers and your money.</p>
+    <div class="benefits">
+      <div class="benefit"><h3>Less food wasted</h3><p>You cook for the real count, because skips and pauses are already taken out before cooking starts.</p></div>
+      <div class="benefit"><h3>Fewer calls and messages</h3><p>Customers check their plan and make changes themselves. Your phone stops being the office.</p></div>
+      <div class="benefit"><h3>No calculation mistakes</h3><p>Meals left, end dates, totals and pending amounts are worked out by the system, not by hand.</p></div>
+      <div class="benefit"><h3>Money you can trust</h3><p>See what came in, how it came in, and exactly who still has to pay.</p></div>
+      <div class="benefit"><h3>More renewals</h3><p>You see who is running low on meals while there is still time to call them.</p></div>
+      <div class="benefit"><h3>Anyone can run the day</h3><p>The business no longer depends on the one person who understands the Excel sheet.</p></div>
+    </div>
+  </div>
+</section>
 
 <section class="white" id="problems">
   <div class="wrap">
@@ -257,7 +324,116 @@
   </div>
 </section>
 
-<section id="how">
+<section id="one-page">
+  <div class="wrap">
+    <h2>One page for your customer. No more checking WhatsApp all day.</h2>
+    <p class="lead">Everything about the plan is on one page on the customer's phone. They can see it and change it themselves, until your cut-off time. Your kitchen gets the update without anyone typing anything.</p>
+    <div class="phones">
+      <figure><div class="phone"><img src="img/cust-home.webp" width="780" height="1600" loading="lazy" decoding="async" alt="Customer home page showing next delivery, a Skip this day button and 15 of 24 meals left"></div><figcaption>Next meal, meals left and a Skip button</figcaption></figure>
+      <figure><div class="phone"><img src="img/cust-deliveries.webp" width="780" height="1600" loading="lazy" decoding="async" alt="Customer delivery list showing the dish for each upcoming day with Skip and Undo buttons"></div><figcaption>Every upcoming dish, skip or undo</figcaption></figure>
+      <figure><div class="phone"><img src="img/cust-change.webp" width="780" height="1600" loading="lazy" decoding="async" alt="Change plan screen where a customer edits delivery days, meal time, meal type and notes"></div><figcaption>Change days, meal, type and notes</figcaption></figure>
+    </div>
+    <h3 class="swap-title">The messages you stop getting</h3>
+    <div class="swap">
+      <div class="swap-row"><p class="msg">"Please skip tomorrow's tiffin."</p><p class="act">Taps Skip on that day</p></div>
+      <div class="swap-row"><p class="msg">"We are out of town next week."</p><p class="act">Pauses the plan for those dates</p></div>
+      <div class="swap-row"><p class="msg">"How many tiffins are left?"</p><p class="act">Sees meals left on the first screen</p></div>
+      <div class="swap-row"><p class="msg">"What is in tomorrow's tiffin?"</p><p class="act">Sees the dish against each day</p></div>
+      <div class="swap-row"><p class="msg">"Send it to my office from Monday."</p><p class="act">Changes the delivery address</p></div>
+      <div class="swap-row"><p class="msg">"Make it Jain from next week."</p><p class="act">Changes the meal type</p></div>
+      <div class="swap-row"><p class="msg">"Dinner instead of lunch, please."</p><p class="act">Changes the meal time</p></div>
+      <div class="swap-row"><p class="msg">"Please put less oil."</p><p class="act">Adds a note, and it appears on your kitchen sheet</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="track">
+  <div class="wrap">
+    <h2>You and your customer track the same thing</h2>
+    <p class="lead">There is one record, not two. Nobody has to compare your register with their memory.</p>
+    <div class="pair">
+      <figure><div class="phone"><img src="img/cust-plan.webp" width="780" height="1600" loading="lazy" decoding="async" alt="Customer's plan page showing 15 of 24 meals left"></div><figcaption>What your customer sees</figcaption></figure>
+      <figure><div class="frame"><img src="img/admin-customer.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="Kitchen admin page for the same customer showing 15 of 24 meals left and each delivery"></div><figcaption>What your team sees, for the same customer</figcaption></figure>
+    </div>
+    <div class="points">
+      <div><h3>Customer changes something</h3><p>A skip, pause or new address reaches your kitchen sheet and delivery list at once.</p></div>
+      <div><h3>You change something</h3><p>Add meals, move a plan or mark a holiday, and the customer sees it on their page.</p></div>
+      <div><h3>Every delivery has a status</h3><p>Both sides can see what was delivered, what was skipped and what is coming next.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="calculation">
+  <div class="wrap">
+    <h2>The system does the calculation</h2>
+    <p class="lead">Nobody sits with a calculator. Set your prices and rules once, and every number follows from them.</p>
+    <div class="pair">
+      <figure><div class="phone"><img src="img/cust-total.webp" width="780" height="1600" loading="lazy" decoding="async" alt="Checkout summary adding plan price, add-ons and delivery charge, minus a promo discount"></div><figcaption>Total worked out at checkout</figcaption></figure>
+      <figure><div class="frame"><img src="img/admin-kitchen.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="Kitchen sheet with meal counts by meal type, add-on counts, today's menu and customer notes"></div><figcaption>Cooking count worked out for each meal</figcaption></figure>
+    </div>
+    <div class="calc">
+      <div>
+        <h3>One skip, and everything updates</h3>
+        <ol class="chain">
+          <li>The customer skips Saturday.</li>
+          <li>That meal is not charged.</li>
+          <li>The plan's last delivery moves to the next open day.</li>
+          <li>Saturday's cooking count goes down by one.</li>
+          <li>The customer drops off Saturday's delivery list.</li>
+        </ol>
+        <p class="muted small-note">Nobody touched a sheet. A holiday works the same way, for every customer at once.</p>
+      </div>
+      <div>
+        <h3>Worked out automatically</h3>
+        <ul class="ticks">
+          <li>Meals left, after every delivery</li>
+          <li>Plan end date, after every skip, pause or holiday</li>
+          <li>Plan price, add-ons, delivery charge and discount</li>
+          <li>Delivery charge from the distance to the customer</li>
+          <li>Daily count by meal time, meal type and add-on</li>
+          <li>Pending amount for every customer</li>
+          <li>Start date of a renewal, after the current plan ends</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="payments">
+  <div class="wrap media">
+    <div>
+      <h2>Payment reconciliation, without the headache</h2>
+      <p class="lead">At the end of the day or the month, know that the money adds up.</p>
+      <ul class="ticks">
+        <li>Online payments are recorded by themselves, against the right customer and plan</li>
+        <li>Cash, UPI and bank payments are added in seconds, with a note</li>
+        <li>Totals are split by online, UPI, bank and cash, for any dates you choose, so you can tally your cash box and bank account</li>
+        <li>A "Still to collect" list shows who owes how much</li>
+        <li>Every payment shows who recorded it, and a wrong entry can be removed with a record of it in the history</li>
+        <li>Download the full report for your accountant, with Razorpay references</li>
+      </ul>
+      <p class="muted small-note">Tiffora does not read your bank statement. It gives you the exact figures to check against it.</p>
+    </div>
+    <figure><div class="frame"><img src="img/admin-payments.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="Payments page showing total collected split by UPI, bank, cash and online, and a list of pending amounts"></div></figure>
+  </div>
+</section>
+
+<section id="screens">
+  <div class="wrap">
+    <h2>A look inside</h2>
+    <p class="lead">These are screens from the working product. The kitchen and customers shown are samples.</p>
+    <div class="tour">
+      <figure><div class="frame"><img src="img/admin-today.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="Today page with meals today, meals tomorrow, money collected and customers running low"></div><figcaption><b>Today</b> Your whole day on one screen, including who is running low</figcaption></figure>
+      <figure><div class="frame"><img src="img/admin-deliveries.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="Delivery list with customer, phone number, address, meal and a map link"></div><figcaption><b>Delivery list</b> Address, phone, meal and map link, with one-click download</figcaption></figure>
+      <figure><div class="frame"><img src="img/admin-customers.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="Customer list with plan, meals left and next meal, with search and filters"></div><figcaption><b>Customers</b> Search anyone, and filter by running, running low or paused</figcaption></figure>
+      <figure><div class="frame"><img src="img/admin-menu.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="Weekly menu page with a dish for each day and buttons to copy last week or upload a sheet"></div><figcaption><b>Weekly menu</b> Type it, copy last week, or upload a sheet</figcaption></figure>
+      <figure><div class="frame"><img src="img/admin-plans.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="Plans and prices page where the kitchen manages plans, add-ons and promo codes"></div><figcaption><b>Plans and prices</b> Change plans, add-ons and promo codes yourself</figcaption></figure>
+      <figure class="tour-phone"><div class="phone"><img src="img/cust-shop.webp" width="780" height="1600" loading="lazy" decoding="async" alt="Customer page listing trial, weekly, fortnight and monthly plans with prices"></div><figcaption><b>Your customer page</b> Your name, your logo, your plans, ready to share as one link</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="how">
   <div class="wrap">
     <h2>How it works</h2>
     <div class="steps">
@@ -268,7 +444,7 @@
   </div>
 </section>
 
-<section class="white" id="features">
+<section id="features">
   <div class="wrap">
     <h2>Everything included today</h2>
     <p class="lead">Works on any phone or computer. Nothing to install.</p>
@@ -328,7 +504,7 @@
   </div>
 </section>
 
-<section id="who">
+<section class="white" id="who">
   <div class="wrap split">
     <div>
       <h2>Made for kitchens that sell meal plans</h2>
@@ -349,7 +525,7 @@
   </div>
 </section>
 
-<section class="white" id="price">
+<section id="price">
   <div class="wrap price">
     <div>
       <h2>One simple price</h2>
@@ -367,7 +543,7 @@
   </div>
 </section>
 
-<section id="questions">
+<section class="white" id="questions">
   <div class="wrap">
     <h2>Common questions</h2>
     <div class="faq">
@@ -375,6 +551,7 @@
       <details><summary>Can I bring my existing customers?</summary><p>Yes. Your team can add each customer with their plan and the meals they have left, so nobody starts again from zero.</p></details>
       <details><summary>Where does the customer's money go?</summary><p>Straight into your own Razorpay account. Tiffora does not hold your money and takes no share of your sales. Razorpay's usual charges are between you and Razorpay.</p></details>
       <details><summary>I have many cash customers. Will it still work?</summary><p>Yes. Your team can record cash, UPI or bank payments against a customer, and the pending amount updates by itself.</p></details>
+      <details><summary>Will it match my bank statement automatically?</summary><p>No. Tiffora records every payment and gives you totals for online, UPI, bank and cash for any dates. You compare those totals with your cash box, bank account and Razorpay account.</p></details>
       <details><summary>What if a customer wants to skip after the cut-off time?</summary><p>They cannot, because you have already started cooking. You choose the cut-off time for each meal. Once it passes, that meal is locked and your count stays correct.</p></details>
       <details><summary>Is there a delivery boy app or WhatsApp messaging?</summary><p>Not yet. Today you get a delivery list that you can download and share with your delivery staff. A delivery app and WhatsApp reminders are the next things we are building.</p></details>
     </div>
