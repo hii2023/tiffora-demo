@@ -1,24 +1,410 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-IN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tiffora</title>
-<meta name="robots" content="noindex">
+<title>Tiffin Subscription Software for Kitchens in India | Tiffora</title>
+<meta name="description" content="Simple software for tiffin services and meal subscription kitchens. Customers buy, skip and pause on their phone. You get the kitchen sheet and delivery list.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://hii2023.github.io/tiffora-demo/">
+<meta name="theme-color" content="#1f5f45">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tiffora">
+<meta property="og:title" content="Tiffin Subscription Software for Kitchens in India | Tiffora">
+<meta property="og:description" content="Stop running your tiffin business on Excel and WhatsApp. Customers manage their own plan. Your kitchen knows exactly what to cook and where to send it.">
+<meta property="og:url" content="https://hii2023.github.io/tiffora-demo/">
+<meta property="og:image" content="https://hii2023.github.io/tiffora-demo/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231f5f45'/%3E%3Cpath d='M9 10h14v3.4h-5.2V24h-3.6V13.4H9z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://hii2023.github.io/tiffora-demo/#website",
+      "url": "https://hii2023.github.io/tiffora-demo/",
+      "name": "Tiffora",
+      "inLanguage": "en-IN"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Tiffora",
+      "url": "https://hii2023.github.io/tiffora-demo/",
+      "applicationCategory": "BusinessApplication",
+      "applicationSubCategory": "Tiffin and meal subscription management",
+      "operatingSystem": "Web browser, on phone or computer",
+      "description": "Software for tiffin services and meal subscription kitchens. Customers buy and manage their plan on their phone. The kitchen gets its cooking sheet, delivery list and payment records.",
+      "offers": { "@type": "Offer", "price": "10000", "priceCurrency": "INR", "category": "Monthly rent" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Do my customers need to download an app?", "acceptedAnswer": { "@type": "Answer", "text": "No. You share one link. It opens in the phone's browser and customers sign in with their mobile number and a 4 digit PIN." } },
+        { "@type": "Question", "name": "Can I bring my existing customers?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Your team can add each customer with their plan and the meals they have left, so nobody starts again from zero." } },
+        { "@type": "Question", "name": "Where does the customer's money go?", "acceptedAnswer": { "@type": "Answer", "text": "Straight into your own Razorpay account. Tiffora does not hold your money and takes no share of your sales. Razorpay's usual charges are between you and Razorpay." } },
+        { "@type": "Question", "name": "I have many cash customers. Will it still work?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Your team can record cash, UPI or bank payments against a customer, and the pending amount updates by itself." } },
+        { "@type": "Question", "name": "What if a customer wants to skip after the cut-off time?", "acceptedAnswer": { "@type": "Answer", "text": "They cannot, because you have already started cooking. You choose the cut-off time for each meal. Once it passes, that meal is locked and your count stays correct." } },
+        { "@type": "Question", "name": "Is there a delivery boy app or WhatsApp messaging?", "acceptedAnswer": { "@type": "Answer", "text": "Not yet. Today you get a delivery list that you can download and share with your delivery staff. A delivery app and WhatsApp reminders are the next things we are building." } }
+      ]
+    }
+  ]
+}
+</script>
 <style>
-  body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; background: #f6f6f3; color: #1b1b19; font: 16px/1.5 'IBM Plex Sans', system-ui, sans-serif; }
-  main { max-width: 420px; }
-  h1 { font-size: 28px; font-weight: 600; letter-spacing: -.015em; margin: 0 0 6px; }
-  p { color: #6d6d67; margin: 0 0 20px; }
-  a { display: inline-block; padding: 9px 16px; border-radius: 8px; background: #1f5f45; color: #fff; text-decoration: none; font-weight: 500; }
+  :root {
+    --bg: #f7f6f2; --paper: #fff; --ink: #1b1b19; --muted: #5f5f58; --line: #e2e0d8;
+    --green: #1f5f45; --green-dark: #174a36; --tint: #e9f1ec; --red: #a23b2a;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 'IBM Plex Sans', system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  h1, h2, h3 { font-weight: 600; letter-spacing: -.018em; line-height: 1.18; margin: 0; }
+  h1 { font-size: clamp(36px, 5.4vw, 56px); }
+  h2 { font-size: clamp(27px, 3.4vw, 37px); }
+  h3 { font-size: 19px; letter-spacing: -.01em; }
+  p { margin: 0; }
+  a { color: inherit; }
+  .muted { color: var(--muted); }
+  section { padding: 76px 0; }
+  .lead { font-size: 19px; color: var(--muted); max-width: 620px; margin-top: 14px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border-radius: 8px; background: var(--green); color: #fff; font-weight: 500; text-decoration: none; }
+  .btn:hover { background: var(--green-dark); }
+  .btn.plain { background: transparent; color: var(--ink); border: 1px solid #cfccc1; }
+  .btn.plain:hover { background: var(--paper); }
+  :focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+  header { position: sticky; top: 0; z-index: 5; background: rgba(247,246,242,.95); border-bottom: 1px solid var(--line); }
+  .bar { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 20px; }
+  .brand { font-size: 20px; font-weight: 600; letter-spacing: -.02em; text-decoration: none; color: var(--green); }
+  nav { display: flex; align-items: center; gap: 26px; font-size: 15px; }
+  nav a { text-decoration: none; color: var(--muted); }
+  nav a:hover { color: var(--ink); }
+  nav a.btn { color: #fff; min-height: 38px; padding: 0 14px; }
+
+  .hero { padding: 72px 0 80px; }
+  .hero .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center; }
+  .hero .lead { margin-top: 20px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .sheet { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 22px; font-size: 15px; }
+  .sheet-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .tag { font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 99px; padding: 1px 9px; }
+  .big { font-size: 46px; font-weight: 600; letter-spacing: -.03em; line-height: 1.1; margin-top: 14px; }
+  .r { display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid var(--line); }
+  .r span:last-child { font-weight: 500; }
+  .sheet-rows { margin-top: 14px; }
+  .sub-h { font-size: 13px; color: var(--muted); margin: 16px 0 4px; }
+  .note { margin-top: 14px; padding: 11px 13px; background: var(--tint); border-radius: 8px; font-size: 14px; }
+
+  .white { background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .problems { margin-top: 40px; border-top: 1px solid var(--line); }
+  .problem { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding: 26px 0; border-bottom: 1px solid var(--line); }
+  .problem h3 { margin-bottom: 6px; }
+  .label { font-size: 13px; font-weight: 500; margin-bottom: 8px; }
+  .label.bad { color: var(--red); }
+  .label.good { color: var(--green); }
+  .problem p { color: var(--muted); }
+  .fix p { color: var(--ink); }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; margin-top: 40px; counter-reset: s; }
+  .step { counter-increment: s; border-top: 2px solid var(--green); padding-top: 16px; }
+  .step::before { content: counter(s); display: block; font-size: 15px; font-weight: 600; color: var(--green); margin-bottom: 8px; }
+  .step p { color: var(--muted); margin-top: 6px; }
+
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; margin-top: 44px; }
+  .features h3 { padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  ul.ticks { list-style: none; margin: 0; padding: 0; }
+  ul.ticks li { position: relative; padding: 11px 0 11px 24px; border-bottom: 1px solid var(--line); font-size: 16px; line-height: 1.45; }
+  ul.ticks li::before { content: ''; position: absolute; left: 3px; top: 17px; width: 11px; height: 6px; border-left: 2px solid var(--green); border-bottom: 2px solid var(--green); transform: rotate(-45deg); }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .chips span { background: var(--paper); border: 1px solid var(--line); border-radius: 99px; padding: 5px 14px; font-size: 15px; }
+  .next { margin-top: 20px; }
+  .next div { padding: 13px 0; border-top: 1px solid var(--line); }
+  .next b { font-weight: 500; display: block; }
+  .next span { color: var(--muted); font-size: 16px; }
+
+  .price { display: grid; grid-template-columns: .9fr 1.1fr; gap: 56px; align-items: start; }
+  .amount { font-size: clamp(44px, 6vw, 60px); font-weight: 600; letter-spacing: -.03em; line-height: 1; }
+  .amount small { font-size: 18px; font-weight: 400; letter-spacing: 0; color: var(--muted); }
+  .per { color: var(--muted); margin-top: 12px; }
+
+  .faq { margin-top: 32px; max-width: 780px; border-top: 1px solid var(--line); }
+  details { border-bottom: 1px solid var(--line); }
+  summary { cursor: pointer; padding: 18px 28px 18px 0; font-weight: 500; list-style: none; position: relative; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; position: absolute; right: 2px; top: 15px; font-size: 22px; font-weight: 400; color: var(--muted); }
+  details[open] summary::after { content: '\2212'; }
+  details p { padding: 0 0 20px; color: var(--muted); max-width: 680px; }
+
+  .final { background: var(--green); color: #fff; text-align: center; }
+  .final .lead { color: #d5e5dc; margin-left: auto; margin-right: auto; }
+  .final .btn { background: #fff; color: var(--green); margin-top: 26px; }
+  .final .btn:hover { background: #eef3f0; }
+  .final .soon { margin-top: 22px; color: #d5e5dc; font-size: 16px; }
+  footer { padding: 26px 0; font-size: 14px; color: var(--muted); }
+  footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  [hidden] { display: none !important; }
+
+  @media (max-width: 860px) {
+    section { padding: 56px 0; }
+    .wrap { padding: 0 16px; }
+    nav a:not(.btn) { display: none; }
+    .hero { padding: 44px 0 56px; }
+    .hero .wrap, .split, .price, .features, .steps { grid-template-columns: 1fr; }
+    .hero .wrap { gap: 36px; }
+    .features, .split, .price { gap: 36px; }
+    .steps { gap: 26px; }
+    .problem { grid-template-columns: 1fr; gap: 16px; }
+    .cta .btn { flex: 1 1 100%; }
+  }
 </style>
 </head>
 <body>
-<main>
-  <h1>Tiffora</h1>
-  <p>Subscription software for meal kitchens. This is a demo address.</p>
-  <a href="platform/">Super admin</a>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#top">Tiffora</a>
+    <nav aria-label="Main">
+      <a href="#problems">Problems we solve</a>
+      <a href="#features">Features</a>
+      <a href="#price">Price</a>
+      <a href="#questions">Questions</a>
+      <a class="btn" href="#talk">Talk to us</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Stop running your tiffin business on Excel and WhatsApp.</h1>
+      <p class="lead">Tiffora is simple software for kitchens that sell meal plans. Your customers buy and manage their own plan on their phone. Your team sees exactly what to cook and where to send it.</p>
+      <div class="cta">
+        <a class="btn" href="#talk">Talk to us</a>
+        <a class="btn plain" href="#problems">See what it fixes</a>
+      </div>
+    </div>
+    <aside class="sheet" aria-label="Sample kitchen sheet">
+      <div class="sheet-top"><h3>Today's lunch</h3><span class="tag">Sample</span></div>
+      <p class="big">84</p>
+      <p class="muted">meals to cook. Changes closed at 10:30.</p>
+      <div class="sheet-rows">
+        <div class="r"><span>Regular</span><span>61</span></div>
+        <div class="r"><span>Jain</span><span>15</span></div>
+        <div class="r"><span>Diet</span><span>8</span></div>
+      </div>
+      <p class="sub-h">Add-ons</p>
+      <div class="r"><span>Buttermilk</span><span>22</span></div>
+      <div class="r"><span>Fruit bowl</span><span>9</span></div>
+      <p class="note">Three customers skipped today. Their meals moved to the end of their plans, and nobody had to update a sheet.</p>
+    </aside>
+  </div>
+</div>
+
+<section class="white" id="problems">
+  <div class="wrap">
+    <h2>The daily headaches of a tiffin business</h2>
+    <p class="lead">If you run a meal subscription, you probably know these. Each one has a simple fix.</p>
+
+    <div class="problems">
+      <article class="problem">
+        <div><p class="label bad">The problem</p><h3>"How many meals do I have left?"</h3><p>Someone updates an Excel sheet by hand. One missed entry and you are arguing with a customer about 2 tiffins.</p></div>
+        <div class="fix"><p class="label good">With Tiffora</p><p>Every meal is counted by itself. The customer sees the same number you see, so there is nothing to argue about.</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">The problem</p><h3>Skip messages get lost in WhatsApp</h3><p>A customer writes "no tiffin tomorrow" at 11 at night. Nobody sees it. The tiffin is cooked, sent and wasted, and the customer is upset.</p></div>
+        <div class="fix"><p class="label good">With Tiffora</p><p>Customers skip or pause on their own phone, until the cut-off time you choose. The skipped meal is not lost, it moves to the end of the plan.</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">The problem</p><h3>Cooking too much, or too little</h3><p>Every morning someone counts from messages and notes. Food is wasted, or a customer gets nothing.</p></div>
+        <div class="fix"><p class="label good">With Tiffora</p><p>One kitchen sheet shows the count for each meal time, each meal type and each add-on, with the customer's special notes.</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">The problem</p><h3>Making the delivery list every day</h3><p>Addresses are scattered across chats. Delivery staff keep calling to ask where to go and who gets what.</p></div>
+        <div class="fix"><p class="label good">With Tiffora</p><p>The day's list is ready by itself, sorted by area, with phone number, address, meal and notes. Download it in one click.</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">The problem</p><h3>One holiday, 100 end dates to change</h3><p>The kitchen closes for a festival, and someone has to move every customer's plan by hand.</p></div>
+        <div class="fix"><p class="label good">With Tiffora</p><p>Mark the holiday once. Every customer's meals move forward automatically. Your weekly off works the same way.</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">The problem</p><h3>"Who has paid and who has not?"</h3><p>Some pay online, some by UPI, some in cash. Checking it all means bank statements, screenshots and guesswork.</p></div>
+        <div class="fix"><p class="label good">With Tiffora</p><p>Online payments are recorded by themselves. Your team adds cash and UPI in seconds, and you see the total pending at any time.</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">The problem</p><h3>Customers finish their plan and quietly leave</h3><p>Nobody noticed they were running out, so nobody spoke to them about renewing.</p></div>
+        <div class="fix"><p class="label good">With Tiffora</p><p>You get a list of customers running low on meals, so you can call them in time. They can renew from their phone in a few taps.</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">The problem</p><h3>Sharing the menu again and again</h3><p>Customers keep asking "what is in today's tiffin?" and you keep sending the same photo.</p></div>
+        <div class="fix"><p class="label good">With Tiffora</p><p>Add the menu once a week, or upload a sheet. Customers see the dish against each upcoming delivery.</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">The problem</p><h3>Every staff member sees everything</h3><p>The cook does not need your payment records, but one shared login shows it all to everyone.</p></div>
+        <div class="fix"><p class="label good">With Tiffora</p><p>Each person gets their own login and sees only the pages you allow.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step"><h3>We set up your kitchen</h3><p>Share your plans, prices, meal times, logo and Razorpay details. We put it all in and get your page ready.</p></div>
+      <div class="step"><h3>You share one link</h3><p>Send your customers the link. They choose a plan, pay online and manage everything themselves.</p></div>
+      <div class="step"><h3>You run the day from one screen</h3><p>Open the kitchen sheet, cook, download the delivery list and mark what is delivered.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="features">
+  <div class="wrap">
+    <h2>Everything included today</h2>
+    <p class="lead">Works on any phone or computer. Nothing to install.</p>
+    <div class="features">
+      <div>
+        <h3>For your customers</h3>
+        <ul class="ticks">
+          <li>Buy a plan and pay online</li>
+          <li>Start with a trial plan, if you offer one</li>
+          <li>Choose meal type, meal time and delivery days</li>
+          <li>Add extras like buttermilk or fruit</li>
+          <li>Apply a promo code</li>
+          <li>Mark their home on a map</li>
+          <li>Skip a day or pause the plan</li>
+          <li>Change days, time, meal type or address</li>
+          <li>See meals left and upcoming dishes</li>
+          <li>See past payments</li>
+          <li>Renew from their phone</li>
+          <li>Sign in with mobile number and PIN</li>
+        </ul>
+      </div>
+      <div>
+        <h3>For your kitchen team</h3>
+        <ul class="ticks">
+          <li>Today's meal count at a glance</li>
+          <li>Tomorrow's count, to plan your buying</li>
+          <li>Kitchen sheet by meal time and type</li>
+          <li>Add-on counts and customer notes</li>
+          <li>Delivery list sorted by area</li>
+          <li>Downloadable delivery report</li>
+          <li>Mark meals as delivered</li>
+          <li>Support for customers who pick up</li>
+          <li>Weekly menu, with copy from last week</li>
+          <li>Upload the menu from a sheet</li>
+          <li>Holidays and weekly offs</li>
+          <li>Cut-off time for each meal</li>
+        </ul>
+      </div>
+      <div>
+        <h3>For you, the owner</h3>
+        <ul class="ticks">
+          <li>Your own page with your name and logo</li>
+          <li>Online payments into your own Razorpay</li>
+          <li>Full history of every customer</li>
+          <li>Add customers who order by phone</li>
+          <li>Change any plan, add or remove meals</li>
+          <li>Record cash, UPI and bank payments</li>
+          <li>See pending payments</li>
+          <li>Downloadable payment report</li>
+          <li>List of customers running low on meals</li>
+          <li>Set plans, add-ons and promo codes</li>
+          <li>Delivery charge by distance, with a maximum range</li>
+          <li>Separate logins and access for your team</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="who">
+  <div class="wrap split">
+    <div>
+      <h2>Made for kitchens that sell meal plans</h2>
+      <p class="lead">It comes from the day-to-day problems of a real meal subscription kitchen, not from a software company's guess.</p>
+      <div class="chips">
+        <span>Tiffin services</span><span>Cloud kitchens</span><span>Diet and healthy meal plans</span><span>Salad subscriptions</span><span>Home kitchens</span><span>Office lunch services</span>
+      </div>
+    </div>
+    <div>
+      <h2>Coming next</h2>
+      <p class="lead">These are not ready yet. We are building them next, based on what kitchens need most.</p>
+      <div class="next">
+        <div><b>Delivery staff app</b><span>Route for the day and delivery updates from the phone.</span></div>
+        <div><b>WhatsApp messages</b><span>Automatic reminders for renewals and payments.</span></div>
+        <div><b>More reports</b><span>Sales, renewals and how long customers stay.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="price">
+  <div class="wrap price">
+    <div>
+      <h2>One simple price</h2>
+      <p class="amount" style="margin-top:22px">₹10,000 <small>a month</small></p>
+      <p class="per">For one kitchen. We take no share of your sales.</p>
+      <div class="cta"><a class="btn" href="#talk">Talk to us</a></div>
+    </div>
+    <ul class="ticks">
+      <li>Your customer page, with your name and logo</li>
+      <li>Your kitchen admin, with logins for your team</li>
+      <li>Setup of your plans, prices and meal times by us</li>
+      <li>Customer money goes directly to your own Razorpay account</li>
+      <li>Every feature listed on this page</li>
+    </ul>
+  </div>
+</section>
+
+<section id="questions">
+  <div class="wrap">
+    <h2>Common questions</h2>
+    <div class="faq">
+      <details open><summary>Do my customers need to download an app?</summary><p>No. You share one link. It opens in the phone's browser and customers sign in with their mobile number and a 4 digit PIN.</p></details>
+      <details><summary>Can I bring my existing customers?</summary><p>Yes. Your team can add each customer with their plan and the meals they have left, so nobody starts again from zero.</p></details>
+      <details><summary>Where does the customer's money go?</summary><p>Straight into your own Razorpay account. Tiffora does not hold your money and takes no share of your sales. Razorpay's usual charges are between you and Razorpay.</p></details>
+      <details><summary>I have many cash customers. Will it still work?</summary><p>Yes. Your team can record cash, UPI or bank payments against a customer, and the pending amount updates by itself.</p></details>
+      <details><summary>What if a customer wants to skip after the cut-off time?</summary><p>They cannot, because you have already started cooking. You choose the cut-off time for each meal. Once it passes, that meal is locked and your count stays correct.</p></details>
+      <details><summary>Is there a delivery boy app or WhatsApp messaging?</summary><p>Not yet. Today you get a delivery list that you can download and share with your delivery staff. A delivery app and WhatsApp reminders are the next things we are building.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final" id="talk">
+  <div class="wrap">
+    <h2>Run your kitchen, not your spreadsheets</h2>
+    <p class="lead">We are now setting up our first kitchens. Tell us how you run yours and we will show you how it would work.</p>
+    <a class="btn" id="wa" href="#" hidden>Message us on WhatsApp</a>
+    <p class="soon" id="soon">Our contact details will be here very soon.</p>
+  </div>
+</section>
+
 </main>
+
+<footer>
+  <div class="wrap"><span>Tiffora. Software for tiffin and meal subscription kitchens.</span><span>Made in India</span></div>
+</footer>
+
+<script>
+  // Put the sales WhatsApp number here, with country code and no plus sign, for example '919800000000'.
+  const WHATSAPP = '';
+  if (WHATSAPP) {
+    const wa = document.getElementById('wa');
+    wa.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent('Hi, I run a meal subscription kitchen and want to know more about Tiffora.');
+    wa.hidden = false;
+    document.getElementById('soon').hidden = true;
+  }
+</script>
 </body>
 </html>
