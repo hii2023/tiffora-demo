@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meal plans</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f6f3; --surface: #fff; --ink: #1b1b19; --ink-2: #3d3d39; --muted: #6d6d67; --line: #e5e4de; --line-2: #d4d3cc;
+    --brand: #1f5f45; --brand-ink: #fff; --brand-soft: #e7f0eb;
+    --ok: #13734b; --ok-soft: #e6f3ec; --warn: #9a5b00; --warn-soft: #fcf1df; --danger: #b42318; --danger-soft: #fdecea;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 'IBM Plex Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  a { color: var(--brand); }
+  h1 { font-size: 22px; font-weight: 600; letter-spacing: -.01em; margin: 0 0 4px; }
+  h2 { font-size: 17px; font-weight: 600; margin: 0 0 8px; }
+  h3 { font-size: 14px; font-weight: 600; margin: 0 0 8px; }
+  p { margin: 0 0 8px; }
+  .muted { color: var(--muted); } .small { font-size: 13px; } .hidden { display: none !important; }
+  .wrap { max-width: 520px; margin: 0 auto; padding: 16px 16px 110px; }
+  .top { position: sticky; top: 0; z-index: 10; background: var(--surface); border-bottom: 1px solid var(--line); }
+  .top-in { max-width: 520px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 10px; min-height: 56px; }
+  .top img { width: 34px; height: 34px; border-radius: 8px; object-fit: contain; background: #fff; }
+  .top .mark { width: 34px; height: 34px; border-radius: 8px; background: var(--brand); color: var(--brand-ink); display: grid; place-items: center; font-weight: 600; font-size: 14px; }
+  .top b { font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .link { background: none; border: 0; color: var(--brand); font-weight: 500; cursor: pointer; padding: 6px 2px; font-size: 14px; text-decoration: none; }
+  .btn { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 48px; width: 100%; padding: 0 18px; border-radius: 10px; border: 1px solid var(--line-2); background: var(--surface); font-weight: 500; cursor: pointer; text-decoration: none; color: var(--ink); }
+  .btn.primary { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
+  .btn.sm { min-height: 38px; width: auto; padding: 0 14px; font-size: 14px; display: inline-flex; }
+  .btn.danger { color: var(--danger); border-color: #f0c9c5; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .row { display: flex; gap: 8px; align-items: center; } .grow { flex: 1; min-width: 0; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+  .plan-card { display: block; width: 100%; text-align: left; cursor: pointer; }
+  .plan-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
+  .price { font-size: 22px; font-weight: 600; letter-spacing: -.01em; }
+  .tag { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 500; background: var(--brand-soft); color: var(--brand); }
+  .pill { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 500; white-space: nowrap; }
+  .pill.scheduled, .pill.active { background: var(--ok-soft); color: var(--ok); }
+  .pill.delivered, .pill.completed { background: #efeee9; color: var(--ink-2); }
+  .pill.cancelled, .pill.not_delivered { background: var(--danger-soft); color: var(--danger); }
+  .pill.paused { background: var(--warn-soft); color: var(--warn); }
+  label.f { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 500; color: var(--ink-2); margin-bottom: 14px; }
+  label.f .hint { font-weight: 400; font-size: 12px; color: var(--muted); }
+  input[type=text], input[type=tel], input[type=email], input[type=password], input[type=date], select, textarea { width: 100%; min-width: 0; min-height: 46px; padding: 8px 12px; border: 1px solid var(--line-2); border-radius: 10px; background: #fff; font-size: 16px; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid color-mix(in srgb, var(--brand) 35%, transparent); border-color: var(--brand); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { position: relative; }
+  .chip input { position: absolute; opacity: 0; }
+  .chip span { display: inline-block; padding: 9px 14px; border: 1px solid var(--line-2); border-radius: 999px; font-size: 14px; background: #fff; cursor: pointer; }
+  .chip input:checked + span { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
+  .chip input:focus-visible + span { outline: 2px solid var(--brand); outline-offset: 1px; }
+  .opt { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--line-2); border-radius: 10px; margin-bottom: 8px; background: #fff; cursor: pointer; }
+  .opt input { width: 20px; height: 20px; accent-color: var(--brand); flex: none; }
+  .opt.on { border-color: var(--brand); background: var(--brand-soft); }
+  .qty { display: inline-flex; align-items: center; gap: 2px; }
+  .qty button { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line-2); background: #fff; cursor: pointer; font-size: 18px; line-height: 1; }
+  .qty span { min-width: 26px; text-align: center; font-weight: 500; }
+  .steps { display: flex; gap: 4px; margin: 2px 0 14px; }
+  .steps i { flex: 1; height: 4px; border-radius: 2px; background: var(--line); }
+  .steps i.on { background: var(--brand); }
+  #map { height: 260px; border-radius: 10px; border: 1px solid var(--line-2); margin-bottom: 8px; z-index: 1; }
+  .fee-line { padding: 10px 12px; border-radius: 8px; background: #f3f2ed; font-size: 14px; margin-bottom: 14px; }
+  .fee-line.bad { background: var(--danger-soft); color: var(--danger); }
+  .sum { width: 100%; border-collapse: collapse; font-size: 15px; }
+  .sum td { padding: 5px 0; } .sum td:last-child { text-align: right; white-space: nowrap; padding-left: 12px; }
+  .sum tr.total td { font-weight: 600; font-size: 18px; border-top: 1px solid var(--line); padding-top: 10px; }
+  .bar-foot { position: fixed; left: 0; right: 0; bottom: 0; background: var(--surface); border-top: 1px solid var(--line); z-index: 15; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); }
+  .bar-foot .in { max-width: 488px; margin: 0 auto; display: flex; gap: 10px; }
+  .tabs { position: fixed; left: 0; right: 0; bottom: 0; background: var(--surface); border-top: 1px solid var(--line); z-index: 15; padding-bottom: env(safe-area-inset-bottom); }
+  .tabs .in { max-width: 520px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
+  .tabs a { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0 7px; font-size: 12px; color: var(--muted); text-decoration: none; }
+  .tabs a.on { color: var(--brand); font-weight: 500; }
+  .tabs svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .meter { height: 8px; background: #ecebe6; border-radius: 4px; overflow: hidden; margin: 8px 0 4px; }
+  .meter i { display: block; height: 100%; background: var(--brand); }
+  .big { font-size: 30px; font-weight: 600; letter-spacing: -.02em; line-height: 1.1; }
+  .list-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .list-row:last-child { border-bottom: 0; }
+  .date-box { width: 46px; text-align: center; flex: none; line-height: 1.15; }
+  .date-box b { display: block; font-size: 19px; font-weight: 600; }
+  .date-box span { font-size: 12px; color: var(--muted); }
+  .note { padding: 10px 12px; border-radius: 8px; background: var(--warn-soft); color: var(--warn); font-size: 14px; margin-bottom: 12px; }
+  .err { color: var(--danger); font-size: 14px; min-height: 20px; margin-bottom: 8px; }
+  .sheet-back { position: fixed; inset: 0; background: rgba(20,20,15,.4); z-index: 40; display: flex; align-items: flex-end; justify-content: center; }
+  .sheet { background: var(--surface); width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; border-radius: 16px 16px 0 0; padding: 20px 16px calc(20px + env(safe-area-inset-bottom)); }
+  #toast { position: fixed; left: 50%; bottom: 84px; transform: translateX(-50%) translateY(16px); background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 8px; font-size: 14px; opacity: 0; transition: .2s; pointer-events: none; z-index: 60; width: max-content; max-width: calc(100% - 32px); text-align: center; }
+  #toast.show { opacity: 1; transform: translateX(-50%); }
+  #toast.bad { background: var(--danger); }
+  .center { text-align: center; padding: 48px 16px; }
+  .foot-links { text-align: center; font-size: 13px; margin-top: 18px; color: var(--muted); }
+  .foot-links a { color: var(--muted); margin: 0 6px; }
+</style>
+<script src="../config.js"></script>
+<script src="../shared/api.js"></script>
+</head>
+<body>
+<div id="app"><div class="center muted">Loading…</div></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  const api = MealApi.createClient('customer');
+  const cfg = MealApi.config;
+  const app = document.getElementById('app');
+  const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const STATUS = { scheduled: 'Upcoming', delivered: 'Delivered', cancelled: 'Skipped', not_delivered: 'Not delivered', active: 'Running', paused: 'Paused', completed: 'Finished' };
+  const ICONS = {
+    home: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/>',
+    plan: '<rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/>',
+    deliveries: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+    profile: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
+  };
+
+  let T = null, CAT = null, TOKEN = null, HOME = null, B = null, DL = null, afterLogin = null, leaflet = null, map = null, marker = null, quoteSeq = 0;
+
+  const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const inr = (p) => '₹' + (Number(p || 0) / 100).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+  const parseDay = (d) => new Date(String(d).slice(0, 10) + 'T00:00:00');
+  const dayLabel = (d) => parseDay(d).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
+  const clock = (ts) => String(ts).slice(11, 16);
+  const daysText = (list) => (list || []).slice().sort().map((n) => DAYS[n - 1]).join(', ');
+  const $ = (s, root = app) => root.querySelector(s);
+
+  let tt;
+  function toast(msg, bad) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.className = 'show' + (bad ? ' bad' : '');
+    clearTimeout(tt); tt = setTimeout(() => (t.className = ''), bad ? 5000 : 2600);
+  }
+
+  // ---------- session ----------
+  const tokenKey = () => `msaas.cust.${T.id}`;
+  function loadToken() { try { TOKEN = localStorage.getItem(tokenKey()); } catch { TOKEN = null; } }
+  function saveToken(t) { TOKEN = t; try { t ? localStorage.setItem(tokenKey(), t) : localStorage.removeItem(tokenKey()); } catch { /* private mode */ } }
+  async function signOut() {
+    const t = TOKEN; saveToken(null); HOME = null; DL = null;
+    if (t) api.rpc('cust_logout', { p_tenant: T.id, p_token: t }).catch(() => {});
+    location.hash = '#/shop';
+  }
+  async function rpc(fn, args) {
+    try { return await api.rpc(fn, { p_tenant: T.id, ...(fn.startsWith('cust_') && !['cust_checkout_start', 'cust_login'].includes(fn) ? { p_token: TOKEN } : {}), ...args }); }
+    catch (e) {
+      if (/session ended|sign in again/i.test(e.message)) { saveToken(null); HOME = null; location.hash = '#/login'; }
+      throw e;
+    }
+  }
+  async function act(fn, okMsg) {
+    try { const r = await fn(); if (okMsg) toast(okMsg); return r; }
+    catch (e) { toast(e.message, true); return null; }
+  }
+  async function loadHome() { HOME = await rpc('cust_home'); DL = await rpc('cust_deliveries'); }
+
+  // ---------- layout ----------
+  function header(right = '') {
+    const b = T.brand;
+    return `<header class="top"><div class="top-in">${b.logo_url ? `<img src="${esc(b.logo_url)}" alt="">` : `<span class="mark">${esc((b.name || '?')[0])}</span>`}
+      <b>${esc(b.name)}</b>${right}</div></header>`;
+  }
+  function tabs(on) {
+    const t = [['home', 'Home'], ['plan', 'My plan'], ['deliveries', 'Deliveries'], ['profile', 'Profile']];
+    return `<nav class="tabs" aria-label="Main"><div class="in">${t.map(([k, l]) => `<a href="#/${k}" class="${k === on ? 'on' : ''}"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</svg>${l}</a>`).join('')}</div></nav>`;
+  }
+  function footLinks() {
+    const b = T.brand;
+    const links = [];
+    if (b.terms_url) links.push(`<a href="${esc(b.terms_url)}" target="_blank" rel="noopener">Terms</a>`);
+    if (b.privacy_url) links.push(`<a href="${esc(b.privacy_url)}" target="_blank" rel="noopener">Privacy</a>`);
+    return links.length ? `<div class="foot-links">${links.join('')}</div>` : '';
+  }
+  function sheet(html, onMount) {
+    const back = document.createElement('div');
+    back.className = 'sheet-back';
+    back.innerHTML = `<div class="sheet" role="dialog" aria-modal="true">${html}</div>`;
+    document.body.appendChild(back);
+    const close = () => back.remove();
+    back.addEventListener('click', (e) => { if (e.target === back || e.target.closest('[data-close]')) close(); });
+    onMount?.(back.querySelector('.sheet'), close);
+    return close;
+  }
+
+  // ---------- routing ----------
+  window.addEventListener('hashchange', route);
+  async function route() {
+    window.scrollTo(0, 0);
+    const [view, arg] = location.hash.replace(/^#\/?/, '').split('/');
+    if (['home', 'plan', 'deliveries', 'profile'].includes(view) || (!view && TOKEN)) {
+      if (!TOKEN) return (location.hash = '#/login');
+      if (!view) return (location.hash = '#/home');
+      try { if (!HOME) await loadHome(); } catch (e) { return fail(e); }
+      return ({ home: viewHome, plan: viewPlan, deliveries: viewDeliveries, profile: viewProfile })[view]();
+    }
+    if (view === 'login') return viewLogin();
+    if (view === 'buy' && arg) return startBuy(arg);
+    if (view === 'thanks') return viewThanks();
+    return viewShop();
+  }
+  function fail(e) {
+    app.innerHTML = header() + `<div class="wrap center"><h2>Could not load</h2><p class="muted">${esc(e.message)}</p><button class="btn sm" id="retry">Try again</button></div>`;
+    $('#retry').onclick = () => location.reload();
+  }
+
+  // ---------- shop ----------
+  function viewShop() {
+    const open = T.status === 'active';
+    const plans = CAT.plans.map((p) => {
+      const each = p.price_paise / p.meals_total;
+      return `<a class="card plan-card" href="${open ? `#/buy/${p.id}` : '#/shop'}" style="text-decoration:none;color:inherit">
+        ${p.image_url ? `<img src="${esc(p.image_url)}" alt="">` : ''}
+        <div class="row"><h2 class="grow" style="margin:0">${esc(p.name)}</h2>${p.is_trial ? '<span class="tag">Trial</span>' : ''}</div>
+        ${p.description ? `<p class="muted small" style="margin:4px 0 0">${esc(p.description)}</p>` : ''}
+        <div class="row" style="margin-top:10px;align-items:baseline"><span class="price grow">${inr(p.price_paise)}</span>
+        <span class="small muted">${p.meals_total} meals, ${inr(each)} a meal</span></div></a>`;
+    }).join('');
+    app.innerHTML = header(TOKEN ? '<a class="link" href="#/home">My account</a>' : '<a class="link" href="#/login">Sign in</a>') +
+      `<div class="wrap"><h1>Choose your plan</h1><p class="muted">${T.brand.city ? `Fresh meals in ${esc(T.brand.city)}, ` : ''}delivered on the days you pick.</p>
+      ${open ? '' : '<div class="note">We are opening soon. Plans cannot be bought just yet.</div>'}
+      <div style="margin-top:14px">${plans || '<div class="card muted">No plans on sale right now.</div>'}</div>${footLinks()}</div>`;
+  }
+
+  // ---------- sign in ----------
+  function viewLogin() {
+    app.innerHTML = header('<a class="link" href="#/shop">Plans</a>') + `<div class="wrap"><h1>Sign in</h1><p class="muted">Use the mobile number and PIN from when you bought your plan.</p>
+      <form id="f" style="margin-top:16px">
+        <label class="f">Mobile number<input type="tel" name="phone" inputmode="numeric" autocomplete="tel" required></label>
+        <label class="f">PIN<input type="password" name="pin" inputmode="numeric" maxlength="6" autocomplete="current-password" required></label>
+        <div class="err" id="e"></div><button class="btn primary">Sign in</button></form>
+      <p class="small muted" style="margin-top:16px;text-align:center">Forgot your PIN? Please ask the kitchen to reset it.${T.brand.support_phone ? ` <a href="tel:+${esc(T.brand.support_phone)}">Call</a>` : ''}</p></div>`;
+    $('#f').onsubmit = async (e) => {
+      e.preventDefault();
+      const f = new FormData(e.target), err = $('#e');
+      err.textContent = '';
+      try {
+        const r = await api.rpc('cust_login', { p_tenant: T.id, p_phone: f.get('phone'), p_pin: f.get('pin'), p_device: navigator.userAgent.slice(0, 180) });
+        saveToken(r.token); HOME = null;
+        const to = afterLogin; afterLogin = null;
+        location.hash = to || '#/home';
+      } catch (x) {
+        err.textContent = x.code === 'wrong_pin' && x.raw?.tries_left ? `${x.message} ${x.raw.tries_left} tries left.` : x.message;
+      }
+    };
+  }
+
+  // ---------- buy ----------
+  async function startBuy(planId) {
+    const plan = CAT.plans.find((p) => p.id === planId);
+    if (!plan) return (location.hash = '#/shop');
+    if (T.status !== 'active') return (location.hash = '#/shop');
+    if (TOKEN && !HOME) { try { await loadHome(); } catch (e) { return fail(e); } }
+    if (!B || B.plan.id !== planId) {
+      const variants = variantsFor(plan), slot = CAT.slots[0];
+      const offs = CAT.weekly_off || [];
+      B = { plan, stepKey: 'meal', variant: variants.length === 1 ? variants[0].id : null, slot: slot?.id, days: [1, 2, 3, 4, 5, 6, 7].filter((d) => !offs.includes(d)), start: slot?.earliest_start || '',
+            addons: {}, pickup: !CAT.delivery_enabled, addressId: null, address: { label: 'Home', line: '', area: '', pincode: '', lat: null, lng: null, delivery_note: '' },
+            name: '', phone: '', pin: '', email: '', promo: '', instructions: '', quote: null };
+    }
+    if (TOKEN && HOME?.addresses.length && !B.addressId && !B.address.line) B.addressId = HOME.addresses[0].id;
+    if (!stepKeys().includes(B.stepKey)) B.stepKey = 'meal';
+    renderBuy();
+  }
+  const variantsFor = (plan) => CAT.variants.filter((v) => !plan.allowed_variant_ids || plan.allowed_variant_ids.includes(v.id));
+  const stepKeys = () => ['meal', 'where', ...(TOKEN ? [] : ['you']), 'pay'];
+
+  function orderPayload() {
+    const o = { plan_id: B.plan.id, variant_id: B.variant, slot_id: B.slot, delivery_days: B.days, start_date: B.start, instructions: B.instructions,
+                addons: Object.entries(B.addons).filter(([, q]) => q > 0).map(([addon_id, qty]) => ({ addon_id, qty })), is_pickup: B.pickup, promo: B.promo };
+    if (!B.pickup) {
+      if (B.addressId) { const a = HOME.addresses.find((x) => x.id === B.addressId); o.address_id = B.addressId; o.lat = a?.lat; o.lng = a?.lng; }
+      else { o.address = B.address; o.lat = B.address.lat; o.lng = B.address.lng; }
+    }
+    if (!TOKEN) Object.assign(o, { name: B.name, phone: B.phone, pin: B.pin, email: B.email });
+    return o;
+  }
+
+  function renderBuy() {
+    const keys = stepKeys(), i = keys.indexOf(B.stepKey);
+    const titles = { meal: 'Your meals', where: 'Where to deliver', you: 'Your details', pay: 'Review and pay' };
+    app.innerHTML = header(`<a class="link" href="#/shop">Plans</a>`) + `<div class="wrap">
+      <div class="steps">${keys.map((_, n) => `<i class="${n <= i ? 'on' : ''}"></i>`).join('')}</div>
+      <h1>${titles[B.stepKey]}</h1><p class="muted small">${esc(B.plan.name)}, ${inr(B.plan.price_paise)}</p>
+      <div id="body" style="margin-top:14px">${({ meal: stepMeal, where: stepWhere, you: stepYou, pay: stepPay })[B.stepKey]()}</div></div>
+      <div class="bar-foot"><div class="in">${i > 0 ? '<button class="btn" id="back" style="width:38%">Back</button>' : ''}
+      <button class="btn primary" id="next">${B.stepKey === 'pay' ? 'Pay now' : 'Continue'}</button></div></div>`;
+    window.scrollTo(0, 0);
+    $('#next').onclick = next;
+    if ($('#back')) $('#back').onclick = () => { B.stepKey = keys[i - 1]; renderBuy(); };
+    if (B.stepKey === 'where') mountWhere();
+    if (B.stepKey === 'pay') refreshQuote();
+  }
+
+  function stepMeal() {
+    const variants = variantsFor(B.plan), slot = CAT.slots.find((s) => s.id === B.slot);
+    const addons = CAT.addons.map((a) => `<div class="opt" style="cursor:default"><div class="grow"><div style="font-weight:500">${esc(a.name)}</div><div class="small muted">${inr(a.price_paise)} per delivery${a.description ? `, ${esc(a.description)}` : ''}</div></div>
+        <div class="qty"><button type="button" data-qty="${a.id}" data-d="-1" aria-label="Less ${esc(a.name)}">−</button><span id="q-${a.id}">${B.addons[a.id] || 0}</span><button type="button" data-qty="${a.id}" data-d="1" aria-label="More ${esc(a.name)}">+</button></div></div>`).join('');
+    return `${variants.length > 1 ? `<h3>Meal type</h3><div class="chips" style="margin-bottom:16px">${variants.map((v) => `<label class="chip"><input type="radio" name="variant" value="${v.id}" ${v.id === B.variant ? 'checked' : ''}><span>${esc(v.name)}</span></label>`).join('')}</div>` : ''}
+      ${CAT.slots.length > 1 ? `<h3>Meal</h3><div class="chips" style="margin-bottom:16px">${CAT.slots.map((s) => `<label class="chip"><input type="radio" name="slot" value="${s.id}" ${s.id === B.slot ? 'checked' : ''}><span>${esc(s.name)}</span></label>`).join('')}</div>` : ''}
+      <h3>Delivery days</h3><div class="chips" style="margin-bottom:16px">${DAYS.map((d, n) => (CAT.weekly_off || []).includes(n + 1) ? '' : `<label class="chip"><input type="checkbox" name="day" value="${n + 1}" ${B.days.includes(n + 1) ? 'checked' : ''}><span>${d}</span></label>`).join('')}</div>
+      <label class="f">Start from<input type="date" id="start" value="${esc(B.start)}" min="${esc(slot?.earliest_start || '')}"><span class="hint">Earliest is ${slot?.earliest_start ? dayLabel(slot.earliest_start) : 'not available'}. Your first delivery is the first open day from this date.</span></label>
+      ${addons ? `<h3>Add-ons</h3>${addons}` : ''}
+      <label class="f" style="margin-top:14px">Instructions for the kitchen <span class="hint">Optional</span><textarea id="ins" rows="2" maxlength="300">${esc(B.instructions)}</textarea></label>`;
+  }
+  function stepWhere() {
+    const a = B.address, saved = HOME?.addresses || [];
+    const form = `<div id="new-address" class="${B.addressId || B.pickup ? 'hidden' : ''}">
+      <div id="map"></div><div class="row" style="margin-bottom:10px"><button type="button" class="btn sm" id="locate">Use my location</button><span class="small muted grow">Or tap the map to place the pin.</span></div>
+      <div class="fee-line" id="fee">Mark your location to see the delivery charge.</div>
+      <label class="f">House, building, street<input type="text" id="a-line" value="${esc(a.line)}" autocomplete="street-address"></label>
+      <div class="row"><label class="f grow">Area<input type="text" id="a-area" value="${esc(a.area)}"></label><label class="f" style="width:36%">Pincode<input type="text" id="a-pin" inputmode="numeric" maxlength="6" value="${esc(a.pincode)}"></label></div>
+      <label class="f">Note for the delivery person <span class="hint">Optional</span><input type="text" id="a-note" value="${esc(a.delivery_note)}" maxlength="200"></label></div>`;
+    return `${CAT.pickup_enabled && CAT.delivery_enabled ? `<div class="chips" style="margin-bottom:14px"><label class="chip"><input type="radio" name="mode" value="d" ${B.pickup ? '' : 'checked'}><span>Delivery</span></label><label class="chip"><input type="radio" name="mode" value="p" ${B.pickup ? 'checked' : ''}><span>I will pick up</span></label></div>` : ''}
+      <div id="pickup-info" class="card ${B.pickup ? '' : 'hidden'}"><b style="font-weight:500">Pick up from the kitchen</b><p class="small muted" style="margin:4px 0 0">${esc(T.brand.address || T.brand.city || '')}</p></div>
+      ${saved.length ? `<div id="saved" class="${B.pickup ? 'hidden' : ''}">${saved.map((x) => `<label class="opt ${B.addressId === x.id ? 'on' : ''}"><input type="radio" name="addr" value="${x.id}" ${B.addressId === x.id ? 'checked' : ''}><span class="grow"><span style="font-weight:500">${esc(x.label || 'Address')}</span><br><span class="small muted">${esc([x.line, x.area, x.pincode].filter(Boolean).join(', '))}</span></span></label>`).join('')}
+        <label class="opt ${B.addressId ? '' : 'on'}"><input type="radio" name="addr" value="" ${B.addressId ? '' : 'checked'}><span class="grow" style="font-weight:500">A new address</span></label></div>` : ''}
+      ${form}`;
+  }
+  function stepYou() {
+    return `<label class="f">Your name<input type="text" id="u-name" value="${esc(B.name)}" autocomplete="name"></label>
+      <label class="f">Mobile number<input type="tel" id="u-phone" value="${esc(B.phone)}" inputmode="numeric" autocomplete="tel"></label>
+      <label class="f">Email <span class="hint">Optional</span><input type="email" id="u-email" value="${esc(B.email)}" autocomplete="email"></label>
+      <label class="f">Choose a PIN <span class="hint">4 to 6 digits. You will use it to sign in and manage your plan.</span><input type="password" id="u-pin" value="${esc(B.pin)}" inputmode="numeric" maxlength="6" autocomplete="new-password"></label>
+      <p class="small muted">Already a customer? <a href="#/login" id="to-login">Sign in</a> first.</p>`;
+  }
+  function stepPay() {
+    return `<div class="card" id="summary"><p class="muted small">Working out your total…</p></div>
+      <div class="row" style="margin-bottom:6px"><input type="text" id="promo" placeholder="Promo code" value="${esc(B.promo)}" autocapitalize="characters" aria-label="Promo code"><button type="button" class="btn sm" id="apply">Apply</button></div>
+      <div class="err" id="promo-err"></div>
+      <div class="card small"><b style="font-weight:500">Delivery</b><p class="muted" style="margin:2px 0 0">${esc(daysText(B.days))}, from ${dayLabel(B.start)}<br>${B.pickup ? 'Pick up from the kitchen' : esc(addressLine())}</p></div>
+      <p class="small muted">${cfg.DEV ? 'Local test mode: no real payment is taken.' : 'Payment is handled securely by Razorpay.'}</p>`;
+  }
+  const addressLine = () => { if (B.addressId) { const a = HOME.addresses.find((x) => x.id === B.addressId); return [a?.line, a?.area, a?.pincode].filter(Boolean).join(', '); } return [B.address.line, B.address.area, B.address.pincode].filter(Boolean).join(', '); };
+
+  async function refreshQuote() {
+    const seq = ++quoteSeq, s = $('#summary'), e = $('#promo-err');
+    if (!s) return;
+    try {
+      const q = await api.rpc('pub_quote', { p_tenant: T.id, p_order: orderPayload() });
+      if (seq !== quoteSeq) return;
+      B.quote = q;
+      e.textContent = q.promo_error ? api.friendly(q.promo_error) : '';
+      const lines = [[`${q.plan_name} (${q.meals_total} meals)`, q.price_paise],
+        ...q.addon_lines.map((l) => [`${l.name} x ${l.qty}, ${q.deliveries} deliveries`, l.total_paise])];
+      if (!q.is_pickup) lines.push([q.delivery_fee_paise ? `Delivery, ${inr(q.fee_per_delivery_paise)} x ${q.deliveries}` : 'Delivery', q.delivery_fee_paise]);
+      if (q.discount_paise) lines.push([`Discount (${q.promo})`, -q.discount_paise]);
+      s.innerHTML = `<table class="sum">${lines.map(([l, v]) => `<tr><td>${esc(l)}</td><td>${v === 0 ? 'Free' : (v < 0 ? '−' : '') + inr(Math.abs(v))}</td></tr>`).join('')}<tr class="total"><td>Total</td><td>${inr(q.total_paise)}</td></tr></table>`;
+      $('#next').textContent = `Pay ${inr(q.total_paise)}`;
+    } catch (x) { s.innerHTML = `<p class="err">${esc(x.message)}</p>`; B.quote = null; }
+  }
+
+  // map
+  function loadLeaflet() {
+    if (leaflet) return leaflet;
+    leaflet = new Promise((ok, no) => {
+      const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css'; document.head.appendChild(css);
+      const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js'; s.onload = ok; s.onerror = no; document.head.appendChild(s);
+    });
+    return leaflet;
+  }
+  async function mountPin(el, point, onMove) {
+    try { await loadLeaflet(); } catch { el.textContent = 'The map could not load. Please check your connection.'; return null; }
+    const k = CAT.kitchen, start = point.lat != null ? [point.lat, point.lng] : [k.lat ?? 20.59, k.lng ?? 78.96];
+    const m = L.map(el, { scrollWheelZoom: false }).setView(start, k.lat != null ? 14 : 5);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(m);
+    const icon = L.divIcon({ className: '', html: `<div style="width:22px;height:22px;border-radius:50% 50% 50% 0;background:var(--brand);transform:rotate(-45deg);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4)"></div>`, iconSize: [22, 22], iconAnchor: [11, 22] });
+    let pin = point.lat != null ? L.marker(start, { icon, draggable: true }).addTo(m) : null;
+    const place = (lat, lng, zoom) => {
+      if (!pin) pin = L.marker([lat, lng], { icon, draggable: true }).addTo(m);
+      else pin.setLatLng([lat, lng]);
+      pin.off('dragend').on('dragend', () => { const p = pin.getLatLng(); onMove(p.lat, p.lng); });
+      if (zoom) m.setView([lat, lng], 17);
+      onMove(lat, lng);
+    };
+    if (pin) pin.on('dragend', () => { const p = pin.getLatLng(); onMove(p.lat, p.lng); });
+    m.on('click', (e) => place(e.latlng.lat, e.latlng.lng));
+    setTimeout(() => m.invalidateSize(), 60);
+    return { map: m, locate() {
+      if (!navigator.geolocation) return toast('Location is not available on this device.', true);
+      navigator.geolocation.getCurrentPosition((p) => place(p.coords.latitude, p.coords.longitude, true), () => toast('Could not get your location. Please tap the map.', true), { enableHighAccuracy: true, timeout: 12000 });
+    } };
+  }
+  async function feeLine(el, lat, lng) {
+    if (!el) return;
+    try {
+      const q = await api.rpc('pub_quote', { p_tenant: T.id, p_order: { plan_id: B?.plan.id || CAT.plans[0]?.id, lat, lng } });
+      el.className = 'fee-line';
+      el.textContent = q.fee_per_delivery_paise ? `About ${q.distance_km} km from the kitchen. Delivery ${inr(q.fee_per_delivery_paise)} each time.` : 'Free delivery to this location.';
+    } catch (x) { el.className = 'fee-line bad'; el.textContent = x.message; }
+  }
+  async function mountWhere() {
+    const body = $('#body');
+    const sync = () => { $('#new-address')?.classList.toggle('hidden', !!(B.addressId || B.pickup)); $('#saved')?.classList.toggle('hidden', B.pickup); $('#pickup-info')?.classList.toggle('hidden', !B.pickup); map?.map.invalidateSize(); };
+    body.querySelectorAll('[name=mode]').forEach((r) => (r.onchange = () => { B.pickup = r.value === 'p' && r.checked; sync(); }));
+    body.querySelectorAll('[name=addr]').forEach((r) => (r.onchange = () => {
+      B.addressId = r.value || null;
+      body.querySelectorAll('#saved .opt').forEach((o) => o.classList.toggle('on', o.querySelector('input').checked));
+      sync();
+    }));
+    const onMove = (lat, lng) => { B.address.lat = +lat.toFixed(6); B.address.lng = +lng.toFixed(6); feeLine($('#fee'), B.address.lat, B.address.lng); };
+    if (!CAT.delivery_enabled) return;
+    map = await mountPin($('#map'), B.address, onMove);
+    if ($('#locate')) $('#locate').onclick = () => map?.locate();
+    if (B.address.lat != null) feeLine($('#fee'), B.address.lat, B.address.lng);
+  }
+
+  function captureStep() {
+    if (B.stepKey === 'where' && !B.addressId && !B.pickup) {
+      Object.assign(B.address, { line: $('#a-line').value.trim(), area: $('#a-area').value.trim(), pincode: $('#a-pin').value.trim(), delivery_note: $('#a-note').value.trim() });
+    }
+    if (B.stepKey === 'you') Object.assign(B, { name: $('#u-name').value.trim(), phone: $('#u-phone').value.trim(), email: $('#u-email').value.trim(), pin: $('#u-pin').value });
+  }
+  async function next() {
+    captureStep();
+    const keys = stepKeys(), i = keys.indexOf(B.stepKey);
+    if (B.stepKey === 'meal') {
+      if (!B.variant) return toast('Please pick a meal type.', true);
+      if (!B.days.length) return toast('Please pick at least one delivery day.', true);
+      if (!B.start) return toast('Please pick a start date.', true);
+      const slot = CAT.slots.find((s) => s.id === B.slot);
+      if (slot?.earliest_start && B.start < slot.earliest_start) B.start = slot.earliest_start;
+    }
+    if (B.stepKey === 'where' && !B.pickup && !B.addressId) {
+      if (!B.address.line) return toast('Please enter your address.', true);
+      if (CAT.delivery.per_km_paise > 0 || CAT.delivery.max_km) {
+        if (B.address.lat == null) return toast('Please mark your location on the map.', true);
+        try { await api.rpc('pub_quote', { p_tenant: T.id, p_order: { plan_id: B.plan.id, lat: B.address.lat, lng: B.address.lng } }); }
+        catch (x) { return toast(x.message, true); }
+      }
+    }
+    if (B.stepKey === 'you') {
+      if (!B.name) return toast('Please enter your name.', true);
+      if (B.phone.replace(/\D/g, '').length < 10) return toast('Please enter a valid mobile number.', true);
+      if (!/^\d{4,6}$/.test(B.pin)) return toast('PIN must be 4 to 6 digits.', true);
+    }
+    if (B.stepKey === 'pay') return payNow();
+    B.stepKey = keys[i + 1];
+    renderBuy();
+  }
+
+  // pay
+  const payUrl = () => `${cfg.API_URL}/functions/v1/msaas-pay`;
+  async function payCall(body) {
+    const r = await fetch(payUrl(), { method: 'POST', headers: { 'content-type': 'application/json', apikey: cfg.ANON_KEY }, body: JSON.stringify(body) });
+    const j = await r.json().catch(() => ({}));
+    if (!j.ok) throw new Error(api.friendly(j.error));
+    return j;
+  }
+  function loadRazorpay() {
+    return new Promise((ok, no) => {
+      if (window.Razorpay) return ok();
+      const s = document.createElement('script'); s.src = 'https://checkout.razorpay.com/v1/checkout.js'; s.onload = ok; s.onerror = no; document.head.appendChild(s);
+    });
+  }
+  async function payNow() {
+    const btn = $('#next');
+    btn.disabled = true;
+    const done = () => { if ($('#next')) $('#next').disabled = false; };
+    try {
+      const start = await api.rpc('cust_checkout_start', { p_tenant: T.id, p_order: orderPayload(), p_token: TOKEN });
+      const made = await payCall({ action: 'create', checkout_id: start.checkout_id });
+      if (cfg.DEV) {
+        done();
+        sheet(`<h2>Test payment</h2><p class="muted">This is the local server, so no real payment happens. Amount: <b>${inr(made.amount_paise)}</b></p>
+          <button class="btn primary" id="ok">Simulate successful payment</button><button class="btn" data-close style="margin-top:8px">Cancel</button>`, (el, close) => {
+          $('#ok', el).onclick = async () => {
+            try { finish(await payCall({ action: 'dev_pay', checkout_id: start.checkout_id })); close(); } catch (x) { toast(x.message, true); }
+          };
+        });
+        return;
+      }
+      await loadRazorpay();
+      const rzp = new window.Razorpay({
+        key: made.key_id, order_id: made.order_id, amount: made.amount_paise, currency: made.currency, name: made.brand, description: made.plan_name,
+        prefill: { name: made.name || '', contact: made.phone || '', email: made.email || '' }, theme: { color: made.color },
+        modal: { ondismiss: done },
+        handler: async (p) => {
+          try {
+            finish(await payCall({ action: 'verify', checkout_id: start.checkout_id, order_id: p.razorpay_order_id, payment_id: p.razorpay_payment_id, signature: p.razorpay_signature }));
+          } catch (x) { toast(`${x.message} Your payment reference is ${p.razorpay_payment_id}.`, true); done(); }
+        },
+      });
+      rzp.on('payment.failed', (r) => toast(r.error?.description || 'The payment failed. Please try again.', true));
+      rzp.open();
+    } catch (x) {
+      done();
+      if (x.code === 'account_exists') { afterLogin = `#/buy/${B.plan.id}`; toast(x.message, true); location.hash = '#/login'; return; }
+      toast(x.message, true);
+    }
+  }
+  function finish(r) {
+    if (r.token && !TOKEN) saveToken(r.token);
+    HOME = null; B = null;
+    sessionFirst = r.first_date || null;
+    location.hash = '#/thanks';
+  }
+  let sessionFirst = null;
+  function viewThanks() {
+    app.innerHTML = header() + `<div class="wrap center"><div class="big" style="color:var(--ok)">Thank you</div><h2 style="margin-top:10px">Your plan is confirmed</h2>
+      ${sessionFirst ? `<p class="muted">First delivery: <b>${dayLabel(sessionFirst)}</b></p>` : ''}
+      <a class="btn primary" href="#/home" style="margin-top:18px">Go to my plan</a></div>`;
+  }
+
+  // ---------- home ----------
+  const activePlans = () => HOME.plans.filter((p) => ['active', 'paused'].includes(p.status));
+  function viewHome() {
+    const plans = activePlans(), first = HOME.customer.name?.split(' ')[0];
+    const upcoming = DL.filter((d) => d.status === 'scheduled' && d.date >= HOME.today).slice(0, 4);
+    const nextD = upcoming[0];
+    const planCards = plans.map((p) => {
+      const pct = Math.min(100, Math.round((p.meals_left / p.meals_total) * 100));
+      return `<div class="card"><div class="row"><h2 class="grow" style="margin:0">${esc(p.plan_name)}</h2><span class="pill ${p.status}">${STATUS[p.status]}</span></div>
+        <div class="row" style="align-items:baseline;margin-top:8px"><span class="big">${p.meals_left}</span><span class="muted small">of ${p.meals_total} meals left</span></div>
+        <div class="meter"><i style="width:${pct}%"></i></div>
+        ${p.pause ? `<p class="small" style="color:var(--warn);margin:6px 0 0">Paused ${p.pause.until ? `until ${dayLabel(p.pause.until)}` : 'until you resume'}</p>` : ''}
+        ${p.renewal_of ? `<p class="small muted" style="margin:6px 0 0">Starts after your current plan.</p>` : ''}
+        ${p.last_delivery ? `<p class="small muted" style="margin:6px 0 0">Last delivery ${dayLabel(p.last_delivery)}</p>` : ''}</div>`;
+    }).join('');
+    app.innerHTML = header() + `<div class="wrap"><h1>Hello${first ? ` ${esc(first)}` : ''}</h1>
+      ${nextD ? `<div class="card" style="background:var(--brand);border-color:var(--brand);color:var(--brand-ink);margin-top:12px"><div class="small" style="opacity:.85">Next delivery</div>
+        <div style="font-size:20px;font-weight:600">${dayLabel(nextD.date)}</div><div>${esc(nextD.dish || nextD.slot)}${nextD.variant ? `, ${esc(nextD.variant)}` : ''}</div>
+        ${nextD.can_skip ? `<div class="small" style="opacity:.85;margin-top:6px">Change by ${clock(nextD.closes_at)}${nextD.closes_at.slice(0, 10) === nextD.date ? '' : ` on ${dayLabel(nextD.closes_at)}`}</div>
+        <button class="btn sm" data-skip="${nextD.subscription_id}" data-date="${nextD.date}" style="margin-top:10px;color:var(--ink)">Skip this day</button>` : ''}</div>` : ''}
+      ${planCards || `<div class="card center" style="padding:28px 16px"><h2>No plan running</h2><p class="muted">Pick a plan to start your meals.</p><a class="btn primary" href="#/shop">See plans</a></div>`}
+      ${upcoming.length > 1 ? `<div class="card"><h3>Coming up</h3>${upcoming.slice(1).map(rowDelivery).join('')}<a class="link" href="#/deliveries">All deliveries</a></div>` : ''}
+      ${plans.length ? '<a class="btn" href="#/shop">Renew or buy another plan</a>' : ''}</div>` + tabs('home');
+  }
+  function rowDelivery(d) {
+    const dt = parseDay(d.date);
+    const add = d.addons?.length ? ` + ${d.addons.map((a) => esc(a.name)).join(', ')}` : '';
+    return `<div class="list-row"><div class="date-box"><b>${dt.getDate()}</b><span>${dt.toLocaleDateString('en-IN', { weekday: 'short' })}</span></div>
+      <div class="grow"><div style="font-weight:500">${esc(d.dish || d.slot)}</div><div class="small muted">${d.meals > 1 ? `${d.meals} meals, ` : ''}${esc(d.variant || '')}${add}</div>
+      ${d.status !== 'scheduled' ? `<span class="pill ${d.status}" style="margin-top:4px">${STATUS[d.status]}</span>` : ''}</div>
+      ${d.can_skip ? `<button class="btn sm" data-skip="${d.subscription_id}" data-date="${d.date}">Skip</button>` : ''}
+      ${d.can_undo ? `<button class="btn sm" data-undo="${d.subscription_id}" data-date="${d.date}">Undo</button>` : ''}</div>`;
+  }
+
+  // ---------- deliveries ----------
+  function viewDeliveries() {
+    const up = DL.filter((d) => d.date >= HOME.today), past = DL.filter((d) => d.date < HOME.today).reverse();
+    app.innerHTML = header() + `<div class="wrap"><h1>Deliveries</h1><p class="muted small">A skipped meal moves to the end of your plan.</p>
+      <div class="card" style="margin-top:12px"><h3>Upcoming</h3>${up.map(rowDelivery).join('') || '<p class="muted small">Nothing scheduled.</p>'}</div>
+      ${past.length ? `<div class="card"><h3>Past two weeks</h3>${past.map(rowDelivery).join('')}</div>` : ''}</div>` + tabs('deliveries');
+  }
+
+  // ---------- plan ----------
+  function viewPlan() {
+    const plans = activePlans(), done = HOME.plans.filter((p) => !['active', 'paused'].includes(p.status));
+    app.innerHTML = header() + `<div class="wrap"><h1>My plan</h1><div style="margin-top:12px">
+      ${plans.map((p) => `<div class="card"><div class="row"><h2 class="grow" style="margin:0">${esc(p.plan_name)}</h2><span class="pill ${p.status}">${STATUS[p.status]}</span></div>
+        <table class="sum small" style="margin-top:8px">
+          <tr><td class="muted">Meals left</td><td>${p.meals_left} of ${p.meals_total}</td></tr>
+          <tr><td class="muted">Meal</td><td>${esc(p.slot.name)}${p.variant ? `, ${esc(p.variant.name)}` : ''}</td></tr>
+          <tr><td class="muted">Days</td><td>${esc(daysText(p.delivery_days))}</td></tr>
+          ${p.addons.length ? `<tr><td class="muted">Add-ons</td><td>${p.addons.map((a) => `${esc(a.name)}${a.qty > 1 ? ` x ${a.qty}` : ''}`).join(', ')}</td></tr>` : ''}
+          <tr><td class="muted">${p.is_pickup ? 'Pickup' : 'Address'}</td><td style="white-space:normal">${p.is_pickup ? 'From the kitchen' : esc(p.address_text || '')}</td></tr>
+          ${p.instructions ? `<tr><td class="muted">Note</td><td style="white-space:normal">${esc(p.instructions)}</td></tr>` : ''}
+        </table>
+        ${p.pause ? `<div class="note" style="margin-top:10px">Paused ${p.pause.until ? `from ${dayLabel(p.pause.from)} to ${dayLabel(p.pause.until)}` : 'until you resume'}</div>` : ''}
+        <div class="row" style="margin-top:12px;flex-wrap:wrap"><button class="btn sm" data-edit="${p.id}">Change</button>
+        ${p.pause || p.status === 'paused' ? `<button class="btn sm" data-resume="${p.id}">Resume</button>` : `<button class="btn sm" data-pause="${p.id}">Pause</button>`}</div></div>`).join('') ||
+        `<div class="card center" style="padding:28px 16px"><h2>No plan running</h2><a class="btn primary" href="#/shop" style="margin-top:8px">See plans</a></div>`}
+      ${plans.length ? '<a class="btn" href="#/shop">Renew or buy another plan</a>' : ''}
+      ${done.length ? `<div class="card" style="margin-top:12px"><h3>Earlier plans</h3>${done.map((p) => `<div class="list-row"><div class="grow">${esc(p.plan_name)}<div class="small muted">Started ${dayLabel(p.start_date)}</div></div><span class="pill ${p.status === 'cancelled' ? 'cancelled' : 'completed'}">${p.status === 'cancelled' ? 'Cancelled' : 'Finished'}</span></div>`).join('')}</div>` : ''}
+      </div></div>` + tabs('plan');
+  }
+  function editSheet(id) {
+    const p = HOME.plans.find((x) => x.id === id);
+    sheet(`<h2>Change plan</h2><p class="small muted">Applies from your next open day. Days past their cut-off stay as they are.</p>
+      <h3 style="margin-top:12px">Delivery days</h3><div class="chips" style="margin-bottom:14px">${DAYS.map((d, n) => (CAT.weekly_off || []).includes(n + 1) ? '' : `<label class="chip"><input type="checkbox" name="d" value="${n + 1}" ${p.delivery_days.includes(n + 1) ? 'checked' : ''}><span>${d}</span></label>`).join('')}</div>
+      ${CAT.slots.length > 1 ? `<label class="f">Meal<select id="s">${CAT.slots.map((s) => `<option value="${s.id}" ${s.id === p.slot.id ? 'selected' : ''}>${esc(s.name)}</option>`).join('')}</select></label>` : ''}
+      ${CAT.variants.length > 1 ? `<label class="f">Meal type<select id="v">${CAT.variants.map((v) => `<option value="${v.id}" ${v.id === p.variant?.id ? 'selected' : ''}>${esc(v.name)}</option>`).join('')}</select></label>` : ''}
+      ${!p.is_pickup && HOME.addresses.length > 1 ? `<label class="f">Address<select id="a">${HOME.addresses.map((a) => `<option value="${a.id}" ${a.id === p.address_id ? 'selected' : ''}>${esc(a.label || a.line)}</option>`).join('')}</select></label>` : ''}
+      <label class="f">Note for the kitchen<textarea id="n" rows="2" maxlength="300">${esc(p.instructions || '')}</textarea></label>
+      <button class="btn primary" id="go">Save</button><button class="btn" data-close style="margin-top:8px">Cancel</button>`, (el, close) => {
+      $('#go', el).onclick = async () => {
+        const changes = { delivery_days: [...el.querySelectorAll('[name=d]:checked')].map((x) => +x.value), instructions: $('#n', el).value };
+        if ($('#s', el)) changes.slot_id = $('#s', el).value;
+        if ($('#v', el)) changes.variant_id = $('#v', el).value;
+        if ($('#a', el)) changes.address_id = $('#a', el).value;
+        if (await act(() => rpc('cust_update_plan', { p_sub: id, p_changes: changes }), 'Plan updated')) { close(); await reload(); }
+      };
+    });
+  }
+  function pauseSheet(id) {
+    sheet(`<h2>Pause plan</h2><p class="small muted">Your meals are kept and continue after the pause.</p>
+      <label class="f" style="margin-top:12px">From<input type="date" id="f" value="${HOME.today}" min="${HOME.today}"></label>
+      <label class="f">Until <span class="hint">Leave empty to pause until you resume</span><input type="date" id="u" min="${HOME.today}"></label>
+      <button class="btn primary" id="go">Pause</button><button class="btn" data-close style="margin-top:8px">Cancel</button>`, (el, close) => {
+      $('#go', el).onclick = async () => {
+        const r = await act(() => rpc('cust_pause', { p_sub: id, p_from: $('#f', el).value || null, p_until: $('#u', el).value || null }));
+        if (r) { toast(r.locked ? 'Paused. Days already past their cut-off will still be delivered.' : 'Plan paused'); close(); await reload(); }
+      };
+    });
+  }
+  async function reload() { await loadHome(); route(); }
+
+  // ---------- profile ----------
+  async function viewProfile() {
+    const c = HOME.customer, b = T.brand;
+    let bills = [];
+    try { bills = await rpc('cust_bills'); } catch (e) { toast(e.message, true); }
+    app.innerHTML = header() + `<div class="wrap"><h1>Profile</h1>
+      <form class="card" id="pf" style="margin-top:12px"><label class="f">Name<input type="text" name="name" value="${esc(c.name || '')}"></label>
+        <label class="f">Email<input type="email" name="email" value="${esc(c.email || '')}"></label>
+        <div class="row"><span class="small muted grow">Mobile +${esc(c.phone)}</span><button class="btn sm">Save</button></div></form>
+      <div class="card"><h3>Addresses</h3>${HOME.addresses.map((a) => `<div class="list-row"><div class="grow"><div style="font-weight:500">${esc(a.label || 'Address')}</div><div class="small muted">${esc([a.line, a.area, a.pincode].filter(Boolean).join(', '))}</div></div>
+          <button class="link" data-addr="${a.id}">Edit</button><button class="link" style="color:var(--danger)" data-addr-del="${a.id}">Remove</button></div>`).join('') || '<p class="small muted">None saved.</p>'}
+        ${CAT.delivery_enabled ? '<button class="btn sm" data-addr="" style="margin-top:8px">Add address</button>' : ''}</div>
+      <div class="card"><h3>Payments</h3>${bills.map((x) => `<div class="list-row"><div class="grow"><div style="font-weight:500">${esc(x.plan_name || 'Payment')}</div><div class="small muted">${dayLabel(x.date)}${x.reference ? `, ${esc(x.reference)}` : ''}</div></div><b style="font-weight:500">${inr(x.amount_paise)}</b></div>`).join('') || '<p class="small muted">No payments yet.</p>'}</div>
+      <div class="card"><h3>Need help?</h3><div class="row">${b.support_phone ? `<a class="btn sm" href="tel:+${esc(b.support_phone)}">Call</a>` : ''}${b.whatsapp_phone ? `<a class="btn sm" href="https://wa.me/${esc(b.whatsapp_phone)}" target="_blank" rel="noopener">WhatsApp</a>` : ''}</div></div>
+      <button class="btn" id="pin">Change PIN</button><button class="btn" id="out" style="margin-top:8px">Sign out</button>${footLinks()}</div>` + tabs('profile');
+    $('#pf').onsubmit = async (e) => {
+      e.preventDefault();
+      const f = new FormData(e.target);
+      if (await act(() => rpc('cust_update_profile', { p_name: f.get('name'), p_email: f.get('email') || null }), 'Saved')) await reload();
+    };
+    $('#out').onclick = signOut;
+    $('#pin').onclick = pinSheet;
+  }
+  function pinSheet() {
+    sheet(`<h2>Change PIN</h2><label class="f" style="margin-top:12px">Current PIN<input type="password" id="o" inputmode="numeric" maxlength="6"></label>
+      <label class="f">New PIN <span class="hint">4 to 6 digits</span><input type="password" id="n" inputmode="numeric" maxlength="6"></label>
+      <button class="btn primary" id="go">Change PIN</button><button class="btn" data-close style="margin-top:8px">Cancel</button>`, (el, close) => {
+      $('#go', el).onclick = async () => { if (await act(() => rpc('cust_change_pin', { p_old: $('#o', el).value, p_new: $('#n', el).value }), 'PIN changed. Other devices are signed out.')) close(); };
+    });
+  }
+  function addressSheet(id) {
+    const a = HOME.addresses.find((x) => x.id === id) || { label: '', line: '', area: '', pincode: '', delivery_note: '', lat: null, lng: null };
+    const point = { lat: a.lat, lng: a.lng };
+    sheet(`<h2>${id ? 'Edit address' : 'New address'}</h2><div id="map" style="margin-top:10px"></div>
+      <div class="row" style="margin-bottom:10px"><button type="button" class="btn sm" id="locate">Use my location</button></div><div class="fee-line" id="fee">Tap the map to place the pin.</div>
+      <label class="f">Label<input type="text" id="l" value="${esc(a.label || '')}" placeholder="Home, Office"></label>
+      <label class="f">House, building, street<input type="text" id="li" value="${esc(a.line)}"></label>
+      <label class="f">Area<input type="text" id="ar" value="${esc(a.area || '')}"></label>
+      <label class="f">Pincode<input type="text" id="p" inputmode="numeric" maxlength="6" value="${esc(a.pincode || '')}"></label>
+      <label class="f">Note for the delivery person<input type="text" id="no" value="${esc(a.delivery_note || '')}" maxlength="200"></label>
+      <button class="btn primary" id="go">Save</button><button class="btn" data-close style="margin-top:8px">Cancel</button>`, async (el, close) => {
+      const fee = $('#fee', el);
+      const m = await mountPin($('#map', el), point, (lat, lng) => { point.lat = +lat.toFixed(6); point.lng = +lng.toFixed(6); feeLine(fee, point.lat, point.lng); });
+      $('#locate', el).onclick = () => m?.locate();
+      if (point.lat != null) feeLine(fee, point.lat, point.lng);
+      $('#go', el).onclick = async () => {
+        const r = await act(() => rpc('cust_save_address', { p_address: { id: id || null, label: $('#l', el).value, line: $('#li', el).value, area: $('#ar', el).value, pincode: $('#p', el).value, delivery_note: $('#no', el).value, lat: point.lat, lng: point.lng } }), 'Address saved');
+        if (r) { close(); await reload(); }
+      };
+    });
+  }
+
+  // ---------- events ----------
+  document.addEventListener('click', async (e) => {
+    const qty = e.target.closest('[data-qty]');
+    if (qty) {
+      const id = qty.dataset.qty, v = Math.min(5, Math.max(0, (B.addons[id] || 0) + Number(qty.dataset.d)));
+      B.addons[id] = v; document.getElementById(`q-${id}`).textContent = v; return;
+    }
+    if (e.target.id === 'apply') { B.promo = $('#promo').value.trim().toUpperCase(); return refreshQuote(); }
+    if (e.target.id === 'to-login') { captureStep(); afterLogin = `#/buy/${B.plan.id}`; return; }
+    const skip = e.target.closest('[data-skip]');
+    if (skip) {
+      const r = await act(() => rpc('cust_skip', { p_sub: skip.dataset.skip, p_dates: [skip.dataset.date] }));
+      if (r) { toast(r.skipped ? 'Skipped. That meal moves to the end of your plan.' : 'Too late to change that day.', !r.skipped); await reload(); }
+      return;
+    }
+    const undo = e.target.closest('[data-undo]');
+    if (undo) { if (await act(() => rpc('cust_unskip', { p_sub: undo.dataset.undo, p_date: undo.dataset.date }), 'Day restored')) await reload(); return; }
+    const edit = e.target.closest('[data-edit]'); if (edit) return editSheet(edit.dataset.edit);
+    const pause = e.target.closest('[data-pause]'); if (pause) return pauseSheet(pause.dataset.pause);
+    const resume = e.target.closest('[data-resume]');
+    if (resume) { if (await act(() => rpc('cust_resume', { p_sub: resume.dataset.resume }), 'Plan resumed')) await reload(); return; }
+    const addr = e.target.closest('[data-addr]'); if (addr) return addressSheet(addr.dataset.addr);
+    const del = e.target.closest('[data-addr-del]');
+    if (del && confirm('Remove this address?')) { if (await act(() => rpc('cust_remove_address', { p_address: del.dataset.addrDel }), 'Removed')) await reload(); }
+  });
+  app.addEventListener('change', (e) => {
+    if (!B) return;
+    const el = e.target;
+    if (el.name === 'variant') B.variant = el.value;
+    if (el.name === 'slot') {
+      B.slot = el.value;
+      const s = CAT.slots.find((x) => x.id === B.slot);
+      if (s?.earliest_start && (!B.start || B.start < s.earliest_start)) B.start = s.earliest_start;
+      renderBuy();
+    }
+    if (el.name === 'day') B.days = [...app.querySelectorAll('[name=day]:checked')].map((x) => +x.value);
+    if (el.id === 'start') B.start = el.value;
+    if (el.id === 'ins') B.instructions = el.value;
+  });
+
+  // ---------- start ----------
+  (async function boot() {
+    try {
+      const qs = new URLSearchParams(location.search);
+      const shared = ['localhost', '127.0.0.1'].includes(location.hostname) || MealApi.config.SHARED_HOST;
+      const key = shared ? qs.get('k') : location.hostname;
+      if (!key) { app.innerHTML = '<div class="center muted">Open this page with a kitchen address, for example ?k=kitchen-name</div>'; return; }
+      T = await api.rpc('pub_tenant', { p_host: key });
+      if (!T) { app.innerHTML = '<div class="center"><h2>Kitchen not found</h2><p class="muted">Please check the web address.</p></div>'; return; }
+      document.title = T.brand.name;
+      const root = document.documentElement.style, c = T.brand.color_primary;
+      root.setProperty('--brand', c);
+      const [r, g, b] = [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16));
+      const light = 0.299 * r + 0.587 * g + 0.114 * b > 170;
+      root.setProperty('--brand-ink', light ? '#1b1b19' : '#ffffff');
+      root.setProperty('--brand-soft', `rgba(${r},${g},${b},.12)`);
+      if (T.status === 'suspended') { app.innerHTML = header() + '<div class="wrap center"><h2>Temporarily unavailable</h2><p class="muted">Please contact the kitchen.</p></div>'; return; }
+      CAT = await api.rpc('pub_catalog', { p_tenant: T.id });
+      loadToken();
+      route();
+    } catch (e) { app.innerHTML = `<div class="center"><h2>Could not load</h2><p class="muted">${esc(e.message)}</p></div>`; }
+  })();
+})();
+</script>
+</body>
+</html>

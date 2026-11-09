@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiffora Super Admin</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f6f3; --surface: #ffffff; --ink: #1b1b19; --ink-2: #3d3d39; --muted: #6d6d67; --line: #e5e4de; --line-2: #d4d3cc;
+    --brand: #1f5f45; --brand-ink: #ffffff; --brand-soft: #e7f0eb;
+    --ok: #13734b; --ok-soft: #e6f3ec; --warn: #9a5b00; --warn-soft: #fcf1df; --danger: #b42318; --danger-soft: #fdecea;
+    --radius: 10px; --shadow: 0 1px 2px rgba(20,20,15,.05), 0 2px 8px rgba(20,20,15,.04);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 'IBM Plex Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: var(--brand); }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  .mono { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; }
+  .hidden { display: none !important; }
+
+  /* top bar */
+  .top { position: sticky; top: 0; z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); }
+  .top-in { max-width: 1180px; margin: 0 auto; padding: 0 20px; height: 56px; display: flex; align-items: center; gap: 16px; }
+  .logo { font-weight: 600; letter-spacing: -.01em; display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+  .logo-mark { width: 26px; height: 26px; border-radius: 7px; background: var(--brand); color: #fff; display: grid; place-items: center; font-size: 13px; }
+  .logo small { font-weight: 500; color: var(--muted); }
+  .top .grow { flex: 1; }
+  .top .who { font-size: 13px; color: var(--muted); }
+
+  main { max-width: 1180px; margin: 0 auto; padding: 28px 20px 80px; }
+  h1 { font-size: 24px; font-weight: 600; letter-spacing: -.015em; margin: 0; }
+  h2 { font-size: 17px; font-weight: 600; margin: 0 0 4px; }
+  h3 { font-size: 14px; font-weight: 600; margin: 0 0 10px; }
+  .head-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+  .head-row .grow { flex: 1; }
+
+  /* buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 38px; padding: 0 16px; border-radius: 8px;
+         border: 1px solid var(--line-2); background: var(--surface); cursor: pointer; font-weight: 500; white-space: nowrap; text-decoration: none; color: var(--ink); }
+  .btn:hover { background: #fafaf8; }
+  .btn.primary { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
+  .btn.primary:hover { filter: brightness(1.07); }
+  .btn.danger { color: var(--danger); border-color: #f0c9c5; }
+  .btn.ghost { border-color: transparent; background: transparent; }
+  .btn.sm { height: 32px; padding: 0 12px; font-size: 13px; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .icon-btn { width: 32px; height: 32px; border-radius: 7px; border: 1px solid transparent; background: transparent; cursor: pointer; color: var(--muted); display: inline-grid; place-items: center; }
+  .icon-btn:hover { background: var(--danger-soft); color: var(--danger); }
+
+  /* cards and forms */
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+  .card-pad { padding: 22px; }
+  .section { padding: 22px; border-top: 1px solid var(--line); }
+  .section:first-child { border-top: 0; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 18px; }
+  .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .span2 { grid-column: span 2; }
+  label.f { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 500; color: var(--ink-2); }
+  label.f .hint { font-weight: 400; color: var(--muted); font-size: 12px; }
+  .req::after { content: ' *'; color: var(--danger); }
+  input[type=text], input[type=email], input[type=tel], input[type=number], input[type=password], input[type=url], input[type=time], input[type=date], select, textarea {
+    height: 40px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 8px; background: #fff; width: 100%; min-width: 0; }
+  textarea { height: auto; padding: 10px 12px; resize: vertical; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid color-mix(in srgb, var(--brand) 30%, transparent); border-color: var(--brand); }
+  .inline { display: flex; align-items: center; gap: 8px; }
+  .with-unit { position: relative; }
+  .with-unit input { padding-left: 28px; }
+  .with-unit span { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; }
+  .switch { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; font-weight: 500; }
+  .switch input { width: 18px; height: 18px; accent-color: var(--brand); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip-toggle { position: relative; }
+  .chip-toggle input { position: absolute; opacity: 0; }
+  .chip-toggle span { display: inline-block; padding: 6px 12px; border: 1px solid var(--line-2); border-radius: 999px; font-size: 13px; cursor: pointer; background: #fff; }
+  .chip-toggle input:checked + span { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .chip-toggle input:focus-visible + span { outline: 2px solid var(--brand); }
+
+  /* status pills */
+  .pill { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 500; white-space: nowrap; }
+  .pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .pill.trial { background: var(--warn-soft); color: var(--warn); }
+  .pill.active { background: var(--ok-soft); color: var(--ok); }
+  .pill.suspended, .pill.closed { background: var(--danger-soft); color: var(--danger); }
+  .pill.plain { background: #efeee9; color: var(--ink-2); }
+  .pill.plain::before { display: none; }
+
+  /* kitchens list */
+  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 20px; }
+  .stat { padding: 16px 18px; }
+  .stat b { display: block; font-size: 24px; font-weight: 600; letter-spacing: -.02em; }
+  .stat span { font-size: 13px; color: var(--muted); }
+  .table { width: 100%; border-collapse: collapse; }
+  .table th { text-align: left; font-size: 12px; font-weight: 500; color: var(--muted); padding: 10px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .table td { padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  .table tr:last-child td { border-bottom: 0; }
+  .table tr.click { cursor: pointer; }
+  .table tr.click:hover td { background: #fafaf7; }
+  .k-name { display: flex; align-items: center; gap: 12px; }
+  .k-logo { width: 36px; height: 36px; border-radius: 8px; flex: none; display: grid; place-items: center; color: #fff; font-weight: 600; overflow: hidden; background: var(--brand); }
+  .k-logo img { width: 100%; height: 100%; object-fit: cover; background: #fff; }
+  .bar { width: 90px; height: 6px; border-radius: 3px; background: #ecebe6; overflow: hidden; display: inline-block; vertical-align: middle; }
+  .bar i { display: block; height: 100%; background: var(--brand); }
+  .empty { padding: 48px 20px; text-align: center; color: var(--muted); }
+
+  /* kitchen detail */
+  .crumb { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+  .crumb a { color: var(--muted); text-decoration: none; }
+  .crumb a:hover { color: var(--ink); }
+  .layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 24px; align-items: start; }
+  .layout > * { min-width: 0; }
+  .steps { position: sticky; top: 76px; padding: 8px; }
+  .step { display: flex; gap: 12px; align-items: flex-start; padding: 10px 12px; border-radius: 8px; text-decoration: none; color: var(--ink); }
+  .step:hover { background: #f4f4f0; }
+  .step.on { background: var(--brand-soft); }
+  .step .dot { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--line-2); flex: none; display: grid; place-items: center; font-size: 11px; font-weight: 600; color: var(--muted); margin-top: 1px; background: #fff; }
+  .step.done .dot { background: var(--ok); border-color: var(--ok); color: #fff; }
+  .step b { display: block; font-size: 14px; font-weight: 500; }
+  .step small { display: block; font-size: 12px; color: var(--muted); }
+  .progress { padding: 12px 12px 14px; border-bottom: 1px solid var(--line); margin-bottom: 6px; }
+  .progress .bar { width: 100%; height: 8px; margin-top: 8px; }
+  .panel-head { display: flex; align-items: flex-start; gap: 12px; padding: 22px 22px 0; }
+  .panel-head .grow { flex: 1; }
+  .panel-foot { display: flex; align-items: center; gap: 12px; padding: 16px 22px; border-top: 1px solid var(--line); background: #fbfbf9; border-radius: 0 0 var(--radius) var(--radius); position: sticky; bottom: 0; }
+  .panel-foot .grow { flex: 1; }
+  .dirty { font-size: 13px; color: var(--warn); }
+
+  /* row editors */
+  .rows { width: 100%; border-collapse: separate; border-spacing: 0; }
+  .rows th { text-align: left; font-size: 12px; font-weight: 500; color: var(--muted); padding: 0 6px 6px; white-space: nowrap; }
+  .rows td { padding: 4px 6px; vertical-align: top; }
+  .rows td.c { text-align: center; vertical-align: middle; }
+  .rows input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--brand); }
+  .rows input[type=text] { min-width: 150px; }
+  .rows input[type=number] { min-width: 76px; }
+  .rows input[data-money] { min-width: 110px; }
+  .rows input[type=time] { width: 128px; }
+  .rows input[type=date] { min-width: 150px; }
+  .rows .calc { font-size: 13px; color: var(--muted); padding-top: 10px; white-space: nowrap; }
+  .rows tr.off td input:not([type=checkbox]) { color: var(--muted); }
+  .add-row { margin-top: 8px; }
+  .scroll-x { overflow-x: auto; }
+
+  /* brand */
+  .logo-drop { display: flex; align-items: center; gap: 16px; }
+  .logo-box { width: 84px; height: 84px; border-radius: 14px; border: 1px dashed var(--line-2); display: grid; place-items: center; overflow: hidden; background: #fafaf7; color: var(--muted); font-size: 12px; text-align: center; flex: none; }
+  .logo-box img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
+  .preview { border: 1px solid var(--line); border-radius: 18px; overflow: hidden; width: 260px; background: #fff; box-shadow: var(--shadow); }
+  .preview .ph { padding: 16px; color: #fff; display: flex; gap: 10px; align-items: center; }
+  .preview .ph img { width: 34px; height: 34px; border-radius: 8px; background: #fff; object-fit: contain; }
+  .preview .pb { padding: 16px; }
+  .preview .pcard { border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin-bottom: 10px; }
+  .preview .pbtn { display: block; text-align: center; padding: 10px; border-radius: 10px; color: #fff; font-weight: 500; font-size: 14px; }
+  .color-in { display: flex; gap: 8px; align-items: center; }
+  .color-in input[type=color] { width: 44px; height: 40px; padding: 2px; border: 1px solid var(--line-2); border-radius: 8px; background: #fff; flex: none; }
+
+  /* checklist */
+  .check { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--line); }
+  .check:last-child { border-bottom: 0; }
+  .check .ic { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; flex: none; font-size: 12px; }
+  .check .ic.ok { background: var(--ok); color: #fff; }
+  .check .ic.no { border: 1.5px solid var(--danger); color: var(--danger); }
+  .check .ic.opt { border: 1.5px solid var(--line-2); }
+  .check .grow { flex: 1; }
+  .live-box { padding: 18px; border-radius: var(--radius); background: var(--ok-soft); border: 1px solid #bfe3cf; }
+  .link-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; flex-wrap: wrap; }
+  .link-row .mono { word-break: break-all; }
+
+  /* login, modal, toast */
+  .login { max-width: 380px; margin: 10vh auto 0; }
+  .login .card-pad { display: flex; flex-direction: column; gap: 14px; }
+  .err { color: var(--danger); font-size: 13px; min-height: 18px; }
+  .modal-back { position: fixed; inset: 0; background: rgba(20, 20, 15, .35); display: grid; place-items: center; z-index: 50; padding: 16px; }
+  .modal { width: 100%; max-width: 460px; }
+  .modal .card-pad { display: flex; flex-direction: column; gap: 14px; }
+  .modal .acts { display: flex; justify-content: flex-end; gap: 10px; margin-top: 4px; }
+  #toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); background: var(--ink); color: #fff; padding: 10px 18px;
+           border-radius: 8px; font-size: 14px; opacity: 0; transition: .2s; pointer-events: none; z-index: 60; max-width: calc(100% - 32px); }
+  #toast.show { opacity: 1; transform: translateX(-50%); }
+  #toast.bad { background: var(--danger); }
+  .note { padding: 12px 14px; border-radius: 8px; background: #f3f2ed; font-size: 13px; color: var(--ink-2); }
+
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    .steps { position: static; display: flex; overflow-x: auto; gap: 4px; padding: 6px; }
+    .steps .progress { display: none; }
+    .step { flex: none; }
+    .step small { display: none; }
+    .stats { grid-template-columns: 1fr 1fr 1fr; }
+    .hide-sm { display: none; }
+  }
+  @media (max-width: 600px) {
+    main { padding: 20px 16px 80px; }
+    .top-in { padding: 0 16px; }
+    .grid, .grid.three { grid-template-columns: 1fr; }
+    .span2 { grid-column: auto; }
+    .stats { gap: 8px; }
+    .stat { padding: 12px; }
+    .stat b { font-size: 20px; }
+    .top .who, .top .logo small { display: none; }
+    .top-in { gap: 8px; }
+    .panel-head, .section { padding-left: 16px; padding-right: 16px; }
+    .panel-foot { padding: 12px 16px; }
+    .logo-drop { flex-wrap: wrap; }
+  }
+</style>
+<script src="../config.js"></script>
+<script src="../shared/api.js"></script>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  const api = MealApi.createClient('superadmin');
+  const app = document.getElementById('app');
+  const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const STEPS = [
+    { key: 'business', title: 'Business', sub: 'Name, city, contact' },
+    { key: 'brand', title: 'Brand', sub: 'Logo and colours' },
+    { key: 'kitchen', title: 'Kitchen & delivery', sub: 'Location, fees, days off' },
+    { key: 'meals', title: 'Meals & slots', sub: 'Slots, meal types, holidays' },
+    { key: 'plans', title: 'Plans & add-ons', sub: 'What customers buy' },
+    { key: 'payments', title: 'Payments', sub: 'Razorpay keys' },
+    { key: 'team', title: 'Team', sub: 'Owner and staff logins' },
+    { key: 'launch', title: 'Launch', sub: 'Checklist and go live' },
+  ];
+  const LISTS_BY_STEP = { kitchen: ['zones'], meals: ['slots', 'variants', 'holidays'], plans: ['plans', 'addons'] };
+  const STATUS_LABEL = { trial: 'Setting up', active: 'Live', suspended: 'Suspended', closed: 'Closed' };
+  const ROLE_LABEL = { owner: 'Owner', manager: 'Manager', kitchen: 'Kitchen', accounts: 'Accounts', staff: 'Staff' };
+
+  const S = { tenants: null, tenant: null, platform: {}, edit: {}, dirty: false, busy: false, filter: '' };
+
+  // ---------- helpers ----------
+  const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const rupees = (paise) => (paise == null || paise === '' ? '' : (Number(paise) / 100).toString());
+  const toPaise = (r) => (r === '' || r == null ? null : Math.round(Number(r) * 100));
+  const fmtINR = (paise) => '₹' + (Number(paise || 0) / 100).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+  const fmtDate = (d) => (d ? new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '');
+  const initials = (n) => (n || '?').trim().split(/\s+/).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+  const clone = (o) => JSON.parse(JSON.stringify(o));
+
+  let toastTimer;
+  function toast(msg, bad) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.className = 'show' + (bad ? ' bad' : '');
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => (t.className = ''), bad ? 5000 : 2600);
+  }
+  async function run(fn, okMsg) {
+    if (S.busy) return;
+    S.busy = true; document.body.style.cursor = 'progress';
+    try { const r = await fn(); if (okMsg) toast(okMsg); return r; }
+    catch (e) {
+      if (e.status === 401 || /sign in again/i.test(e.message)) { await api.signOut(); route(); }
+      toast(e.message, true); throw e;
+    } finally { S.busy = false; document.body.style.cursor = ''; }
+  }
+  // On a shared demo address every kitchen is told apart by ?k=its-web-name.
+  function kitchenUrl(slug, host, page) {
+    if (MealApi.config.SHARED_HOST) return `${location.origin}${location.pathname.replace(/platform\/.*$/, '')}${page}/?k=${slug}`;
+    return appUrl(host, page === 'admin' ? '/admin/' : '/');
+  }
+  function appUrl(host, pathPart) {
+    const cfg = MealApi.config;
+    if (cfg.DEV) return `${location.protocol}//${host}${location.port ? ':' + location.port : ''}${pathPart}`;
+    return `https://${host}${pathPart}`;
+  }
+
+  // ---------- routing ----------
+  function parse() {
+    const parts = location.hash.replace(/^#\/?/, '').split('/');
+    if (parts[0] === 'k' && parts[1]) return { view: 'kitchen', id: parts[1], step: STEPS.some((s) => s.key === parts[2]) ? parts[2] : 'business' };
+    return { view: 'list' };
+  }
+  function go(hash) {
+    if (S.dirty && !confirm('You have unsaved changes on this step. Leave without saving?')) return false;
+    S.dirty = false;
+    if (location.hash === hash) route(); else location.hash = hash;
+    return true;
+  }
+  window.addEventListener('hashchange', () => route());
+  window.addEventListener('beforeunload', (e) => { if (S.dirty) { e.preventDefault(); e.returnValue = ''; } });
+
+  async function route() {
+    if (!api.signedIn()) return renderLogin();
+    const r = parse();
+    try {
+      if (r.view === 'kitchen') {
+        if (!S.tenant || S.tenant.tenant.id !== r.id) {
+          app.innerHTML = shell('<p class="muted">Loading…</p>');
+          S.tenant = await api.rpc('sa_get_tenant', { p_tenant: r.id });
+          if (!S.tenant) { toast('Kitchen not found', true); return go('#/'); }
+          S.edit = {};
+        }
+        const changedStep = S.step !== r.step;
+        S.step = r.step;
+        resetEdits();
+        renderKitchen();
+        if (changedStep) window.scrollTo(0, 0);
+      } else {
+        app.innerHTML = shell('<p class="muted">Loading…</p>');
+        [S.tenants, S.platform] = await Promise.all([api.rpc('sa_list_tenants'), api.rpc('sa_platform_settings')]);
+        S.tenant = null;
+        renderList();
+      }
+    } catch (e) {
+      if (e.status === 401 || e.status === 403) {
+        await api.signOut();
+        renderLogin(e.status === 403 ? 'This login is not a platform admin.' : 'Please sign in again.');
+      } else {
+        app.innerHTML = shell(`<div class="card card-pad"><h2>Could not load</h2><p class="muted">${esc(e.message)}</p><button class="btn" data-act="reload">Try again</button></div>`);
+      }
+    }
+  }
+
+  function resetEdits() {
+    const t = S.tenant;
+    S.edit = { zones: clone(t.zones), slots: clone(t.slots), variants: clone(t.variants),
+               holidays: clone(t.holidays).map((h) => ({ ...h, _saved: true })),
+               plans: clone(t.plans), addons: clone(t.addons) };
+    S.dirty = false;
+  }
+
+  // ---------- shell ----------
+  function shell(inner) {
+    const u = api.user();
+    return `<header class="top"><div class="top-in">
+        <a class="logo" href="#/"><span class="logo-mark">T</span>Tiffora <small>Super admin</small></a>
+        <span class="grow"></span>
+        <span class="who">${esc(u?.email || '')}</span>
+        <button class="btn sm ghost" data-act="platform-settings">Settings</button>
+        <button class="btn sm" data-act="signout">Sign out</button>
+      </div></header><main>${inner}</main>`;
+  }
+
+  // ---------- login ----------
+  function renderLogin(msg) {
+    app.innerHTML = `<div class="login"><div class="card"><form class="card-pad" id="login-form">
+        <div class="logo"><span class="logo-mark">T</span>Tiffora <small>Super admin</small></div>
+        <label class="f">Email<input type="email" name="email" autocomplete="username" required></label>
+        <label class="f">Password<input type="password" name="password" autocomplete="current-password" required></label>
+        <div class="err">${esc(msg || '')}</div>
+        <button class="btn primary" type="submit">Sign in</button>
+        ${MealApi.config.DEV ? '<p class="small muted" style="margin:0">Local dev login: admin@local.test / admin12345</p>' : ''}
+      </form></div></div>`;
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const f = new FormData(e.target);
+      const err = e.target.querySelector('.err');
+      err.textContent = '';
+      try {
+        await api.signIn(f.get('email'), f.get('password'));
+        if (!(await api.rpc('sa_is_admin'))) { await api.signOut(); err.textContent = 'This login is not a platform admin.'; return; }
+        route();
+      } catch (x) { err.textContent = x.message; }
+    });
+  }
+
+  // ---------- kitchens list ----------
+  function renderList() {
+    const list = S.tenants || [];
+    const q = S.filter.toLowerCase();
+    const shown = list.filter((t) => !q || [t.name, t.slug, t.city, t.contact_name].some((v) => (v || '').toLowerCase().includes(q)));
+    const live = list.filter((t) => t.status === 'active').length;
+    const setting = list.filter((t) => t.status === 'trial').length;
+    const rows = shown.map((t) => {
+      const r = t.readiness || { done: 0, total: 1 };
+      const pct = Math.round((r.done / r.total) * 100);
+      return `<tr class="click" data-open="${t.id}">
+        <td><div class="k-name"><div class="k-logo" style="background:${esc(t.color_primary || '#1f5f45')}">${t.logo_url ? `<img src="${esc(t.logo_url)}" alt="">` : esc(initials(t.name))}</div>
+          <div><b style="font-weight:500">${esc(t.name)}</b><div class="small muted mono">${esc(t.slug)}</div></div></div></td>
+        <td class="hide-sm">${esc(t.city || '')}</td>
+        <td><span class="pill ${t.status}">${STATUS_LABEL[t.status]}</span></td>
+        <td class="hide-sm">${t.status === 'trial' ? `<span class="bar"><i style="width:${pct}%"></i></span> <span class="small muted">${r.done} of ${r.total}</span>` : `<span class="small muted">Live since ${fmtDate(t.launched_at)}</span>`}</td>
+        <td class="hide-sm">${t.customers}</td>
+        <td class="hide-sm small muted">${esc(t.contact_name || '')}${t.contact_phone ? `<br>${esc(t.contact_phone)}` : ''}</td>
+      </tr>`;
+    }).join('');
+    app.innerHTML = shell(`
+      <div class="head-row"><h1>Kitchens</h1><span class="grow"></span>
+        <input type="text" placeholder="Search kitchens" value="${esc(S.filter)}" data-act="filter" style="max-width:240px">
+        <button class="btn primary" data-act="new-kitchen">New kitchen</button></div>
+      <div class="stats">
+        <div class="card stat"><b>${list.length}</b><span>Kitchens</span></div>
+        <div class="card stat"><b>${live}</b><span>Live</span></div>
+        <div class="card stat"><b>${setting}</b><span>Setting up</span></div>
+      </div>
+      <div class="card">${list.length ? `<div class="scroll-x"><table class="table">
+          <thead><tr><th>Kitchen</th><th class="hide-sm">City</th><th>Status</th><th class="hide-sm">Setup</th><th class="hide-sm">Customers</th><th class="hide-sm">Contact</th></tr></thead>
+          <tbody>${rows || '<tr><td colspan="6" class="empty">No kitchen matches that search.</td></tr>'}</tbody></table></div>`
+        : `<div class="empty"><h2 style="color:var(--ink)">No kitchens yet</h2><p>Create the first kitchen, fill in its details, then launch it.</p>
+           <button class="btn primary" data-act="new-kitchen">New kitchen</button></div>`}
+      </div>`);
+    const f = app.querySelector('[data-act=filter]');
+    if (f && S.filterFocus) { f.focus(); f.setSelectionRange(f.value.length, f.value.length); }
+  }
+
+  // ---------- kitchen detail ----------
+  function stepDone(key) {
+    const items = (S.tenant.readiness.items || []).filter((i) => i.step === key && i.required);
+    return items.length > 0 && items.every((i) => i.ok);
+  }
+
+  function renderKitchen() {
+    const t = S.tenant, k = t.tenant, r = t.readiness;
+    const pct = Math.round((r.done / r.total) * 100);
+    const steps = STEPS.map((s, i) => `<a class="step ${S.step === s.key ? 'on' : ''} ${stepDone(s.key) ? 'done' : ''}" href="#/k/${k.id}/${s.key}" data-step="${s.key}">
+        <span class="dot">${stepDone(s.key) ? '✓' : i + 1}</span><span><b>${s.title}</b><small>${s.sub}</small></span></a>`).join('');
+    const step = STEPS.find((s) => s.key === S.step);
+    app.innerHTML = shell(`
+      <div class="crumb"><a href="#/">Kitchens</a> / ${esc(k.name)}</div>
+      <div class="head-row">
+        <div class="k-logo" style="width:44px;height:44px;background:${esc(t.settings.color_primary)}">${t.settings.logo_url ? `<img src="${esc(t.settings.logo_url)}" alt="">` : esc(initials(t.settings.display_name))}</div>
+        <div><h1>${esc(t.settings.display_name)}</h1><div class="small muted mono">${esc(k.slug)}</div></div>
+        <span class="pill ${k.status}">${STATUS_LABEL[k.status]}</span><span class="grow"></span>
+      </div>
+      <div class="layout">
+        <nav class="card steps" aria-label="Setup steps">
+          <div class="progress"><div class="small"><b style="font-weight:600">${r.done} of ${r.total}</b> <span class="muted">launch items done</span></div><div class="bar"><i style="width:${pct}%"></i></div></div>
+          ${steps}
+        </nav>
+        <section class="card" id="panel">
+          <div class="panel-head"><div class="grow"><h2>${step.title}</h2><p class="muted small" style="margin:0">${stepIntro(step.key)}</p></div></div>
+          <div id="step-body">${renderStep(step.key)}</div>
+          ${['launch', 'payments', 'team'].includes(step.key) ? '' : `<div class="panel-foot"><span class="dirty ${S.dirty ? '' : 'hidden'}" id="dirty">Unsaved changes</span><span class="grow"></span>
+            <button class="btn" data-act="save" data-next="0">Save</button>
+            <button class="btn primary" data-act="save" data-next="1">Save and continue</button></div>`}
+        </section>
+      </div>`);
+  }
+
+  function stepIntro(key) {
+    return {
+      business: 'How the kitchen appears to its customers, and who you deal with.',
+      brand: 'Logo and colours used in the customer app and admin console.',
+      kitchen: 'Where food leaves from, delivery charges and the days the kitchen is closed.',
+      meals: 'Meal slots set the cut-off time: meals are charged once orders close.',
+      plans: 'Prices are in rupees. Add-ons are charged per delivery.',
+      payments: 'Customer payments go straight to the kitchen\'s own Razorpay account.',
+      team: 'People who sign in to this kitchen\'s admin console.',
+      launch: 'When every required item is done, launch to open ordering.',
+    }[key];
+  }
+
+  const field = (label, name, value, opts = {}) => `<label class="f ${opts.span ? 'span2' : ''}">
+      <span class="${opts.req ? 'req' : ''}">${label}</span>
+      ${opts.unit ? `<span class="with-unit"><span>${opts.unit}</span>` : ''}
+      <input type="${opts.type || 'text'}" data-f="${name}" ${opts.money ? 'data-money="1"' : ''} ${opts.num ? 'data-num="1"' : ''}
+        value="${esc(opts.money ? rupees(value) : value ?? '')}" ${opts.step ? `step="${opts.step}"` : ''} ${opts.min != null ? `min="${opts.min}"` : ''}
+        ${opts.placeholder ? `placeholder="${esc(opts.placeholder)}"` : ''} ${opts.list ? `list="${opts.list}"` : ''} ${opts.inputmode ? `inputmode="${opts.inputmode}"` : ''}>
+      ${opts.unit ? '</span>' : ''}
+      ${opts.hint ? `<span class="hint">${opts.hint}</span>` : ''}</label>`;
+
+  function renderStep(key) {
+    const t = S.tenant, s = t.settings, k = t.tenant;
+    if (key === 'business') return `<div class="section"><div class="grid">
+        ${field('Brand name (shown to customers)', 'display_name', s.display_name, { req: true })}
+        ${field('Registered or legal name', 'tenant_name', k.name, { hint: 'For your records and invoices' })}
+        ${field('City', 'city', s.city, { req: true })}
+        ${field('Time zone', 'timezone', s.timezone, { list: 'tz-list' })}
+        <datalist id="tz-list"><option value="Asia/Kolkata"><option value="Asia/Dubai"><option value="Asia/Singapore"><option value="Europe/London"></datalist>
+        ${field('Kitchen address', 'address', s.address, { span: true })}
+        ${field('Support phone (with country code)', 'support_phone', s.support_phone, { req: true, type: 'tel', placeholder: '919800000000' })}
+        ${field('WhatsApp number', 'whatsapp_phone', s.whatsapp_phone, { type: 'tel', placeholder: '919800000000' })}
+        ${field('Support email', 'support_email', s.support_email, { type: 'email' })}
+      </div></div>
+      <div class="section"><h3>Your contact at this kitchen</h3><div class="grid">
+        ${field('Contact person', 'contact_name', k.contact_name)}
+        ${field('Contact phone', 'contact_phone', k.contact_phone, { type: 'tel' })}
+        <label class="f span2">Internal notes <span class="hint">Only you see these</span><textarea data-f="notes" rows="3">${esc(k.notes || '')}</textarea></label>
+      </div></div>`;
+
+    if (key === 'brand') return `<div class="section"><div class="grid">
+        <div class="span2"><span class="small" style="font-weight:500">Logo <span style="color:var(--danger)">*</span></span>
+          <div class="logo-drop" style="margin-top:8px">
+            <div class="logo-box" id="logo-box">${s.logo_url ? `<img src="${esc(s.logo_url)}" alt="Logo">` : 'No logo'}</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <label class="btn sm" style="width:fit-content">Upload image<input type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" data-upload="logo_url" hidden></label>
+              <span class="small muted">Square PNG, JPG, WebP or SVG, up to 2 MB. Saved as soon as it uploads.</span>
+            </div></div></div>
+        <div class="span2"><span class="small" style="font-weight:500">App icon (optional)</span>
+          <div class="logo-drop" style="margin-top:8px">
+            <div class="logo-box" style="width:56px;height:56px;border-radius:12px">${s.icon_url ? `<img src="${esc(s.icon_url)}" alt="Icon">` : 'Icon'}</div>
+            <label class="btn sm" style="width:fit-content">Upload icon<input type="file" accept="image/png,image/webp" data-upload="icon_url" hidden></label>
+            <span class="small muted">512 x 512 PNG for the phone home screen. Falls back to the logo.</span>
+          </div></div>
+        <label class="f">Main colour<span class="color-in"><input type="color" data-color-for="color_primary" value="${esc(s.color_primary)}"><input type="text" data-f="color_primary" value="${esc(s.color_primary)}" maxlength="7"></span></label>
+        <label class="f">Accent colour <span class="hint">Optional, for highlights</span><span class="color-in"><input type="color" data-color-for="color_accent" value="${esc(s.color_accent || '#f2b705')}"><input type="text" data-f="color_accent" value="${esc(s.color_accent || '')}" maxlength="7" placeholder="#f2b705"></span></label>
+        ${field('Terms page link', 'terms_url', s.terms_url, { type: 'url', placeholder: 'https://' })}
+        ${field('Privacy policy link', 'privacy_url', s.privacy_url, { type: 'url', placeholder: 'https://' })}
+      </div></div>
+      <div class="section"><h3>Preview</h3>${brandPreview()}</div>`;
+
+    if (key === 'kitchen') return `<div class="section"><h3>Kitchen location</h3><div class="grid">
+        <label class="f span2">Paste a Google Maps link or "lat, lng" <span class="hint">Open the kitchen in Google Maps on a computer and copy the address bar. Short share links (maps.app.goo.gl) do not contain the location.</span>
+          <span class="inline"><input type="text" id="maps-paste" placeholder="https://www.google.com/maps/@23.0300,72.5100,17z"><button class="btn sm" data-act="parse-maps" type="button">Use</button></span></label>
+        ${field('Latitude', 'kitchen_lat', s.kitchen_lat, { type: 'number', num: true, step: 'any' })}
+        ${field('Longitude', 'kitchen_lng', s.kitchen_lng, { type: 'number', num: true, step: 'any' })}
+        <div class="span2 small">${s.kitchen_lat != null ? `<a href="https://www.google.com/maps?q=${s.kitchen_lat},${s.kitchen_lng}" target="_blank" rel="noopener">Check on Google Maps</a>` : '<span class="muted">Not set yet</span>'}</div>
+        <label class="switch span2"><input type="checkbox" data-f="pickup_enabled" ${s.pickup_enabled ? 'checked' : ''}> Customers can pick up from the kitchen</label>
+      </div></div>
+      <div class="section"><h3>Delivery charges</h3><div class="grid three">
+        ${field('Free up to', 'delivery_free_km', s.delivery_free_km, { type: 'number', num: true, step: '0.1', min: 0, hint: 'km from the kitchen' })}
+        ${field('Then per km', 'delivery_per_km_paise', s.delivery_per_km_paise, { type: 'number', money: true, step: '1', min: 0, unit: '₹', hint: 'per delivery' })}
+        ${field('Furthest delivery', 'delivery_max_km', s.delivery_max_km, { type: 'number', num: true, step: '0.1', min: 0, hint: 'km, empty = no limit' })}
+        ${field('Road factor', 'delivery_road_factor', s.delivery_road_factor, { type: 'number', num: true, step: '0.05', min: 1, hint: 'Straight-line km x this = road km' })}
+        ${field('Grace', 'delivery_leeway_km', s.delivery_leeway_km, { type: 'number', num: true, step: '0.05', min: 0, hint: 'km before a started km is charged' })}
+      </div></div>
+      <div class="section"><h3>Days the kitchen is closed every week</h3><div class="chips">
+        ${DAYS.map((d, i) => `<label class="chip-toggle"><input type="checkbox" data-weekly-off="${i + 1}" ${(s.weekly_off || []).includes(i + 1) ? 'checked' : ''}><span>${d}</span></label>`).join('')}
+        </div>
+        <label class="switch" style="margin-top:16px"><input type="checkbox" data-f="same_day_start" ${s.same_day_start ? 'checked' : ''}> A new plan can start today if ordered before the cut-off</label>
+      </div>
+      <div class="section"><h3>Delivery zones <span class="muted small" style="font-weight:400">optional, groups deliveries on the report</span></h3>${rowsEditor('zones')}</div>`;
+
+    if (key === 'meals') return `<div class="section"><h3>Meal slots</h3>${rowsEditor('slots')}</div>
+      <div class="section"><h3>Meal types</h3><p class="small muted" style="margin:-4px 0 10px">Each customer picks one, and the kitchen sheet counts by type. Examples: Regular, Jain, Vegan, Keto.</p>${rowsEditor('variants')}</div>
+      <div class="section"><h3>Holidays <span class="muted small" style="font-weight:400">no deliveries; meals move to the next working day</span></h3>${rowsEditor('holidays')}</div>`;
+
+    if (key === 'plans') return `<div class="section"><h3>Plans</h3>${rowsEditor('plans')}</div>
+      <div class="section"><h3>Add-ons</h3>${rowsEditor('addons')}</div>`;
+
+    if (key === 'payments') {
+      const p = t.payments;
+      return `<div class="section"><div class="grid">
+        <div class="span2 inline">${p.razorpay_key_id ? `<span class="pill ${p.mode === 'live' ? 'active' : 'trial'}">${p.mode === 'live' ? 'Live keys' : 'Test keys'}</span>` : '<span class="pill plain">Not set</span>'}
+          ${p.has_secret ? '<span class="small muted">Secret saved</span>' : ''}</div>
+        <label class="f span2">Key id<input type="text" id="rzp-key" value="${esc(p.razorpay_key_id || '')}" placeholder="rzp_live_xxxxxxxxxxxx" autocomplete="off"></label>
+        <label class="f">Key secret<input type="password" id="rzp-secret" placeholder="${p.has_secret ? 'Saved. Leave empty to keep it' : 'Paste the key secret'}" autocomplete="new-password"></label>
+        <label class="f">Webhook secret <span class="hint">Optional for now</span><input type="password" id="rzp-hook" placeholder="${p.has_webhook_secret ? 'Saved. Leave empty to keep it' : ''}" autocomplete="new-password"></label>
+        <div class="span2 note">Razorpay Dashboard &gt; Account &amp; Settings &gt; API Keys. Secrets are stored encrypted and can never be read back here, only replaced.</div>
+        <div class="span2 small"><span style="font-weight:500">Webhook address</span> <span class="muted">(Razorpay Dashboard &gt; Webhooks, events payment.captured and order.paid, using the webhook secret above). It finishes a purchase if the customer's browser closes right after paying.</span>
+          <div class="mono" style="margin-top:4px;word-break:break-all">${esc(MealApi.config.API_URL)}/functions/v1/msaas-pay/webhook/${k.id}</div></div>
+        <div class="span2"><button class="btn primary" data-act="save-keys">Save keys</button></div>
+      </div></div>`;
+    }
+
+    if (key === 'team') {
+      const people = t.staff.map((p) => `<tr><td><b style="font-weight:500">${esc(p.name)}</b><div class="small muted">${esc(p.email || '')}</div></td>
+          <td><span class="pill plain">${ROLE_LABEL[p.role]}</span></td><td>${p.active ? '<span class="pill active">Can sign in</span>' : '<span class="pill suspended">Removed</span>'}</td>
+          <td class="c">${p.active ? `<button class="icon-btn" title="Remove" aria-label="Remove ${esc(p.name)}" data-act="remove-staff" data-id="${p.id}">✕</button>` : ''}</td></tr>`).join('');
+      const invites = t.invites.map((p) => `<tr><td><b style="font-weight:500">${esc(p.name)}</b><div class="small muted">${esc(p.email)}</div></td>
+          <td><span class="pill plain">${ROLE_LABEL[p.role]}</span></td><td><span class="pill trial">Waiting for sign-in</span></td>
+          <td class="c"><button class="icon-btn" title="Cancel invite" aria-label="Cancel invite" data-act="remove-staff" data-id="${p.id}">✕</button></td></tr>`).join('');
+      return `<div class="section">${people || invites ? `<div class="scroll-x"><table class="table"><thead><tr><th>Person</th><th>Role</th><th>Access</th><th></th></tr></thead><tbody>${people}${invites}</tbody></table></div>`
+          : '<p class="muted">Nobody added yet. Add the owner first.</p>'}</div>
+        <div class="section"><h3>Add a person</h3><form class="grid" id="invite-form">
+          <label class="f">Name<input type="text" name="name" required></label>
+          <label class="f">Email<input type="email" name="email" required></label>
+          <label class="f">Role<select name="role">${Object.entries(ROLE_LABEL).map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select></label>
+          <div style="display:flex;align-items:flex-end"><button class="btn primary" type="submit">Add person</button></div>
+          <p class="span2 small muted" style="margin:0">They create a login with this email on the admin console. Access is linked once their email is confirmed. Owners and managers see every page; other roles get pages chosen by the owner.</p>
+        </form></div>`;
+    }
+
+    if (key === 'launch') {
+      const items = r_items().map((i) => `<div class="check"><span class="ic ${i.ok ? 'ok' : i.required ? 'no' : 'opt'}">${i.ok ? '✓' : i.required ? '!' : ''}</span>
+          <span class="grow">${esc(i.label)}</span>${i.ok ? '' : `<a href="#/k/${k.id}/${i.step}" class="small">${i.required ? 'Fix' : 'Add'}</a>`}</div>`).join('');
+      const domains = t.domains.map((d) => `<div class="link-row"><span class="mono">${esc(d)}</span><span class="grow"></span>
+          <button class="icon-btn" title="Remove" aria-label="Remove ${esc(d)}" data-act="remove-domain" data-host="${esc(d)}">✕</button></div>`).join('');
+      const main = t.domains[0];
+      const linkRow = (label, page) => { const u = kitchenUrl(k.slug, main, page); return `<div class="link-row"><span class="small" style="width:120px">${label}</span><a class="mono" href="${esc(u)}" target="_blank" rel="noopener">${esc(u)}</a></div>`; };
+      const links = (main || MealApi.config.SHARED_HOST) ? linkRow('Customer page', 'customer') + linkRow('Kitchen admin', 'admin') : '';
+      const liveBlock = k.status === 'active' ? `<div class="live-box"><h3 style="margin-bottom:6px">Live since ${fmtDate(k.launched_at)}</h3>${links}</div>`
+        : k.status === 'trial' && MealApi.config.SHARED_HOST ? `<div class="note"><b>Links for this kitchen.</b> Customers can buy only after launch; the owner can set up now.${links}</div>`
+        : k.status === 'suspended' ? `<div class="note"><b>Suspended.</b> Staff and customers cannot sign in. Reactivate to open it again.</div>` : '';
+      return `<div class="section">${liveBlock}
+          <h3 style="margin-top:${liveBlock ? '20px' : '0'}">Launch checklist</h3>${items}
+          ${k.status === 'trial' ? `<div style="margin-top:18px" class="inline"><button class="btn primary" data-act="launch" ${t.readiness.ready ? '' : 'disabled'}>Launch kitchen</button>
+            <span class="small muted">${t.readiness.ready ? 'Everything required is done.' : `${t.readiness.total - t.readiness.done} required item(s) left.`}</span></div>` : ''}
+        </div>
+        <div class="section"><h3>Web addresses</h3>${domains || '<p class="muted small">None yet.</p>'}
+          <form class="inline" id="domain-form" style="margin-top:10px"><input type="text" name="host" placeholder="order.theirbrand.com"><button class="btn sm" type="submit">Add</button></form>
+          <p class="small muted" style="margin:8px 0 0">A custom address also needs a DNS record at their domain provider pointing to the platform.${S.platform.root_domain ? ` Every kitchen also gets <span class="mono">${esc(k.slug)}.${esc(S.platform.root_domain)}</span>.` : ''}</p></div>
+        ${k.status !== 'trial' ? `<div class="section"><h3>Account</h3>${k.status === 'active'
+            ? '<button class="btn danger" data-act="status" data-status="suspended">Suspend kitchen</button> <span class="small muted">Use for unpaid rent. Nothing is deleted.</span>'
+            : '<button class="btn" data-act="status" data-status="active">Reactivate kitchen</button>'}</div>` : ''}`;
+    }
+    return '';
+  }
+  const r_items = () => S.tenant.readiness.items || [];
+
+  function brandPreview() {
+    const s = S.tenant.settings, c = s.color_primary || '#1f5f45';
+    return `<div class="preview" id="preview"><div class="ph" style="background:${esc(c)}">${s.logo_url ? `<img src="${esc(s.logo_url)}" alt="">` : ''}<b>${esc(s.display_name)}</b></div>
+      <div class="pb"><div class="pcard"><div class="small muted">Today's lunch</div><b>Paneer tikka bowl</b></div>
+      <div class="pcard"><div class="small muted">Meals left</div><b>18 of 24</b></div>
+      <span class="pbtn" style="background:${esc(s.color_accent || c)}">Renew plan</span></div></div>`;
+  }
+
+  // ---------- list row editors ----------
+  const COLS = {
+    zones: [{ c: 'name', h: 'Zone name', w: '100%' }, { c: 'active', h: 'On', t: 'bool' }],
+    variants: [{ c: 'name', h: 'Name', w: '100%' }, { c: 'active', h: 'On', t: 'bool' }],
+    slots: [{ c: 'name', h: 'Slot', w: '30%' }, { c: 'start_time', h: 'Delivery starts', t: 'time' }, { c: 'end_time', h: 'Ends', t: 'time' },
+            { c: 'cutoff_minutes', h: 'Orders close (min before)', t: 'int', w: '110px' }, { c: '_close', h: '', t: 'calc' }, { c: 'active', h: 'On', t: 'bool' }],
+    holidays: [{ c: 'day', h: 'Date', t: 'date', w: '170px' }, { c: 'note', h: 'Note', w: '100%' }],
+    plans: [{ c: 'name', h: 'Plan name', w: '34%' }, { c: 'meals_total', h: 'Meals', t: 'int', w: '80px' }, { c: 'meals_per_day_default', h: 'Per day', t: 'int', w: '74px' },
+            { c: 'price_paise', h: 'Price', t: 'money', w: '110px' }, { c: '_per', h: 'Per meal', t: 'calc' }, { c: 'is_trial', h: 'Trial', t: 'bool' }, { c: 'active', h: 'On', t: 'bool' }],
+    addons: [{ c: 'name', h: 'Add-on', w: '60%' }, { c: 'price_paise', h: 'Price per delivery', t: 'money', w: '130px' }, { c: 'active', h: 'On', t: 'bool' }],
+  };
+  const NEW_ROW = {
+    zones: () => ({ name: '', active: true }), variants: () => ({ name: '', active: true }),
+    slots: () => ({ name: '', start_time: '19:30', end_time: '21:00', cutoff_minutes: 120, active: true }),
+    holidays: () => ({ day: '', note: '' }),
+    plans: () => ({ name: '', meals_total: 24, meals_per_day_default: 1, price_paise: null, is_trial: false, active: true, description: '' }),
+    addons: () => ({ name: '', price_paise: null, active: true }),
+  };
+  function calc(kind, row, col) {
+    if (col === '_per') return row.price_paise && row.meals_total ? fmtINR(row.price_paise / row.meals_total) : '';
+    if (col === '_close' && row.start_time) {
+      const [h, m] = row.start_time.split(':').map(Number);
+      let mins = h * 60 + m - Number(row.cutoff_minutes || 0);
+      const dayBefore = mins < 0;
+      mins = ((mins % 1440) + 1440) % 1440;
+      return `closes ${String(Math.floor(mins / 60)).padStart(2, '0')}:${String(mins % 60).padStart(2, '0')}${dayBefore ? ' day before' : ''}`;
+    }
+    return '';
+  }
+  function rowsEditor(kind) {
+    const rows = S.edit[kind] || [];
+    const cols = COLS[kind];
+    const body = rows.map((row, i) => {
+      if (row._delete) return '';
+      const cells = cols.map((col) => {
+        const v = row[col.c];
+        if (col.t === 'bool') return `<td class="c"><input type="checkbox" data-kind="${kind}" data-i="${i}" data-col="${col.c}" ${v ? 'checked' : ''} aria-label="${col.h}"></td>`;
+        if (col.t === 'calc') return `<td class="calc" data-calc="${kind}-${i}-${col.c}">${calc(kind, row, col.c)}</td>`;
+        const type = col.t === 'time' ? 'time' : col.t === 'date' ? 'date' : col.t === 'int' || col.t === 'money' ? 'number' : 'text';
+        const val = col.t === 'money' ? rupees(v) : col.t === 'time' && v ? String(v).slice(0, 5) : v ?? '';
+        const input = `<input type="${type}" data-kind="${kind}" data-i="${i}" data-col="${col.c}" ${col.t === 'money' ? 'data-money="1" step="1" min="0"' : ''}
+            ${col.t === 'int' ? 'step="1" min="0" inputmode="numeric"' : ''} value="${esc(val)}" aria-label="${col.h}" ${kind === 'holidays' && col.c === 'day' && row._saved ? 'readonly' : ''}>`;
+        return `<td style="${col.w ? `width:${col.w}` : ''}">${col.t === 'money' ? `<span class="with-unit"><span>₹</span>${input}</span>` : input}
+          ${kind === 'plans' && col.c === 'name' ? `<input type="text" data-kind="plans" data-i="${i}" data-col="description" value="${esc(row.description || '')}" placeholder="Short description (optional)" style="margin-top:6px;height:34px;font-size:13px">` : ''}</td>`;
+      }).join('');
+      return `<tr class="${row.active === false ? 'off' : ''}">${cells}<td class="c"><button class="icon-btn" type="button" title="Remove" aria-label="Remove row" data-act="del-row" data-kind="${kind}" data-i="${i}">✕</button></td></tr>`;
+    }).join('');
+    const visible = rows.filter((r) => !r._delete).length;
+    return `<div class="scroll-x"><table class="rows"><thead><tr>${cols.map((c) => `<th>${c.h}</th>`).join('')}<th></th></tr></thead>
+        <tbody>${body || `<tr><td colspan="${cols.length + 1}" class="small muted" style="padding:6px">None yet.</td></tr>`}</tbody></table></div>
+      <button class="btn sm add-row" type="button" data-act="add-row" data-kind="${kind}">+ Add ${{ zones: 'zone', variants: 'meal type', slots: 'slot', holidays: 'holiday', plans: 'plan', addons: 'add-on' }[kind]}</button>
+      ${visible === 0 && ['slots', 'variants', 'plans'].includes(kind) ? '<span class="small" style="color:var(--danger);margin-left:8px">At least one is needed to launch</span>' : ''}`;
+  }
+  function refreshEditor(kind) {
+    const host = app.querySelector(`[data-act=add-row][data-kind=${kind}]`)?.closest('.section');
+    if (!host) return;
+    const h3 = host.querySelector('h3')?.outerHTML || '';
+    const p = host.querySelector(':scope > p')?.outerHTML || '';
+    host.innerHTML = h3 + p + rowsEditor(kind);
+  }
+
+  // ---------- collect and save ----------
+  function collectSettings() {
+    const data = {};
+    app.querySelectorAll('#step-body [data-f]').forEach((el) => {
+      const k = el.dataset.f;
+      if (el.type === 'checkbox') data[k] = el.checked;
+      else if (el.dataset.money) data[k] = el.value === '' ? null : toPaise(el.value);
+      else if (el.dataset.num) data[k] = el.value === '' ? null : Number(el.value);
+      else data[k] = el.value.trim();
+    });
+    const offs = app.querySelectorAll('#step-body [data-weekly-off]');
+    if (offs.length) data.weekly_off = [...offs].filter((x) => x.checked).map((x) => Number(x.dataset.weeklyOff));
+    if ('color_accent' in data && data.color_accent === '') data.color_accent = '';
+    return data;
+  }
+  function cleanRows(kind) {
+    return (S.edit[kind] || []).filter((r) => r._delete ? r.id || kind === 'holidays' && r._saved : true).map((r) => {
+      if (kind === 'holidays') return r._delete ? { day: r.day, _delete: true } : { day: r.day, note: r.note };
+      if (r._delete) return { id: r.id, _delete: true };
+      const o = { ...r };
+      delete o.created_at; delete o.updated_at;
+      return o;
+    });
+  }
+  function validateRows(kind) {
+    const rows = (S.edit[kind] || []).filter((r) => !r._delete);
+    for (const r of rows) {
+      if (kind === 'holidays') { if (!r.day) return 'Pick a date for every holiday.'; continue; }
+      if (!String(r.name || '').trim()) return `Every ${kind === 'variants' ? 'meal type' : kind.replace(/s$/, '')} needs a name.`;
+      if (kind === 'slots' && !r.start_time) return 'Every slot needs a start time.';
+      if (kind === 'plans' && (!(r.meals_total > 0) || r.price_paise == null)) return `Plan "${r.name}" needs meals and a price.`;
+      if (kind === 'addons' && r.price_paise == null) return `Add-on "${r.name}" needs a price.`;
+    }
+    return null;
+  }
+
+  async function saveStep(next) {
+    const key = S.step, id = S.tenant.tenant.id;
+    const lists = LISTS_BY_STEP[key] || [];
+    for (const kind of lists) { const err = validateRows(kind); if (err) return toast(err, true); }
+    await run(async () => {
+      if (['business', 'brand', 'kitchen'].includes(key)) await api.rpc('sa_save_settings', { p_tenant: id, p_data: collectSettings() });
+      for (const kind of lists) await api.rpc('sa_save_rows', { p_tenant: id, p_kind: kind, p_rows: cleanRows(kind) });
+      S.tenant = await api.rpc('sa_get_tenant', { p_tenant: id });
+    }, 'Saved');
+    S.dirty = false;
+    if (next) {
+      const i = STEPS.findIndex((s) => s.key === key);
+      go(`#/k/${id}/${STEPS[Math.min(i + 1, STEPS.length - 1)].key}`);
+    } else { resetEdits(); renderKitchen(); }
+  }
+
+  async function reloadTenant() {
+    S.tenant = await api.rpc('sa_get_tenant', { p_tenant: S.tenant.tenant.id });
+    resetEdits(); renderKitchen();
+  }
+
+  // ---------- modals ----------
+  function modal(html, onSubmit) {
+    const back = document.createElement('div');
+    back.className = 'modal-back';
+    back.innerHTML = `<div class="modal card" role="dialog" aria-modal="true"><form class="card-pad">${html}<div class="err"></div>
+      <div class="acts"><button class="btn" type="button" data-close>Cancel</button><button class="btn primary" type="submit">${back.dataset.ok || 'Save'}</button></div></form></div>`;
+    document.body.appendChild(back);
+    const close = () => back.remove();
+    back.addEventListener('click', (e) => { if (e.target === back || e.target.hasAttribute('data-close')) close(); });
+    document.addEventListener('keydown', function esc(e) { if (e.key === 'Escape') { close(); document.removeEventListener('keydown', esc); } });
+    const form = back.querySelector('form');
+    form.querySelector('input')?.focus();
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try { await onSubmit(new FormData(form), form); close(); }
+      catch (x) { form.querySelector('.err').textContent = x.message; }
+    });
+    return back;
+  }
+  function newKitchenModal() {
+    const m = modal(`<h2>New kitchen</h2>
+      <label class="f">Kitchen or brand name<input type="text" name="name" required></label>
+      <label class="f">Web name <span class="hint" id="slug-hint">Used in its web address</span><input type="text" name="slug" class="mono" placeholder="made from the name"></label>
+      <div class="grid"><label class="f">Contact person<input type="text" name="contact_name"></label><label class="f">Contact phone<input type="tel" name="contact_phone"></label></div>`,
+      async (f) => {
+        const r = await api.rpc('sa_create_tenant', { p_name: f.get('name'), p_slug: f.get('slug') || null,
+                                                     p_contact_name: f.get('contact_name') || null, p_contact_phone: f.get('contact_phone') || null });
+        toast('Kitchen created');
+        location.hash = `#/k/${r.tenant_id}/business`;
+      });
+    m.querySelector('button[type=submit]').textContent = 'Create kitchen';
+    const name = m.querySelector('[name=name]'), slug = m.querySelector('[name=slug]'), hint = m.querySelector('#slug-hint');
+    const slugify = (v) => v.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 30);
+    const upd = () => { const s = slug.value || slugify(name.value); hint.textContent = s ? `${s}.${S.platform.root_domain || 'your-domain'}` : 'Used in its web address'; };
+    name.addEventListener('input', upd); slug.addEventListener('input', upd);
+  }
+  function platformModal() {
+    const m = modal(`<h2>Platform settings</h2>
+      <label class="f">Root domain <span class="hint">Every kitchen gets &lt;web-name&gt;.this-domain. Changing it only affects kitchens created afterwards.</span>
+        <input type="text" name="root_domain" class="mono" value="${esc(S.platform.root_domain || '')}" placeholder="mealapp.in"></label>`,
+      async (f) => {
+        await api.rpc('sa_set_platform_setting', { p_key: 'root_domain', p_value: f.get('root_domain') });
+        S.platform = await api.rpc('sa_platform_settings');
+        toast('Saved');
+      });
+  }
+
+  // ---------- events ----------
+  app.addEventListener('click', async (e) => {
+    const el = e.target.closest('[data-act], [data-open], .step');
+    if (!el) return;
+    if (el.classList.contains('step') && el.dataset.step) { e.preventDefault(); return go(el.getAttribute('href')); }
+    if (el.dataset.open) return go(`#/k/${el.dataset.open}/business`);
+    const act = el.dataset.act;
+    if (act === 'signout') { if (S.dirty && !confirm('Discard unsaved changes?')) return; S.dirty = false; await api.signOut(); return renderLogin(); }
+    if (act === 'reload') return route();
+    if (act === 'new-kitchen') return newKitchenModal();
+    if (act === 'platform-settings') return platformModal();
+    if (act === 'save') return saveStep(el.dataset.next === '1');
+    if (act === 'add-row') {
+      S.edit[el.dataset.kind].push(NEW_ROW[el.dataset.kind]());
+      S.dirty = true; refreshEditor(el.dataset.kind); markDirty();
+      const rows = app.querySelectorAll(`[data-kind=${el.dataset.kind}][data-col]`);
+      rows[rows.length - 1]?.closest('tr')?.querySelector('input')?.focus();
+      return;
+    }
+    if (act === 'del-row') {
+      const list = S.edit[el.dataset.kind], i = Number(el.dataset.i);
+      if (list[i].id || list[i]._saved) list[i]._delete = true; else list.splice(i, 1);
+      S.dirty = true; refreshEditor(el.dataset.kind); markDirty();
+      return;
+    }
+    if (act === 'parse-maps') {
+      const v = document.getElementById('maps-paste').value;
+      const m = v.match(/@(-?\d+\.\d+),\s*(-?\d+\.\d+)/) || v.match(/[?&](?:q|query|ll|destination)=(-?\d+\.\d+),\s*(-?\d+\.\d+)/) ||
+                v.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/) || v.match(/^\s*(-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)\s*$/);
+      if (!m) return toast('No location found in that text. Use the full Google Maps link or "lat, lng".', true);
+      app.querySelector('[data-f=kitchen_lat]').value = m[1];
+      app.querySelector('[data-f=kitchen_lng]').value = m[2];
+      S.dirty = true; markDirty();
+      return toast('Location filled in. Save to keep it.');
+    }
+    if (act === 'save-keys') {
+      await run(() => api.rpc('sa_set_payment_keys', { p_tenant: S.tenant.tenant.id, p_key_id: document.getElementById('rzp-key').value.trim(),
+        p_secret: document.getElementById('rzp-secret').value, p_webhook_secret: document.getElementById('rzp-hook').value }), 'Keys saved');
+      return reloadTenant();
+    }
+    if (act === 'remove-staff') {
+      if (!confirm('Remove this person from the kitchen? They will no longer be able to sign in to it.')) return;
+      await run(() => api.rpc('sa_remove_staff', { p_tenant: S.tenant.tenant.id, p_id: el.dataset.id }), 'Removed');
+      return reloadTenant();
+    }
+    if (act === 'remove-domain') {
+      if (!confirm(`Remove ${el.dataset.host}? The kitchen will stop opening at that address.`)) return;
+      await run(() => api.rpc('sa_set_domain', { p_tenant: S.tenant.tenant.id, p_host: el.dataset.host, p_remove: true }), 'Removed');
+      return reloadTenant();
+    }
+    if (act === 'launch') {
+      if (!confirm(`Launch ${S.tenant.settings.display_name}? Customers can then buy plans and staff can sign in.`)) return;
+      await run(() => api.rpc('sa_launch_tenant', { p_tenant: S.tenant.tenant.id }), 'Kitchen is live');
+      return reloadTenant();
+    }
+    if (act === 'status') {
+      const s = el.dataset.status;
+      if (!confirm(s === 'suspended' ? 'Suspend this kitchen? Its staff and customers will be signed out of the apps until you reactivate it.' : 'Reactivate this kitchen?')) return;
+      await run(() => api.rpc('sa_set_tenant_status', { p_tenant: S.tenant.tenant.id, p_status: s }), s === 'suspended' ? 'Suspended' : 'Reactivated');
+      return reloadTenant();
+    }
+  });
+
+  function markDirty() { const d = document.getElementById('dirty'); if (d) d.classList.toggle('hidden', !S.dirty); }
+
+  app.addEventListener('input', (e) => {
+    const el = e.target;
+    if (el.dataset.act === 'filter') { S.filter = el.value; S.filterFocus = true; renderList(); S.filterFocus = false; return; }
+    if (el.dataset.kind) {
+      const row = S.edit[el.dataset.kind][Number(el.dataset.i)];
+      const c = el.dataset.col;
+      row[c] = el.type === 'checkbox' ? el.checked : el.dataset.money ? toPaise(el.value) : el.type === 'number' ? (el.value === '' ? null : Number(el.value)) : el.value;
+      const calcs = app.querySelectorAll(`[data-calc^="${el.dataset.kind}-${el.dataset.i}-"]`);
+      calcs.forEach((td) => (td.textContent = calc(el.dataset.kind, row, td.dataset.calc.split('-').pop())));
+      if (c === 'active') el.closest('tr').classList.toggle('off', !el.checked);
+    }
+    if (el.dataset.colorFor) {
+      const t = app.querySelector(`[data-f=${el.dataset.colorFor}]`); t.value = el.value;
+    }
+    if (el.dataset.f === 'color_primary' || el.dataset.f === 'color_accent' || el.dataset.colorFor) {
+      const p = collectSettings();
+      const prev = document.getElementById('preview');
+      if (prev) {
+        if (/^#[0-9a-f]{6}$/i.test(p.color_primary)) prev.querySelector('.ph').style.background = p.color_primary;
+        prev.querySelector('.pbtn').style.background = /^#[0-9a-f]{6}$/i.test(p.color_accent) ? p.color_accent : p.color_primary;
+      }
+      if (el.dataset.f && /^#[0-9a-f]{6}$/i.test(el.value)) { const c = app.querySelector(`[data-color-for=${el.dataset.f}]`); if (c) c.value = el.value; }
+    }
+    if (el.closest('#step-body') && !el.matches('#maps-paste, #rzp-key, #rzp-secret, #rzp-hook, #invite-form *, #domain-form *')) { S.dirty = true; markDirty(); }
+  });
+  app.addEventListener('change', async (e) => {
+    const el = e.target;
+    if (el.dataset.upload && el.files?.[0]) {
+      const file = el.files[0];
+      if (file.size > 2 * 1024 * 1024) return toast('That image is bigger than 2 MB.', true);
+      const ext = (file.name.split('.').pop() || 'png').toLowerCase().replace(/[^a-z0-9]/g, '');
+      const id = S.tenant.tenant.id;
+      await run(async () => {
+        const url = await api.upload('msaas-brand', `${id}/${el.dataset.upload.replace('_url', '')}-${Date.now()}.${ext}`, file);
+        await api.rpc('sa_save_settings', { p_tenant: id, p_data: { [el.dataset.upload]: url } });
+      }, 'Image saved');
+      const keepDirty = S.dirty;
+      const pending = keepDirty ? collectSettings() : null;
+      await reloadTenant();
+      if (pending) { // put back unsaved edits made before the upload
+        Object.entries(pending).forEach(([k, v]) => { const f = app.querySelector(`[data-f=${k}]`); if (f && f.type !== 'checkbox' && v != null) f.value = v; });
+        S.dirty = true; markDirty();
+      }
+    }
+  });
+  app.addEventListener('submit', async (e) => {
+    if (e.target.id === 'invite-form') {
+      e.preventDefault();
+      const f = new FormData(e.target);
+      const r = await run(() => api.rpc('sa_invite_staff', { p_tenant: S.tenant.tenant.id, p_email: f.get('email'), p_name: f.get('name'), p_role: f.get('role') }));
+      toast(r.linked ? 'Added. They already had a login, so access is ready.' : 'Added. Access is linked when they sign in with that email.');
+      return reloadTenant();
+    }
+    if (e.target.id === 'domain-form') {
+      e.preventDefault();
+      const host = new FormData(e.target).get('host');
+      if (!host) return;
+      await run(() => api.rpc('sa_set_domain', { p_tenant: S.tenant.tenant.id, p_host: host }), 'Address added');
+      return reloadTenant();
+    }
+  });
+
+  route();
+})();
+</script>
+</body>
+</html>

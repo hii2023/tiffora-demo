@@ -1,0 +1,1207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kitchen Admin</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f6f3; --surface: #ffffff; --ink: #1b1b19; --ink-2: #3d3d39; --muted: #6d6d67; --line: #e5e4de; --line-2: #d4d3cc;
+    --brand: #1f5f45; --brand-ink: #ffffff; --brand-soft: #e7f0eb;
+    --ok: #13734b; --ok-soft: #e6f3ec; --warn: #9a5b00; --warn-soft: #fcf1df; --danger: #b42318; --danger-soft: #fdecea;
+    --radius: 10px; --shadow: 0 1px 2px rgba(20,20,15,.05), 0 2px 8px rgba(20,20,15,.04);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 'IBM Plex Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: var(--brand); }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  .mono { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; }
+  .hidden { display: none !important; }
+  .grow { flex: 1; }
+  .right { text-align: right; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* frame */
+  .frame { display: grid; grid-template-columns: 224px minmax(0, 1fr); min-height: 100vh; }
+  .side { background: var(--surface); border-right: 1px solid var(--line); padding: 16px 12px; position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; overflow-y: auto; }
+  .brand { display: flex; align-items: center; gap: 10px; padding: 4px 8px 16px; min-width: 0; }
+  .brand-mark { width: 32px; height: 32px; border-radius: 8px; background: var(--brand); color: var(--brand-ink); display: grid; place-items: center; font-weight: 600; overflow: hidden; flex: none; }
+  .brand-mark img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
+  .brand b { font-weight: 600; letter-spacing: -.01em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .nav { display: flex; flex-direction: column; gap: 2px; }
+  .nav a { display: block; padding: 8px 10px; border-radius: 7px; color: var(--ink-2); text-decoration: none; font-weight: 500; font-size: 14px; white-space: nowrap; }
+  .nav a:hover { background: #f4f4f0; }
+  .nav a.on { background: var(--brand-soft); color: var(--brand); }
+  .side-foot { margin-top: auto; padding: 12px 8px 0; font-size: 13px; color: var(--muted); }
+  .side-foot div { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  main { padding: 28px 28px 80px; max-width: 1080px; width: 100%; }
+  h1 { font-size: 24px; font-weight: 600; letter-spacing: -.015em; margin: 0; }
+  h2 { font-size: 16px; font-weight: 600; margin: 0; }
+  h3 { font-size: 14px; font-weight: 600; margin: 0 0 8px; }
+  .head-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+  .crumb { font-size: 13px; margin-bottom: 8px; }
+  .crumb a { color: var(--muted); text-decoration: none; }
+
+  /* buttons and fields */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 38px; padding: 0 16px; border-radius: 8px; border: 1px solid var(--line-2); background: var(--surface); cursor: pointer; font-weight: 500; white-space: nowrap; text-decoration: none; color: var(--ink); }
+  .btn:hover { background: #fafaf8; }
+  .btn.primary { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
+  .btn.primary:hover { filter: brightness(1.07); background: var(--brand); }
+  .btn.danger { color: var(--danger); border-color: #f0c9c5; }
+  .btn.ghost { border-color: transparent; background: transparent; }
+  .btn.sm { height: 30px; padding: 0 10px; font-size: 13px; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  label.f { display: flex; flex-direction: column; gap: 5px; font-size: 13px; font-weight: 500; color: var(--ink-2); min-width: 0; }
+  label.f .hint { font-weight: 400; color: var(--muted); font-size: 12px; }
+  input[type=text], input[type=email], input[type=tel], input[type=number], input[type=password], input[type=time], input[type=date], select, textarea { height: 40px; padding: 0 11px; border: 1px solid var(--line-2); border-radius: 8px; background: #fff; width: 100%; min-width: 0; }
+  textarea { height: auto; padding: 9px 11px; resize: vertical; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid color-mix(in srgb, var(--brand) 30%, transparent); border-color: var(--brand); }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; }
+  .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .span2 { grid-column: span 2; }
+  .switch { display: inline-flex; align-items: center; gap: 9px; cursor: pointer; font-size: 14px; font-weight: 500; }
+  .switch input { width: 18px; height: 18px; accent-color: var(--brand); }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip { position: relative; }
+  .chip input { position: absolute; opacity: 0; }
+  .chip span { display: inline-block; padding: 5px 12px; border: 1px solid var(--line-2); border-radius: 999px; font-size: 13px; cursor: pointer; background: #fff; }
+  .chip input:checked + span { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .chip input:focus-visible + span { outline: 2px solid var(--brand); }
+  .chip input:disabled + span { opacity: .4; cursor: not-allowed; }
+  .ctl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .ctl input[type=date] { width: 160px; }
+  .ctl select { width: auto; max-width: 180px; }
+
+  /* cards, tables, lists */
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 16px; }
+  .pad { padding: 18px 20px; }
+  .card-head { display: flex; align-items: center; gap: 10px; padding: 14px 20px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .stat { padding: 14px 16px; margin: 0; }
+  .stat b { display: block; font-size: 24px; font-weight: 600; letter-spacing: -.02em; }
+  .stat span { font-size: 13px; color: var(--muted); }
+  .table { width: 100%; border-collapse: collapse; }
+  .table th { text-align: left; font-size: 12px; font-weight: 500; color: var(--muted); padding: 10px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .table td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .table tr:last-child td { border-bottom: 0; }
+  .table tr.click { cursor: pointer; }
+  .table tr.click:hover td { background: #fafaf7; }
+  .scroll-x { overflow-x: auto; }
+  .empty { padding: 36px 20px; text-align: center; color: var(--muted); }
+  .pill { display: inline-flex; align-items: center; padding: 1px 9px; border-radius: 999px; font-size: 12px; font-weight: 500; white-space: nowrap; background: #efeee9; color: var(--ink-2); }
+  .pill.ok { background: var(--ok-soft); color: var(--ok); }
+  .pill.warn { background: var(--warn-soft); color: var(--warn); }
+  .pill.bad { background: var(--danger-soft); color: var(--danger); }
+  .note { padding: 11px 14px; border-radius: 8px; background: #f3f2ed; font-size: 13px; color: var(--ink-2); }
+  .note.warn { background: var(--warn-soft); color: var(--warn); }
+  .row-list > div { padding: 12px 20px; border-bottom: 1px solid var(--line); }
+  .row-list > div:last-child { border-bottom: 0; }
+  .d-row { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr) auto; gap: 8px 16px; align-items: start; }
+  .d-row.off { opacity: .55; }
+  .acts { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .link-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .link-row .mono { word-break: break-all; }
+
+  /* kitchen sheet */
+  .sheet-top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .big { font-size: 34px; font-weight: 600; letter-spacing: -.02em; }
+  .sheet-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 24px; margin-top: 14px; }
+  .kv { display: flex; justify-content: space-between; gap: 12px; padding: 5px 0; border-bottom: 1px solid var(--line); }
+  .kv:last-child { border-bottom: 0; }
+  .kv b { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* customer */
+  .plan-card { padding: 16px 20px; border-bottom: 1px solid var(--line); }
+  .plan-card:last-child { border-bottom: 0; }
+  .facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px 16px; margin: 12px 0; }
+  .facts span { display: block; font-size: 12px; color: var(--muted); }
+  .bar { height: 6px; border-radius: 3px; background: #ecebe6; overflow: hidden; margin-top: 4px; }
+  .bar i { display: block; height: 100%; background: var(--brand); }
+  .btns { display: flex; gap: 6px; flex-wrap: wrap; }
+  .scroll-y { max-height: 420px; overflow-y: auto; }
+  tr.today td { background: var(--brand-soft); }
+
+  /* login, modal, toast */
+  .login { max-width: 400px; margin: 10vh auto 0; padding: 0 16px; }
+  .login form { display: flex; flex-direction: column; gap: 14px; }
+  .tabs { display: flex; gap: 4px; background: #efeee9; padding: 3px; border-radius: 8px; }
+  .tabs button { flex: 1; border: 0; background: transparent; border-radius: 6px; padding: 6px; cursor: pointer; font-weight: 500; font-size: 14px; }
+  .tabs button.on { background: #fff; box-shadow: var(--shadow); }
+  .err { color: var(--danger); font-size: 13px; min-height: 18px; }
+  .modal-back { position: fixed; inset: 0; background: rgba(20, 20, 15, .35); display: flex; justify-content: center; align-items: flex-start; z-index: 50; padding: 5vh 16px; overflow-y: auto; }
+  .modal { width: 100%; max-width: 480px; margin: 0; }
+  .modal.wide { max-width: 640px; }
+  .modal form, .modal .inner { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .modal .foot { display: flex; justify-content: flex-end; gap: 10px; }
+  .pin-show { font-family: 'IBM Plex Mono', monospace; font-size: 38px; letter-spacing: .15em; text-align: center; padding: 12px; background: #f3f2ed; border-radius: 8px; }
+  .map { height: 240px; border-radius: 8px; border: 1px solid var(--line-2); }
+  .total-line { display: flex; justify-content: space-between; font-weight: 600; padding: 10px 14px; background: #f3f2ed; border-radius: 8px; }
+  #toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); background: var(--ink); color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 14px; opacity: 0; transition: .2s; pointer-events: none; z-index: 60; max-width: calc(100% - 32px); }
+  #toast.show { opacity: 1; transform: translateX(-50%); }
+  #toast.bad { background: var(--danger); }
+
+  @media (max-width: 820px) {
+    .frame { display: block; }
+    .side { position: sticky; top: 0; z-index: 20; height: auto; border-right: 0; border-bottom: 1px solid var(--line); padding: 8px 12px 6px; display: block; }
+    .brand { padding: 2px 0 6px; }
+    .brand-mark { width: 26px; height: 26px; font-size: 13px; }
+    .nav { flex-direction: row; overflow-x: auto; gap: 2px; scrollbar-width: none; }
+    .nav::-webkit-scrollbar { display: none; }
+    .side-foot { display: none; }
+    main { padding: 18px 16px 70px; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .sheet-cols, .facts { grid-template-columns: 1fr 1fr; }
+    .hide-sm { display: none; }
+  }
+  @media (max-width: 560px) {
+    .grid, .grid.three, .sheet-cols { grid-template-columns: 1fr; }
+    .span2 { grid-column: auto; }
+    .d-row { grid-template-columns: 1fr; }
+    .acts { justify-content: flex-start; }
+    .pad, .card-head, .row-list > div, .plan-card { padding-left: 16px; padding-right: 16px; }
+    .ctl input[type=date] { width: 150px; }
+  }
+  @media print {
+    .side, .noprint, #toast { display: none !important; }
+    .frame { display: block; }
+    main { padding: 0; max-width: none; }
+    html, body { background: #fff; }
+    .card { box-shadow: none; break-inside: avoid; }
+  }
+</style>
+<script src="../config.js"></script>
+<script src="../shared/api.js"></script>
+</head>
+<body>
+<div id="app"></div>
+<div id="modals"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  const api = MealApi.createClient('kitchenadmin');
+  const app = document.getElementById('app');
+  const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const PAGES = [
+    { key: 'today', label: 'Today', open: true },
+    { key: 'kitchen', label: 'Kitchen sheet' },
+    { key: 'deliveries', label: 'Deliveries' },
+    { key: 'customers', label: 'Customers' },
+    { key: 'payments', label: 'Payments' },
+    { key: 'plans', label: 'Plans & prices' },
+    { key: 'menu', label: 'Menu' },
+    { key: 'holidays', label: 'Holidays' },
+    { key: 'team', label: 'Team', manager: true },
+    { key: 'settings', label: 'Settings', manager: true },
+  ];
+  const GRANTABLE = PAGES.filter((p) => !p.open && !p.manager);
+  const ROLE_LABEL = { owner: 'Owner', manager: 'Manager', kitchen: 'Kitchen', accounts: 'Accounts', staff: 'Staff' };
+  const ROLE_PAGES = { kitchen: ['kitchen', 'deliveries', 'menu'], accounts: ['customers', 'payments'], staff: ['deliveries', 'customers'] };
+  const METHOD = { cash: 'Cash', upi: 'UPI', bank: 'Bank', other: 'Other', razorpay: 'Online' };
+  const HISTORY = {
+    'plan.activate': 'Plan started', 'plan.update': 'Plan changed', 'plan.charges': 'Amounts changed', 'plan.pause': 'Plan paused', 'plan.resume': 'Plan resumed',
+    'plan.cancel': 'Plan cancelled', 'delivery.skip': 'Skipped', 'delivery.unskip': 'Skip undone', 'delivery.cancel': 'Delivery cancelled', 'delivery.undelivered': 'Delivered mark undone',
+    'meals.adjust': 'Meals changed', 'payment.record': 'Payment recorded', 'payment.void': 'Payment removed', 'customer.create': 'Customer added', 'customer.update': 'Details changed',
+    'customer.pin_reset': 'PIN reset', 'address.save': 'Address saved', 'address.remove': 'Address removed',
+  };
+
+  let T = null, ME = null, L = null, busy = false;
+  const S = {
+    page: 'today', param: null,
+    kitchen: { date: null },
+    dl: { date: null, slot: '', show: 'open', rows: [] },
+    cust: { q: '', filter: 'all', rows: [], total: 0 },
+    pay: { from: null, to: null },
+    menu: { week: null, slot: null, variant: '' },
+    data: null,
+  };
+
+  // ---------- helpers ----------
+  const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const inr = (p) => (Number(p) < 0 ? '-' : '') + '₹' + (Math.abs(Number(p || 0)) / 100).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+  const rupees = (p) => (p == null ? '' : String(Number(p) / 100));
+  const toPaise = (r) => Math.round(Number(r) * 100);
+  const d0 = (d) => new Date(String(d).slice(0, 10) + 'T00:00:00');
+  const day = (d) => (d ? d0(d).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }) : '');
+  const dayLong = (d) => (d ? d0(d).toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : '');
+  const stamp = (t) => (t ? new Date(t).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }) : '');
+  const dateOnly = (t) => (t ? new Date(t).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '');
+  const iso = (dt) => `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
+  const addDays = (d, n) => { const x = d0(d); x.setDate(x.getDate() + n); return iso(x); };
+  const mondayOf = (d) => { const n = (d0(d).getDay() + 6) % 7; return addDays(d, -n); };
+  const phoneShow = (p) => (String(p || '').length === 12 && String(p).startsWith('91') ? String(p).slice(2) : p || '');
+  const timeShow = (t) => { if (!t) return ''; const [h, m] = t.split(':').map(Number); return `${((h + 11) % 12) + 1}:${String(m).padStart(2, '0')} ${h < 12 ? 'am' : 'pm'}`; };
+  const can = (page) => { const p = PAGES.find((x) => x.key === page); if (p?.open) return true; if (ME.pages.includes('*')) return true; return !p?.manager && ME.pages.includes(page); };
+  // A page answer that arrives after the person has moved on must not draw over the new page.
+  const STALE = new Error('stale');
+  let routeSeq = 0;
+  const rpc = async (fn, args = {}) => {
+    const at = routeSeq;
+    const r = await api.rpc(fn, { p_tenant: T.id, ...args });
+    if (at !== routeSeq) throw STALE;
+    return r;
+  };
+  const $ = (q, el = document) => el.querySelector(q);
+  const activeSlots = () => L.slots.filter((x) => x.active);
+  const activeVariants = () => L.variants.filter((x) => x.active);
+  const options = (rows, sel, label = (r) => r.name) => rows.map((r) => `<option value="${esc(r.id)}" ${r.id === sel ? 'selected' : ''}>${esc(label(r))}</option>`).join('');
+
+  let toastTimer;
+  function toast(msg, bad) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.className = 'show' + (bad ? ' bad' : '');
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => (t.className = ''), bad ? 5000 : 2600);
+  }
+  async function run(fn, okMsg) {
+    if (busy) return;
+    busy = true; document.body.style.cursor = 'progress';
+    try { const r = await fn(); if (okMsg) toast(okMsg); return r; }
+    catch (e) { if (e !== STALE) toast(e.message, true); }
+    finally { busy = false; document.body.style.cursor = ''; }
+  }
+  function download(name, text) {
+    const url = URL.createObjectURL(new Blob(['﻿' + text], { type: 'text/csv;charset=utf-8' }));
+    const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  }
+  // Excel runs a cell starting with = + - @ as a formula, and names and notes come from customers.
+  function cell(v) {
+    if (v == null) return '';
+    if (typeof v === 'number') return String(v);
+    let s = String(v);
+    if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
+    return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  }
+  const toCsv = (rows) => rows.map((r) => r.map(cell).join(',')).join('\r\n') + '\r\n';
+  function parseCsv(text) {
+    const rows = []; let row = [], val = '', q = false;
+    text = text.replace(/^﻿/, '');
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (q) { if (c === '"') { if (text[i + 1] === '"') { val += '"'; i++; } else q = false; } else val += c; }
+      else if (c === '"') q = true;
+      else if (c === ',') { row.push(val); val = ''; }
+      else if (c === '\n') { row.push(val); rows.push(row); row = []; val = ''; }
+      else if (c !== '\r') val += c;
+    }
+    if (val || row.length) { row.push(val); rows.push(row); }
+    return rows.filter((r) => r.some((x) => x.trim()));
+  }
+  function readDate(s) {
+    s = (s || '').trim();
+    let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if (m) return `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`;
+    m = s.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
+    return m ? `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}` : null;
+  }
+
+  // ---------- modal ----------
+  function closeModal() { document.getElementById('modals').innerHTML = ''; }
+  function openModal({ title, body, submit = 'Save', danger, wide, onSubmit, onOpen, cancel = 'Cancel' }) {
+    const host = document.getElementById('modals');
+    host.innerHTML = `<div class="modal-back"><div class="card modal ${wide ? 'wide' : ''}"><form novalidate>
+        <h2>${esc(title)}</h2>${body}<div class="err"></div>
+        <div class="foot"><button type="button" class="btn" data-close>${esc(cancel)}</button>${onSubmit ? `<button class="btn ${danger ? 'danger' : 'primary'}" type="submit">${esc(submit)}</button>` : ''}</div>
+      </form></div></div>`;
+    const form = $('form', host), err = $('.err', host);
+    $('[data-close]', host).onclick = closeModal;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!onSubmit || busy) return;
+      err.textContent = '';
+      busy = true;
+      const btn = $('button[type=submit]', form); btn.disabled = true;
+      try { await onSubmit(new FormData(form), form); }
+      catch (x) { if (x !== STALE) err.textContent = x.message; }
+      finally { busy = false; btn.disabled = false; }
+    });
+    if (onOpen) onOpen(form);
+    $('input:not([type=hidden]):not([type=checkbox]):not([type=radio]), select, textarea', form)?.focus({ preventScroll: true });
+  }
+
+  // ---------- map ----------
+  let leaflet = null;
+  function loadLeaflet() {
+    if (leaflet) return leaflet;
+    leaflet = new Promise((ok, no) => {
+      const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css'; document.head.appendChild(css);
+      const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js'; s.onload = ok; s.onerror = no; document.head.appendChild(s);
+    });
+    return leaflet;
+  }
+  async function mountPin(el, point, onMove) {
+    try { await loadLeaflet(); } catch { el.textContent = 'The map could not load.'; return; }
+    const c = L_center(point);
+    const m = window.L.map(el, { scrollWheelZoom: false }).setView(c.at, c.zoom);
+    window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(m);
+    const icon = window.L.divIcon({ className: '', html: '<div style="width:22px;height:22px;border-radius:50% 50% 50% 0;background:var(--brand);transform:rotate(-45deg);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4)"></div>', iconSize: [22, 22], iconAnchor: [11, 22] });
+    let pin = null;
+    const put = (lat, lng) => {
+      if (!pin) { pin = window.L.marker([lat, lng], { icon, draggable: true }).addTo(m); pin.on('dragend', () => { const p = pin.getLatLng(); onMove(p.lat, p.lng); }); }
+      else pin.setLatLng([lat, lng]);
+    };
+    if (point.lat != null) put(point.lat, point.lng);
+    m.on('click', (e) => { put(e.latlng.lat, e.latlng.lng); onMove(e.latlng.lat, e.latlng.lng); });
+    setTimeout(() => m.invalidateSize(), 60);
+  }
+  function L_center(point) {
+    if (point.lat != null) return { at: [point.lat, point.lng], zoom: 16 };
+    const s = L.settings;
+    return s.kitchen_lat != null ? { at: [s.kitchen_lat, s.kitchen_lng], zoom: 13 } : { at: [20.59, 78.96], zoom: 5 };
+  }
+
+  // ---------- frame ----------
+  function frame(inner) {
+    const u = api.user();
+    const nav = PAGES.filter((p) => can(p.key)).map((p) => `<a href="#/${p.key}" class="${S.page === p.key ? 'on' : ''}">${esc(p.label)}</a>`).join('');
+    const b = T.brand;
+    return `<div class="frame"><aside class="side">
+        <div class="brand"><span class="brand-mark">${b.logo_url ? `<img src="${esc(b.logo_url)}" alt="">` : esc((b.name || '?')[0])}</span><b>${esc(b.name)}</b></div>
+        <nav class="nav">${nav}</nav>
+        <div class="side-foot"><div>${esc(ME.name)} · ${esc(ROLE_LABEL[ME.role])}</div><div title="${esc(u?.email || '')}">${esc(u?.email || '')}</div>
+          <button class="btn sm" style="margin-top:8px" data-act="signout">Sign out</button></div>
+      </aside><main>${inner}</main></div>`;
+  }
+  const loading = () => { app.innerHTML = frame('<p class="muted">Loading…</p>'); };
+
+  // ---------- routing ----------
+  window.addEventListener('hashchange', () => route());
+  async function route() {
+    if (!ME) return;
+    closeModal();
+    routeSeq++;
+    const parts = location.hash.replace(/^#\/?/, '').split('/');
+    let page = parts[0] || 'today';
+    if (!PAGES.some((p) => p.key === page) || !can(page)) page = 'today';
+    const changed = S.page !== page || S.param !== (parts[1] || null);
+    S.page = page; S.param = parts[1] || null;
+    loading();
+    try { await VIEWS[page](); }
+    catch (e) {
+      if (e === STALE) return;
+      if (e.status === 401 || /sign in again/i.test(e.message)) { await api.signOut(); ME = null; return renderLogin('Please sign in again.'); }
+      app.innerHTML = frame(`<div class="card pad"><h2>Could not load</h2><p class="muted">${esc(e.message)}</p><button class="btn" data-act="reload">Try again</button></div>`);
+    }
+    if (changed) window.scrollTo(0, 0);
+  }
+  const reload = () => route();
+  async function refreshLookups() { L = await rpc('staff_lookups'); }
+
+  // ---------- today ----------
+  const VIEWS = {};
+  VIEWS.today = async () => {
+    const o = await rpc('staff_overview');
+    const totalToday = o.slots.reduce((n, s) => n + Number(s.meals), 0);
+    const stats = [
+      [totalToday, 'Meals today'], [o.tomorrow_meals, 'Meals tomorrow'], [o.running, o.paused ? `Running plans (${o.paused} paused)` : 'Running plans'],
+      o.collected_month != null ? [inr(o.collected_month), 'Collected this month'] : [o.customers, 'Customers'],
+    ];
+    const gettingStarted = !o.customers && ME.pages.includes('*') ? `<div class="card pad">
+        <h2 style="margin-bottom:6px">Welcome to your kitchen console</h2>
+        <p class="muted small" style="margin:0 0 12px">Your customers buy on your own page. Everything they do shows up here. A good place to start:</p>
+        <div class="btns"><a class="btn sm" href="#/plans">Check plans and prices</a><a class="btn sm" href="#/menu">Add this week's menu</a><a class="btn sm" href="#/holidays">Mark holidays</a><a class="btn sm" href="#/team">Add your team</a></div>
+      </div>` : '';
+    app.innerHTML = frame(`
+      <div class="head-row"><h1>Today</h1><span class="muted">${esc(dayLong(o.today))}</span></div>
+      ${T.status === 'trial' ? '<div class="note warn" style="margin-bottom:16px">This kitchen is not live yet, so customers cannot buy. It goes live when setup is finished.</div>' : ''}
+      ${gettingStarted}
+      <div class="stats">${stats.map(([v, l]) => `<div class="card stat"><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join('')}</div>
+      <div class="card"><div class="card-head"><h2>Meal slots today</h2></div>
+        ${o.slots.length ? `<div class="row-list">${o.slots.map((s) => `<div class="link-row"><b style="font-weight:500">${esc(s.name)}</b> <span class="muted small">${esc(timeShow(s.start))}</span><span class="grow"></span>
+          <span class="num">${s.meals} meals</span><span class="muted small num">${s.delivered} of ${s.deliveries} delivered</span>
+          <span class="pill ${s.locked ? 'ok' : 'warn'}">${s.locked ? 'Final' : 'Can still change'}</span>
+          ${can('kitchen') ? `<a class="btn sm" href="#/kitchen">Sheet</a>` : ''}</div>`).join('')}</div>` : '<div class="empty">No meal slots yet.</div>'}
+      </div>
+      ${o.due_total ? `<div class="card pad link-row"><div><b style="font-weight:500">${inr(o.due_total)}</b> <span class="muted">still to collect</span></div><span class="grow"></span><a class="btn sm" href="#/payments">See who owes</a></div>` : ''}
+      ${o.running_low ? `<div class="card"><div class="card-head"><h2>Running low</h2><span class="muted small">3 meals or fewer, no renewal yet</span></div>
+        ${o.running_low.length ? `<div class="scroll-x"><table class="table"><thead><tr><th>Customer</th><th>Plan</th><th>Meals left</th><th class="hide-sm">Last meal</th></tr></thead><tbody>
+          ${o.running_low.map((r) => `<tr class="click" data-href="#/customers/${r.customer_id}"><td>${esc(r.name)}<div class="small muted">${esc(phoneShow(r.phone))}</div></td><td>${esc(r.plan_name)}</td><td class="num">${r.meals_left}</td><td class="hide-sm">${esc(day(r.last_delivery))}</td></tr>`).join('')}
+        </tbody></table></div>` : '<div class="empty">Nobody is running low.</div>'}</div>` : ''}`);
+  };
+
+  // ---------- kitchen sheet ----------
+  function dateCtl(act, value) {
+    return `<div class="ctl noprint"><button class="btn sm" data-act="${act}" data-step="-1" aria-label="Previous day">‹</button>
+      <input type="date" value="${esc(value)}" data-change="${act}"><button class="btn sm" data-act="${act}" data-step="1" aria-label="Next day">›</button>
+      <button class="btn sm ghost" data-act="${act}" data-step="0">Today</button></div>`;
+  }
+  VIEWS.kitchen = async () => {
+    S.kitchen.date = S.kitchen.date || L.today;
+    const r = await rpc('staff_kitchen_sheet', { p_date: S.kitchen.date });
+    const list = (rows, val) => rows.length ? rows.map((x) => `<div class="kv"><span>${esc(x.name)}</span><b>${esc(x[val])}</b></div>`).join('') : '<div class="muted small">None</div>';
+    const cards = r.slots.map((s) => `<div class="card pad">
+      <div class="sheet-top"><h2>${esc(s.name)}</h2><span class="muted small">${esc(timeShow(s.start_time))}</span><span class="grow"></span>
+        <span class="pill ${s.locked ? 'ok' : 'warn'}">${s.locked ? 'Final' : `Can change until ${esc(timeShow(String(s.closes_at).slice(11, 16)))}`}</span></div>
+      <div class="sheet-top" style="margin-top:6px"><span class="big num">${s.meals}</span><span class="muted">meals in ${s.deliveries} ${s.deliveries === 1 ? 'box' : 'boxes'}${s.pickups ? `, ${s.pickups} pickup` : ''}${s.cancelled ? `, ${s.cancelled} cancelled` : ''}</span></div>
+      <div class="sheet-cols">
+        <div><h3>Meal types</h3>${list(s.variants, 'meals')}</div>
+        <div><h3>Add-ons</h3>${list(s.addons, 'qty')}</div>
+        <div><h3>Menu</h3>${s.menu.length ? s.menu.map((m) => `<div class="kv"><span>${m.variant ? `<span class="muted small">${esc(m.variant)}</span><br>` : ''}${esc(m.name)}${m.description ? `<div class="small muted">${esc(m.description)}</div>` : ''}</span></div>`).join('') : '<div class="muted small">No menu added</div>'}</div>
+      </div>
+      ${s.notes.length ? `<h3 style="margin-top:16px">Special notes</h3>${s.notes.map((n) => `<div class="kv"><span>${esc(n.customer)}${n.variant ? ` <span class="muted small">${esc(n.variant)}</span>` : ''}</span><span style="text-align:right">${esc(n.note)}</span></div>`).join('')}` : ''}
+    </div>`).join('');
+    app.innerHTML = frame(`<div class="head-row"><h1>Kitchen sheet</h1><span class="muted">${esc(dayLong(r.date))}</span><span class="grow"></span>${dateCtl('kitchen-day', r.date)}<button class="btn sm noprint" data-act="print">Print</button></div>
+      ${cards || '<div class="card empty">No meal slots.</div>'}`);
+  };
+
+  // ---------- deliveries ----------
+  const STATUS = { scheduled: ['Scheduled', ''], delivered: ['Delivered', 'ok'], cancelled: ['Cancelled', 'bad'], not_delivered: ['Not delivered', 'bad'] };
+  function shownDeliveries() {
+    return S.dl.rows.filter((r) => S.dl.show === 'all' ? true : S.dl.show === 'open' ? r.status !== 'cancelled' : r.status === S.dl.show);
+  }
+  VIEWS.deliveries = async () => {
+    S.dl.date = S.dl.date || L.today;
+    const r = await rpc('staff_delivery_report', { p_date: S.dl.date, p_slot: S.dl.slot || null });
+    S.dl.rows = r.rows;
+    S.dl.today = r.today;
+    renderDeliveries();
+  };
+  function renderDeliveries() {
+    const rows = shownDeliveries();
+    const open = rows.filter((x) => x.status === 'scheduled').length;
+    const due = S.dl.date <= S.dl.today;
+    const items = rows.map((r) => `<div class="d-row ${r.status === 'cancelled' ? 'off' : ''}">
+      <div><b style="font-weight:500">${can('customers') ? `<a href="#/customers/${r.customer_id}" style="color:inherit;text-decoration:none">${esc(r.customer)}</a>` : esc(r.customer)}</b>
+        <div class="small"><a href="tel:+${esc(r.phone)}">${esc(phoneShow(r.phone))}</a></div>
+        <div class="small muted">${esc(r.slot)} · ${r.meals} meal${r.meals > 1 ? 's' : ''}${r.variant ? ` · ${esc(r.variant)}` : ''}</div>
+        ${r.addons ? `<div class="small muted">+ ${esc(r.addons)}</div>` : ''}</div>
+      <div class="small">${r.is_pickup ? '<span class="pill">Pickup</span>' : esc(r.address || '')}
+        ${r.delivery_note ? `<div class="muted">${esc(r.delivery_note)}</div>` : ''}${r.instructions ? `<div class="muted">Note: ${esc(r.instructions)}</div>` : ''}
+        ${r.lat != null && !r.is_pickup ? `<div><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${r.lat},${r.lng}">Open map</a></div>` : ''}
+        ${r.cancel_reason ? `<div class="muted">Reason: ${esc(r.cancel_reason)}</div>` : ''}</div>
+      <div class="acts"><span class="pill ${STATUS[r.status][1]}">${STATUS[r.status][0]}</span>
+        ${r.status === 'scheduled' && due ? `<button class="btn sm" data-act="dl-done" data-id="${r.id}">Delivered</button>` : ''}
+        ${r.status === 'scheduled' ? `<button class="btn sm ghost" data-act="dl-cancel" data-id="${r.id}">Cancel</button>` : ''}
+        ${r.status === 'delivered' ? `<button class="btn sm ghost" data-act="dl-undo" data-id="${r.id}">Undo</button>` : ''}
+        ${r.can_undo ? `<button class="btn sm ghost" data-act="dl-unskip" data-sub="${r.subscription_id}" data-date="${r.date}">Restore</button>` : ''}
+      </div></div>`).join('');
+    app.innerHTML = frame(`<div class="head-row"><h1>Deliveries</h1><span class="muted">${esc(dayLong(S.dl.date))}</span></div>
+      <div class="head-row">${dateCtl('dl-day', S.dl.date)}
+        <div class="ctl"><select data-change="dl-slot" aria-label="Meal slot"><option value="">All slots</option>${options(L.slots, S.dl.slot)}</select>
+        <select data-change="dl-show" aria-label="Show"><option value="open" ${S.dl.show === 'open' ? 'selected' : ''}>To deliver</option><option value="scheduled" ${S.dl.show === 'scheduled' ? 'selected' : ''}>Not delivered yet</option><option value="delivered" ${S.dl.show === 'delivered' ? 'selected' : ''}>Delivered</option><option value="cancelled" ${S.dl.show === 'cancelled' ? 'selected' : ''}>Cancelled</option><option value="all" ${S.dl.show === 'all' ? 'selected' : ''}>Everything</option></select></div>
+        <span class="grow"></span>
+        ${open && due ? `<button class="btn sm" data-act="dl-all">Mark all delivered (${open})</button>` : ''}
+        <button class="btn sm primary" data-act="dl-csv" ${rows.length ? '' : 'disabled'}>Download report</button></div>
+      <div class="card">${items ? `<div class="row-list">${items}</div>` : '<div class="empty">No deliveries for this day.</div>'}</div>`);
+  }
+  function deliveriesCsv() {
+    const rows = shownDeliveries();
+    const head = ['Date', 'Slot', 'Customer', 'Phone', 'Meals', 'Meal type', 'Add-ons', 'Delivery or pickup', 'Address', 'Area', 'Pincode', 'Zone', 'Delivery note', 'Kitchen note', 'Map', 'Status'];
+    const body = rows.map((r) => [r.date, r.slot, r.customer, r.phone, r.meals, r.variant, r.addons, r.is_pickup ? 'Pickup' : 'Delivery', r.address, r.area, r.pincode, r.zone, r.delivery_note, r.instructions,
+      r.lat != null && !r.is_pickup ? `https://www.google.com/maps/search/?api=1&query=${r.lat},${r.lng}` : '', STATUS[r.status][0]]);
+    download(`deliveries-${S.dl.date}.csv`, toCsv([head, ...body]));
+  }
+  function cancelDeliveryModal(id, after) {
+    openModal({
+      title: 'Cancel this delivery', submit: 'Cancel delivery', danger: true, cancel: 'Keep it',
+      body: `<label class="f">Reason<input type="text" name="reason" maxlength="200" required></label>
+        <label class="switch"><input type="radio" name="restore" value="1" checked> Give the meal back to the customer</label>
+        <label class="switch"><input type="radio" name="restore" value="0"> Count it as used (food was already cooked)</label>`,
+      onSubmit: async (f) => {
+        if (!String(f.get('reason')).trim()) throw new Error('Please give a reason.');
+        await rpc('staff_cancel_delivery', { p_delivery: id, p_reason: f.get('reason'), p_restore: f.get('restore') === '1' });
+        closeModal(); toast('Delivery cancelled'); after();
+      },
+    });
+  }
+
+  // ---------- customers ----------
+  VIEWS.customers = async () => {
+    if (S.param) return renderCustomer(S.param);
+    app.innerHTML = frame(`<div class="head-row"><h1>Customers</h1><span class="grow"></span><button class="btn primary" data-act="cust-new">Add customer</button></div>
+      <div class="head-row"><input type="text" id="cust-q" placeholder="Search name or number" value="${esc(S.cust.q)}" style="max-width:300px">
+        <div class="chips">${[['all', 'All'], ['active', 'Running'], ['low', 'Running low'], ['paused', 'Paused'], ['none', 'No plan']].map(([k, l]) => `<label class="chip"><input type="radio" name="cf" value="${k}" data-change="cust-filter" ${S.cust.filter === k ? 'checked' : ''}><span>${l}</span></label>`).join('')}</div></div>
+      <div class="card" id="cust-list"><div class="empty">Loading…</div></div>`);
+    let t;
+    $('#cust-q').addEventListener('input', (e) => { clearTimeout(t); t = setTimeout(() => { S.cust.q = e.target.value; loadCustomers().catch((x) => { if (x !== STALE) toast(x.message, true); }); }, 250); });
+    await loadCustomers();
+  };
+  async function loadCustomers(more) {
+    const r = await rpc('staff_customers', { p_search: S.cust.q || null, p_filter: S.cust.filter, p_limit: 50, p_offset: more ? S.cust.rows.length : 0 });
+    S.cust.rows = more ? [...S.cust.rows, ...r.rows] : r.rows;
+    S.cust.total = r.total;
+    const box = $('#cust-list'); if (!box) return;
+    box.innerHTML = S.cust.rows.length ? `<div class="scroll-x"><table class="table"><thead><tr><th>Customer</th><th>Plan</th><th>Meals left</th><th class="hide-sm">Next meal</th></tr></thead><tbody>
+      ${S.cust.rows.map((c) => `<tr class="click" data-href="#/customers/${c.id}"><td>${esc(c.name || 'No name')}<div class="small muted">${esc(phoneShow(c.phone))}</div></td>
+        <td>${c.plan_name ? `${esc(c.plan_name)} ${c.status === 'paused' ? '<span class="pill warn">Paused</span>' : ''}` : '<span class="muted">No running plan</span>'}</td>
+        <td class="num">${c.meals_left ?? ''}</td><td class="hide-sm">${esc(day(c.next_delivery))}</td></tr>`).join('')}</tbody></table></div>
+      ${S.cust.rows.length < S.cust.total ? `<div class="pad" style="text-align:center"><button class="btn sm" data-act="cust-more">Show more (${S.cust.total - S.cust.rows.length})</button></div>` : ''}`
+      : '<div class="empty">No customers found.</div>';
+  }
+
+  function customerForm(c = {}) {
+    return `<div class="grid"><label class="f span2">Name<input type="text" name="name" value="${esc(c.name)}" required></label>
+      <label class="f">Mobile number<input type="tel" name="phone" value="${esc(phoneShow(c.phone))}" required></label>
+      <label class="f">Email (optional)<input type="email" name="email" value="${esc(c.email)}"></label>
+      <label class="f span2">Private notes<textarea name="notes" rows="2">${esc(c.notes)}</textarea><span class="hint">Only your team sees this.</span></label></div>`;
+  }
+  function showPin(title, pin, after) {
+    openModal({
+      title, cancel: 'Done',
+      body: `<div class="pin-show">${esc(pin)}</div><p class="small muted" style="margin:0">Give this PIN to the customer. It is shown only once. They sign in with their mobile number and this PIN, and can change it in their profile.</p>`,
+      onOpen: (f) => { $('[data-close]', f).onclick = () => { closeModal(); after?.(); }; },
+    });
+  }
+  function newCustomerModal() {
+    openModal({
+      title: 'Add customer', submit: 'Add customer', body: customerForm(),
+      onSubmit: async (f) => {
+        const r = await api.rpc('staff_save_customer', { p_tenant: T.id, p_data: { name: f.get('name'), phone: f.get('phone'), email: f.get('email'), notes: f.get('notes') } }).catch((e) => {
+          if (e.code === 'phone_taken') { closeModal(); toast('This number is already a customer. Opening them now.'); location.hash = `#/customers/${e.raw.customer_id}`; return null; }
+          throw e;
+        });
+        if (r) showPin('Customer added', r.pin, () => { location.hash = `#/customers/${r.id}`; });
+      },
+    });
+  }
+
+  async function renderCustomer(id) {
+    const d = await rpc('staff_customer', { p_customer: id });
+    S.data = d;
+    const c = d.customer;
+    const planCards = d.plans.map(planCard).join('');
+    const upcoming = d.deliveries.map((x) => `<tr class="${x.date === d.today ? 'today' : ''}">
+        <td style="white-space:nowrap">${esc(day(x.date))}</td><td>${esc(x.slot)}<div class="small muted">${x.meals} meal${x.meals > 1 ? 's' : ''}${x.variant ? ` · ${esc(x.variant)}` : ''}</div></td>
+        <td><span class="pill ${STATUS[x.status][1]}">${STATUS[x.status][0]}</span>${x.cancel_reason ? `<div class="small muted">${esc(x.cancel_reason)}</div>` : ''}</td>
+        <td class="right" style="white-space:nowrap">
+          ${x.can_skip ? `<button class="btn sm" data-act="c-skip" data-sub="${x.subscription_id}" data-date="${x.date}">Skip</button>` : ''}
+          ${x.can_undo ? `<button class="btn sm" data-act="c-unskip" data-sub="${x.subscription_id}" data-date="${x.date}">Restore</button>` : ''}
+          ${x.status === 'scheduled' && !x.can_skip ? `<button class="btn sm ghost" data-act="c-cancel-day" data-id="${x.id}">Cancel</button>` : ''}
+          ${x.status === 'delivered' ? `<button class="btn sm ghost" data-act="c-undo-done" data-id="${x.id}">Undo</button>` : ''}
+        </td></tr>`).join('');
+    const addresses = d.addresses.map((a) => `<div><div class="link-row"><div class="grow" style="min-width:200px">${a.label ? `<b style="font-weight:500">${esc(a.label)}</b><br>` : ''}${esc([a.line, a.area, a.pincode].filter(Boolean).join(', '))}
+        <div class="small muted">${a.distance_km != null ? `${a.distance_km} km, ` : ''}delivery ${a.fee_per_delivery_paise ? `${inr(a.fee_per_delivery_paise)} each time` : 'free'}${a.delivery_note ? `. ${esc(a.delivery_note)}` : ''}</div></div>
+        <button class="btn sm" data-act="addr-edit" data-id="${a.id}">Edit</button><button class="btn sm ghost" data-act="addr-remove" data-id="${a.id}">Remove</button></div></div>`).join('');
+    const payments = d.payments ? d.payments.map((p) => `<tr><td style="white-space:nowrap">${esc(dateOnly(p.date))}</td><td class="num">${p.status === 'failed' ? `<s>${inr(p.amount_paise)}</s>` : inr(p.amount_paise)}</td>
+        <td>${esc(METHOD[p.provider] || p.provider)}${p.status === 'failed' ? ' <span class="pill bad">Removed</span>' : ''}<div class="small muted">${esc([p.plan_name, p.note].filter(Boolean).join('. '))}</div></td>
+        <td class="right">${p.status === 'paid' && p.provider !== 'razorpay' ? `<button class="btn sm ghost" data-act="pay-void" data-id="${p.id}">Remove</button>` : ''}</td></tr>`).join('') : '';
+    const history = d.history.map((h) => `<div class="kv"><span>${esc(HISTORY[h.action] || h.action)}${historyDetail(h)}</span><span class="small muted right" style="white-space:nowrap">${esc(h.actor_name || (h.actor_type === 'system' ? 'System' : ''))}, ${esc(stamp(h.created_at))}</span></div>`).join('');
+
+    app.innerHTML = frame(`<div class="crumb"><a href="#/customers">Customers</a></div>
+      <div class="head-row"><div><h1>${esc(c.name || 'No name')}</h1>
+        <div class="muted"><a href="tel:+${esc(c.phone)}">${esc(phoneShow(c.phone))}</a> · <a target="_blank" rel="noopener" href="https://wa.me/${esc(c.phone)}">WhatsApp</a>${c.email ? ` · ${esc(c.email)}` : ''}${c.locked ? ' · <span class="pill bad">Locked out</span>' : ''}</div></div>
+        <span class="grow"></span><button class="btn" data-act="c-edit">Edit</button><button class="btn" data-act="c-pin">Reset PIN</button><button class="btn primary" data-act="plan-new">Add plan</button></div>
+      ${c.notes ? `<div class="note" style="margin-bottom:16px">${esc(c.notes)}</div>` : ''}
+      <div class="card"><div class="card-head"><h2>Plans</h2></div>${planCards || '<div class="empty">No plans yet.</div>'}</div>
+      <div class="card"><div class="card-head"><h2>Deliveries</h2><span class="muted small">Last 2 weeks and what is coming</span></div>
+        ${upcoming ? `<div class="scroll-x scroll-y"><table class="table"><tbody>${upcoming}</tbody></table></div>` : '<div class="empty">No deliveries.</div>'}</div>
+      <div class="card"><div class="card-head"><h2>Addresses</h2><span class="grow"></span><button class="btn sm" data-act="addr-new">Add address</button></div>
+        ${addresses ? `<div class="row-list">${addresses}</div>` : '<div class="empty">No addresses.</div>'}</div>
+      ${d.payments ? `<div class="card"><div class="card-head"><h2>Payments</h2><span class="grow"></span><button class="btn sm" data-act="pay-new">Record payment</button></div>
+        ${payments ? `<div class="scroll-x"><table class="table"><tbody>${payments}</tbody></table></div>` : '<div class="empty">No payments yet.</div>'}</div>` : ''}
+      ${history ? `<div class="card pad"><h2 style="margin-bottom:8px">History</h2>${history}</div>` : ''}`);
+  }
+  function historyDetail(h) {
+    const x = h.data || {};
+    if (h.action === 'meals.adjust') return `: ${x.delta > 0 ? '+' : ''}${esc(x.delta)}. ${esc(x.note)}`;
+    if (h.action === 'payment.record' || h.action === 'payment.void') return `: ${inr(x.amount_paise)} ${esc(METHOD[x.provider] || '')}`;
+    if (h.action === 'delivery.skip' && x.dates) return `: ${esc(x.dates.map(day).join(', '))}`;
+    if (h.action === 'delivery.unskip' && x.date) return `: ${esc(day(x.date))}`;
+    if (h.action === 'delivery.cancel' && x.reason) return `: ${esc(x.reason)}`;
+    if (h.action === 'plan.cancel' && x.reason) return `: ${esc(x.reason)}`;
+    return '';
+  }
+  function planCard(p) {
+    const open = p.status === 'active' || p.status === 'paused';
+    const pct = Math.min(100, Math.round((p.meals_left / Math.max(p.meals_total, 1)) * 100));
+    const badge = { active: 'ok', paused: 'warn', completed: '', cancelled: 'bad' }[p.status];
+    const label = { active: 'Running', paused: 'Paused', completed: 'Finished', cancelled: 'Cancelled' }[p.status];
+    const due = p.total_paise - p.paid_paise;
+    const showMoney = !!S.data.payments;
+    return `<div class="plan-card">
+      <div class="link-row"><h2>${esc(p.plan_name)}</h2><span class="pill ${badge}">${label}</span>${p.renewal_of && open ? '<span class="pill">Starts after the current plan</span>' : ''}${p.pause ? `<span class="pill warn">Paused ${esc(day(p.pause.from))}${p.pause.until ? ` to ${esc(day(p.pause.until))}` : ''}</span>` : ''}</div>
+      <div class="facts">
+        <div><span>Meals left</span>${p.meals_left > p.meals_total ? p.meals_left : `${p.meals_left} of ${p.meals_total}`}<div class="bar"><i style="width:${pct}%"></i></div></div>
+        <div><span>Next meal</span>${esc(day(p.next_delivery)) || 'None'}</div>
+        <div><span>Last meal</span>${esc(day(p.last_delivery)) || 'None'}</div>
+        <div><span>Days</span>${esc(p.delivery_days.slice().sort().map((d) => DAYS[d - 1]).join(', '))}</div>
+        <div><span>Slot</span>${esc(p.slot_name)}${p.meals_per_day > 1 ? `, ${p.meals_per_day} a day` : ''}</div>
+        <div><span>Meal type</span>${esc(p.variant_name || 'Not set')}</div>
+        <div><span>Goes to</span>${p.is_pickup ? 'Pickup' : esc(p.address_text || '')}</div>
+        ${p.addon_names.length ? `<div><span>Add-ons</span>${esc(p.addon_names.map((a) => a.name + (a.qty > 1 ? ` x${a.qty}` : '')).join(', '))}</div>` : ''}
+        ${showMoney ? `<div><span>Total</span>${inr(p.total_paise)}${due > 0 ? `<br><span style="color:var(--danger);font-size:13px">${inr(due)} due</span>` : ''}</div>` : ''}
+      </div>
+      ${p.instructions ? `<div class="note" style="margin-bottom:12px">${esc(p.instructions)}</div>` : ''}
+      ${open ? `<div class="btns">
+        <button class="btn sm" data-act="plan-edit" data-id="${p.id}">Change</button>
+        <button class="btn sm" data-act="plan-meals" data-id="${p.id}">Add or remove meals</button>
+        ${p.status === 'paused' || p.pause ? `<button class="btn sm" data-act="plan-resume" data-id="${p.id}">Resume</button>` : `<button class="btn sm" data-act="plan-pause" data-id="${p.id}">Pause</button>`}
+        <button class="btn sm ghost" data-act="plan-renew" data-id="${p.id}">Renew</button>
+        <button class="btn sm ghost danger" data-act="plan-cancel" data-id="${p.id}">Cancel plan</button></div>`
+      : `<div class="btns"><button class="btn sm" data-act="plan-renew" data-id="${p.id}">Buy again</button>${p.status === 'completed' ? `<button class="btn sm ghost" data-act="plan-meals" data-id="${p.id}">Add meals</button>` : ''}</div>`}
+    </div>`;
+  }
+  const currentCustomer = () => S.data.customer;
+  const planById = (id) => S.data.plans.find((p) => p.id === id);
+  const afterChange = (msg) => { closeModal(); toast(msg); reload(); };
+
+  function addressModal(a) {
+    const point = { lat: a?.lat ?? null, lng: a?.lng ?? null };
+    openModal({
+      title: a ? 'Edit address' : 'Add address', wide: true,
+      body: `<div class="grid"><label class="f span2">Address<input type="text" name="line" value="${esc(a?.line)}" required></label>
+        <label class="f">Area<input type="text" name="area" value="${esc(a?.area)}"></label><label class="f">Pincode<input type="text" name="pincode" value="${esc(a?.pincode)}" inputmode="numeric"></label>
+        <label class="f">Label<input type="text" name="label" value="${esc(a?.label)}" placeholder="Home, Office"></label>
+        <label class="f">Delivery charge each time<input type="number" name="fee" min="0" step="1" value="" placeholder="${a ? rupees(a.fee_per_delivery_paise) : 'Worked out from the map'}"><span class="hint">Leave empty to use the distance rule.</span></label>
+        <label class="f span2">Directions for the driver<input type="text" name="delivery_note" value="${esc(a?.delivery_note)}"></label></div>
+        <div><div class="small muted" style="margin-bottom:6px">Tap the map to mark the exact spot (optional).</div><div class="map" id="addr-map"></div></div>`,
+      onOpen: () => mountPin($('#addr-map'), point, (lat, lng) => { point.lat = lat; point.lng = lng; }),
+      onSubmit: async (f) => {
+        const body = { id: a?.id, line: f.get('line'), area: f.get('area'), pincode: f.get('pincode'), label: f.get('label'), delivery_note: f.get('delivery_note'), lat: point.lat, lng: point.lng };
+        if (String(f.get('fee')).trim() !== '') body.fee_per_delivery_paise = toPaise(f.get('fee'));
+        await rpc('staff_save_address', { p_customer: currentCustomer().id, p_address: body });
+        afterChange('Address saved');
+      },
+    });
+  }
+
+  function daysChips(selected) {
+    const off = L.settings.weekly_off || [];
+    return `<div class="chips">${DAYS.map((d, i) => `<label class="chip"><input type="checkbox" name="day" value="${i + 1}" ${selected.includes(i + 1) && !off.includes(i + 1) ? 'checked' : ''} ${off.includes(i + 1) ? 'disabled' : ''}><span>${d}</span></label>`).join('')}</div>`;
+  }
+  function addonChips(rows, selected) {
+    return rows.length ? `<div class="chips">${rows.map((a) => `<label class="chip"><input type="checkbox" name="addon" value="${a.id}" ${selected.includes(a.id) ? 'checked' : ''}><span>${esc(a.name)} ${inr(a.price_paise)}</span></label>`).join('')}</div>` : '';
+  }
+  function whereField(addrId, isPickup) {
+    const a = S.data.addresses;
+    return `<select name="where">${a.map((x) => `<option value="${x.id}" ${x.id === addrId && !isPickup ? 'selected' : ''}>${esc([x.label, x.line].filter(Boolean).join(': '))}</option>`).join('')}<option value="pickup" ${isPickup || !a.length ? 'selected' : ''}>Pickup from kitchen</option></select>`;
+  }
+  const money = (name, label, ph, hint) => `<label class="f">${esc(label)}<input type="number" name="${name}" min="0" step="1" placeholder="${esc(ph)}">${hint ? `<span class="hint">${esc(hint)}</span>` : ''}</label>`;
+
+  function planModal(from) {
+    const plans = L.plans.filter((p) => p.active);
+    if (!plans.length) return toast('Add a plan on the Plans page first.', true);
+    if (!activeSlots().length || !activeVariants().length) return toast('Add a meal slot and a meal type in Settings first.', true);
+    const paid = !!S.data.payments;
+    const firstAddr = S.data.addresses.find((a) => a.is_default) || S.data.addresses[0];
+    const planIsOn = from && plans.some((p) => p.id === from.plan_id);
+    const days = from ? from.delivery_days : [1, 2, 3, 4, 5, 6, 7];
+    openModal({
+      title: from ? 'Renew plan' : 'Add plan', wide: true, submit: 'Add plan',
+      body: `<div class="grid">
+        <label class="f span2">Plan<select name="plan">${options(plans, planIsOn ? from.plan_id : null, (p) => `${p.name}: ${p.meals_total} meals, ${inr(p.price_paise)}`)}</select></label>
+        <label class="f">Meal type<select name="variant">${options(activeVariants(), from?.variant_id)}</select></label>
+        <label class="f">Slot<select name="slot">${options(activeSlots(), from?.slot_id)}</select></label>
+        <label class="f">Start date<input type="date" name="start"><span class="hint">Leave empty for the first day possible.</span></label>
+        <label class="f">Meals a day<input type="number" name="per_day" min="1" max="10" value="${from?.meals_per_day || 1}"></label>
+        <div class="f span2"><div class="small" style="font-weight:500;margin-bottom:5px">Delivery days</div>${daysChips(days)}</div>
+        ${L.addons.some((a) => a.active) ? `<div class="f span2"><div class="small" style="font-weight:500;margin-bottom:5px">Add-ons</div>${addonChips(L.addons.filter((a) => a.active), (from?.addons || []).map((a) => a.addon_id))}</div>` : ''}
+        <label class="f span2">Goes to${whereField(from?.address_id || firstAddr?.id, from?.is_pickup)}</label>
+        <label class="f span2">Kitchen note<input type="text" name="instructions" value="${esc(from?.instructions)}"></label>
+        ${paid ? `${money('price', 'Price', 'Plan price', 'Leave empty for the listed price.')}${money('fee', 'Delivery total', 'From address')}${money('discount', 'Discount', '0')}
+        <div></div>${money('paid', 'Received now', '0', 'Leave empty if not paid yet.')}
+        <label class="f">How it was paid<select name="method"><option value="cash">Cash</option><option value="upi">UPI</option><option value="bank">Bank</option><option value="other">Other</option></select></label>` : ''}
+      </div><div class="total-line"><span>Total</span><span id="plan-total">...</span></div>`,
+      onOpen: (form) => {
+        let t;
+        const refresh = () => { clearTimeout(t); t = setTimeout(async () => {
+          const box = $('#plan-total'); if (!box) return;
+          try { const q = await rpc('staff_add_plan', { p_customer: currentCustomer().id, p_order: orderFrom(new FormData(form), paid, false), p_preview: true });
+            box.textContent = `${inr(q.total_paise)} · first meal ${day(q.start_date)}`; }
+          catch (e) { box.textContent = e.message; }
+        }, 200); };
+        form.addEventListener('input', refresh); form.addEventListener('change', refresh); refresh();
+      },
+      onSubmit: async (f) => {
+        await rpc('staff_add_plan', { p_customer: currentCustomer().id, p_order: orderFrom(f, paid, true) });
+        afterChange('Plan added');
+      },
+    });
+  }
+  function orderFrom(f, paid, withPayment) {
+    const where = f.get('where');
+    const o = { plan_id: f.get('plan'), variant_id: f.get('variant'), slot_id: f.get('slot'), delivery_days: f.getAll('day').map(Number), meals_per_day: Number(f.get('per_day') || 1),
+      addons: f.getAll('addon').map((id) => ({ addon_id: id, qty: 1 })), is_pickup: where === 'pickup', address_id: where === 'pickup' ? null : where, instructions: f.get('instructions') };
+    if (f.get('start')) o.start_date = f.get('start');
+    if (paid) {
+      if (String(f.get('price')).trim() !== '') o.price_paise = toPaise(f.get('price'));
+      if (String(f.get('fee')).trim() !== '') o.delivery_fee_paise = toPaise(f.get('fee'));
+      if (String(f.get('discount')).trim() !== '') o.discount_paise = toPaise(f.get('discount'));
+      if (withPayment && Number(f.get('paid')) > 0) o.payment = { provider: f.get('method'), amount_paise: toPaise(f.get('paid')) };
+    }
+    return o;
+  }
+  function editPlanModal(p) {
+    const paid = !!S.data.payments;
+    const slots = L.slots.filter((x) => x.active || x.id === p.slot_id);
+    const vars = L.variants.filter((x) => x.active || x.id === p.variant_id);
+    const addons = L.addons.filter((a) => a.active || p.addons.some((x) => x.addon_id === a.id));
+    openModal({
+      title: `Change ${p.plan_name}`, wide: true,
+      body: `<div class="grid">
+        <label class="f">Meal type<select name="variant">${options(vars, p.variant_id)}</select></label>
+        <label class="f">Slot<select name="slot">${options(slots, p.slot_id)}</select></label>
+        <label class="f">Start date<input type="date" name="start" value="${esc(p.start_date)}"></label>
+        <label class="f">Meals a day<input type="number" name="per_day" min="1" max="10" value="${p.meals_per_day}"></label>
+        <div class="f span2"><div class="small" style="font-weight:500;margin-bottom:5px">Delivery days</div>${daysChips(p.delivery_days)}</div>
+        ${addons.length ? `<div class="f span2"><div class="small" style="font-weight:500;margin-bottom:5px">Add-ons</div>${addonChips(addons, p.addons.map((a) => a.addon_id))}<span class="hint small muted" style="display:block;margin-top:5px">Changing add-ons does not change what was charged${paid ? '. Edit the amounts below if needed' : ''}.</span></div>` : ''}
+        <label class="f span2">Goes to${whereField(p.address_id, p.is_pickup)}</label>
+        <label class="f span2">Kitchen note<input type="text" name="instructions" value="${esc(p.instructions)}"></label>
+        ${paid ? `<label class="f">Price<input type="number" name="price" min="0" value="${rupees(p.price_paise)}"></label><label class="f">Add-ons total<input type="number" name="addons_total" min="0" value="${rupees(p.addons_paise)}"></label>
+        <label class="f">Delivery total<input type="number" name="fee" min="0" value="${rupees(p.delivery_fee_paise)}"></label><label class="f">Discount<input type="number" name="discount" min="0" value="${rupees(p.discount_paise)}"></label>` : ''}
+      </div>`,
+      onSubmit: async (f) => {
+        const where = f.get('where');
+        const ch = {};
+        const put = (k, v, old) => { if (JSON.stringify(v) !== JSON.stringify(old)) ch[k] = v; };
+        put('variant_id', f.get('variant'), p.variant_id); put('slot_id', f.get('slot'), p.slot_id);
+        put('start_date', f.get('start'), p.start_date); put('meals_per_day', Number(f.get('per_day')), p.meals_per_day);
+        const days = f.getAll('day').map(Number).sort();
+        put('delivery_days', days, p.delivery_days.slice().sort());
+        const ids = f.getAll('addon');
+        if (ids.slice().sort().join() !== p.addons.map((a) => a.addon_id).sort().join()) ch.addons = ids.map((id) => p.addons.find((a) => a.addon_id === id) || { addon_id: id, qty: 1 });
+        put('is_pickup', where === 'pickup', p.is_pickup);
+        if (where !== 'pickup') put('address_id', where, p.address_id);
+        put('instructions', f.get('instructions'), p.instructions || '');
+        if (paid) { put('price_paise', toPaise(f.get('price')), p.price_paise); put('addons_paise', toPaise(f.get('addons_total')), p.addons_paise);
+          put('delivery_fee_paise', toPaise(f.get('fee')), p.delivery_fee_paise); put('discount_paise', toPaise(f.get('discount')), p.discount_paise); }
+        if (!Object.keys(ch).length) return closeModal();
+        await rpc('staff_update_plan', { p_sub: p.id, p_changes: ch });
+        afterChange('Plan changed');
+      },
+    });
+  }
+  function recordPaymentModal() {
+    const plans = S.data.plans;
+    const dueOf = (p) => p.total_paise - p.paid_paise;
+    const first = plans.find((p) => dueOf(p) > 0);
+    openModal({
+      title: 'Record payment',
+      body: `<div class="chips"><label class="chip"><input type="radio" name="kind" value="in" checked><span>Money received</span></label><label class="chip"><input type="radio" name="kind" value="out"><span>Refund given</span></label></div>
+        <div class="grid"><label class="f">Amount<input type="number" name="amount" min="1" step="1" value="${first ? rupees(dueOf(first)) : ''}" required></label>
+        <label class="f">How<select name="method"><option value="cash">Cash</option><option value="upi">UPI</option><option value="bank">Bank</option><option value="other">Other</option></select></label>
+        <label class="f">Date<input type="date" name="date" value="${esc(S.data.today)}" max="${esc(S.data.today)}"></label>
+        <label class="f">For plan<select name="sub"><option value="">Not for a plan</option>${plans.map((p) => `<option value="${p.id}" ${p === first ? 'selected' : ''}>${esc(p.plan_name)}${dueOf(p) > 0 ? ` (${inr(dueOf(p))} due)` : ''}</option>`).join('')}</select></label>
+        <label class="f span2">Note<input type="text" name="note"></label></div>`,
+      onSubmit: async (f) => {
+        const amt = toPaise(f.get('amount'));
+        if (!(amt > 0)) throw new Error('Please enter a valid amount.');
+        await rpc('staff_record_payment', { p_customer: currentCustomer().id, p_sub: f.get('sub') || null, p_provider: f.get('method'), p_amount_paise: f.get('kind') === 'out' ? -amt : amt, p_note: f.get('note'), p_date: f.get('date') || null });
+        afterChange('Payment recorded');
+      },
+    });
+  }
+
+  // ---------- payments ----------
+  VIEWS.payments = async () => {
+    const m = L.today.slice(0, 8) + '01';
+    S.pay.from = S.pay.from || m; S.pay.to = S.pay.to || L.today;
+    const r = await rpc('staff_payments', { p_from: S.pay.from, p_to: S.pay.to });
+    S.data = r;
+    const total = r.rows.reduce((n, x) => n + x.amount_paise, 0);
+    app.innerHTML = frame(`<div class="head-row"><h1>Payments</h1><span class="grow"></span>
+        <div class="ctl"><input type="date" value="${esc(S.pay.from)}" data-change="pay-from" aria-label="From"><span class="muted">to</span><input type="date" value="${esc(S.pay.to)}" data-change="pay-to" aria-label="To"></div>
+        <button class="btn sm primary" data-act="pay-csv" ${r.rows.length ? '' : 'disabled'}>Download</button></div>
+      <div class="stats"><div class="card stat"><b>${inr(total)}</b><span>Total</span></div>${Object.entries(r.by_method).map(([k, v]) => `<div class="card stat"><b>${inr(v)}</b><span>${esc(METHOD[k] || k)}</span></div>`).join('')}</div>
+      ${r.dues.length ? `<div class="card"><div class="card-head"><h2>Still to collect</h2><span class="muted small">${r.dues.length} plan${r.dues.length > 1 ? 's' : ''}</span></div><div class="scroll-x"><table class="table"><thead><tr><th>Customer</th><th>Plan</th><th>Total</th><th>Due</th></tr></thead><tbody>
+        ${r.dues.map((d) => `<tr class="click" data-href="#/customers/${d.customer_id}"><td>${esc(d.customer)}<div class="small muted">${esc(phoneShow(d.phone))}</div></td><td>${esc(d.plan_name)}</td><td class="num">${inr(d.total_paise)}</td><td class="num" style="color:var(--danger)">${inr(d.due_paise)}</td></tr>`).join('')}</tbody></table></div></div>` : ''}
+      <div class="card"><div class="card-head"><h2>Received</h2></div>${r.rows.length ? `<div class="scroll-x"><table class="table"><thead><tr><th>Date</th><th>Customer</th><th>Amount</th><th>How</th><th class="hide-sm">Note</th></tr></thead><tbody>
+        ${r.rows.map((p) => `<tr class="click" data-href="#/customers/${p.customer_id}"><td style="white-space:nowrap">${esc(dateOnly(p.date))}</td><td>${esc(p.customer)}<div class="small muted">${esc(p.plan_name || '')}</div></td><td class="num">${inr(p.amount_paise)}</td><td>${esc(METHOD[p.provider] || p.provider)}</td><td class="hide-sm small muted">${esc(p.note || '')}</td></tr>`).join('')}</tbody></table></div>` : '<div class="empty">No payments in these dates.</div>'}</div>`);
+  };
+
+  // ---------- plans ----------
+  const FIELDS = {
+    plans: { title: 'plan', fields: [
+      { k: 'name', l: 'Name', req: 1, span: 1 }, { k: 'meals_total', l: 'Meals in the plan', t: 'number', req: 1 }, { k: 'price_paise', l: 'Price', t: 'money', req: 1 },
+      { k: 'meals_per_day_default', l: 'Meals a day', t: 'number', d: 1 }, { k: 'sort_order', l: 'Order on the page', t: 'number', d: 0 },
+      { k: 'description', l: 'Description', t: 'area', span: 1 }, { k: 'is_trial', l: 'This is a trial plan', t: 'check' }, { k: 'active', l: 'On sale', t: 'check', d: true } ] },
+    addons: { title: 'add-on', fields: [ { k: 'name', l: 'Name', req: 1, span: 1 }, { k: 'price_paise', l: 'Price for each delivery', t: 'money', req: 1 }, { k: 'sort_order', l: 'Order on the page', t: 'number', d: 0 }, { k: 'description', l: 'Description', t: 'area', span: 1 }, { k: 'active', l: 'On sale', t: 'check', d: true } ] },
+    promos: { title: 'promo code', fields: [ { k: 'code', l: 'Code', req: 1 }, { k: 'discount_type', l: 'Discount type', t: 'select', opts: [['percent', 'Percent off'], ['flat', 'Rupees off']], d: 'percent' }, { k: 'discount_value', l: 'Value', t: 'number', req: 1 },
+      { k: 'min_order_paise', l: 'Minimum order', t: 'money' }, { k: 'valid_from', l: 'From', t: 'date' }, { k: 'valid_to', l: 'To', t: 'date' }, { k: 'usage_limit', l: 'Times it can be used', t: 'number' }, { k: 'note', l: 'Note', span: 1 }, { k: 'active', l: 'Active', t: 'check', d: true } ] },
+    slots: { title: 'meal slot', fields: [ { k: 'name', l: 'Name', req: 1, span: 1 }, { k: 'start_time', l: 'Delivery starts', t: 'time', req: 1 }, { k: 'end_time', l: 'Delivery ends', t: 'time' }, { k: 'cutoff_minutes', l: 'Changes close (minutes before start)', t: 'number', d: 120 }, { k: 'sort_order', l: 'Order', t: 'number', d: 0 }, { k: 'active', l: 'Active', t: 'check', d: true } ] },
+    variants: { title: 'meal type', fields: [ { k: 'name', l: 'Name', req: 1, span: 1 }, { k: 'sort_order', l: 'Order', t: 'number', d: 0 }, { k: 'active', l: 'Active', t: 'check', d: true } ] },
+  };
+  function rowModal(kind, row) {
+    const cfg = FIELDS[kind];
+    const fieldHtml = cfg.fields.map((f) => {
+      const v = row ? row[f.k] : f.d;
+      const cls = f.span ? ' span2' : '';
+      if (f.t === 'check') return `<label class="switch span2"><input type="checkbox" name="${f.k}" ${v ? 'checked' : ''}> ${esc(f.l)}</label>`;
+      if (f.t === 'area') return `<label class="f${cls}">${esc(f.l)}<textarea name="${f.k}" rows="2">${esc(v)}</textarea></label>`;
+      if (f.t === 'select') return `<label class="f${cls}">${esc(f.l)}<select name="${f.k}">${f.opts.map(([o, l]) => `<option value="${o}" ${o === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>`;
+      const type = f.t === 'money' ? 'number' : f.t || 'text';
+      const val = f.t === 'money' ? rupees(v) : f.t === 'time' ? String(v ?? '').slice(0, 5) : v;
+      return `<label class="f${cls}">${esc(f.l)}<input type="${type}" name="${f.k}" value="${esc(val)}" ${f.t === 'money' ? 'min="0" step="1"' : ''}></label>`;
+    }).join('');
+    openModal({
+      title: `${row ? 'Edit' : 'Add'} ${cfg.title}`, body: `<div class="grid">${fieldHtml}</div>`,
+      onSubmit: async (f) => {
+        const out = row ? { ...row } : {};
+        for (const x of cfg.fields) {
+          if (x.t === 'check') { out[x.k] = f.get(x.k) === 'on'; continue; }
+          const raw = String(f.get(x.k) ?? '').trim();
+          if (x.req && !raw) throw new Error(`Please fill in ${x.l.toLowerCase()}.`);
+          out[x.k] = raw === '' ? null : x.t === 'money' ? toPaise(raw) : x.t === 'number' ? Number(raw) : raw;
+        }
+        delete out.earliest_start;
+        await rpc('staff_save_rows', { p_kind: kind, p_rows: [out] });
+        await refreshLookups();
+        afterChange('Saved');
+      },
+    });
+  }
+  async function removeRow(kind, row, label) {
+    if (!confirm(`Remove ${label}? If customers have used it, it is switched off instead.`)) return;
+    await run(async () => {
+      const r = await rpc('staff_save_rows', { p_kind: kind, p_rows: [{ id: row.id, _delete: true }] });
+      await refreshLookups();
+      toast(r.switched_off ? 'In use, so it was switched off.' : 'Removed');
+      reload();
+    });
+  }
+  const onOff = (r) => (r.active ? '' : ' <span class="pill">Off</span>');
+  const rowBtns = (kind, id) => `<button class="btn sm" data-act="row-edit" data-kind="${kind}" data-id="${id}">Edit</button> <button class="btn sm ghost" data-act="row-del" data-kind="${kind}" data-id="${id}">Remove</button>`;
+  VIEWS.plans = async () => {
+    await refreshLookups();
+    app.innerHTML = frame(`<div class="head-row"><h1>Plans & prices</h1></div>
+      <div class="card"><div class="card-head"><h2>Plans</h2><span class="grow"></span><button class="btn sm primary" data-act="row-new" data-kind="plans">Add plan</button></div>
+        ${L.plans.length ? `<div class="scroll-x"><table class="table"><thead><tr><th>Plan</th><th>Meals</th><th>Price</th><th></th></tr></thead><tbody>${L.plans.map((p) => `<tr><td>${esc(p.name)}${onOff(p)}${p.is_trial ? ' <span class="pill">Trial</span>' : ''}<div class="small muted">${esc(p.description || '')}</div></td><td class="num">${p.meals_total}</td><td class="num">${inr(p.price_paise)}</td><td class="right" style="white-space:nowrap">${rowBtns('plans', p.id)}</td></tr>`).join('')}</tbody></table></div>` : '<div class="empty">No plans yet.</div>'}</div>
+      <div class="card"><div class="card-head"><h2>Add-ons</h2><span class="muted small">Charged for each delivery</span><span class="grow"></span><button class="btn sm" data-act="row-new" data-kind="addons">Add add-on</button></div>
+        ${L.addons.length ? `<div class="scroll-x"><table class="table"><thead><tr><th>Add-on</th><th>Price</th><th></th></tr></thead><tbody>${L.addons.map((a) => `<tr><td>${esc(a.name)}${onOff(a)}</td><td class="num">${inr(a.price_paise)}</td><td class="right" style="white-space:nowrap">${rowBtns('addons', a.id)}</td></tr>`).join('')}</tbody></table></div>` : '<div class="empty">No add-ons.</div>'}</div>
+      <div class="card"><div class="card-head"><h2>Promo codes</h2><span class="grow"></span><button class="btn sm" data-act="row-new" data-kind="promos">Add code</button></div>
+        ${L.promos.length ? `<div class="scroll-x"><table class="table"><thead><tr><th>Code</th><th>Discount</th><th>Used</th><th class="hide-sm">Valid</th><th></th></tr></thead><tbody>${L.promos.map((p) => `<tr><td class="mono">${esc(p.code)}${onOff(p)}</td><td>${p.discount_type === 'percent' ? `${p.discount_value}%` : `₹${p.discount_value}`}</td><td class="num">${p.used_count}${p.usage_limit ? ` of ${p.usage_limit}` : ''}</td><td class="hide-sm small muted">${esc([p.valid_from && day(p.valid_from), p.valid_to && day(p.valid_to)].filter(Boolean).join(' to ')) || 'Always'}</td><td class="right" style="white-space:nowrap">${rowBtns('promos', p.id)}</td></tr>`).join('')}</tbody></table></div>` : '<div class="empty">No promo codes.</div>'}</div>
+      <p class="small muted">Plan photos and your logo are managed during setup. Ask your platform contact to change them.</p>`);
+  };
+
+  // ---------- menu ----------
+  VIEWS.menu = async () => {
+    S.menu.week = S.menu.week || mondayOf(L.today);
+    S.menu.slot = S.menu.slot || activeSlots()[0]?.id || L.slots[0]?.id;
+    const from = S.menu.week, to = addDays(from, 6);
+    const items = await rpc('staff_menu', { p_from: from, p_to: to });
+    const pick = (d) => items.find((m) => m.date === d && m.slot_id === S.menu.slot && (m.variant_id || '') === S.menu.variant);
+    const rows = Array.from({ length: 7 }, (_, i) => addDays(from, i)).map((d) => { const m = pick(d); const off = L.settings.weekly_off.includes((d0(d).getDay() + 6) % 7 + 1); const hol = L.holidays.find((h) => h.day === d);
+      return `<div class="grid three" style="align-items:center"><div>${esc(day(d))}${off ? ' <span class="pill">Off</span>' : ''}${hol ? ` <span class="pill warn">${esc(hol.note || 'Holiday')}</span>` : ''}</div>
+        <input type="text" data-menu="${d}" data-k="name" value="${esc(m?.name)}" placeholder="Dish" aria-label="Dish for ${esc(day(d))}"><input type="text" data-menu="${d}" data-k="description" value="${esc(m?.description)}" placeholder="Details (optional)" aria-label="Details for ${esc(day(d))}"></div>`; }).join('');
+    app.innerHTML = frame(`<div class="head-row"><h1>Menu</h1><span class="muted">${esc(day(from))} to ${esc(day(to))}</span><span class="grow"></span>
+        <button class="btn sm" data-act="menu-week" data-step="-7" aria-label="Previous week">‹ Week</button><button class="btn sm" data-act="menu-week" data-step="7" aria-label="Next week">Week ›</button></div>
+      <div class="head-row"><div class="ctl"><select data-change="menu-slot" aria-label="Meal slot">${options(L.slots, S.menu.slot)}</select>
+        <select data-change="menu-variant" aria-label="Meal type"><option value="">All meal types</option>${options(L.variants, S.menu.variant)}</select></div><span class="grow"></span>
+        <button class="btn sm" data-act="menu-copy">Copy last week</button><button class="btn sm" data-act="menu-upload">Upload sheet</button><input type="file" accept=".csv,text/csv" id="menu-file" class="hidden"></div>
+      <div class="card pad" style="display:flex;flex-direction:column;gap:10px">${rows}<div style="display:flex;justify-content:flex-end"><button class="btn primary" data-act="menu-save">Save menu</button></div></div>
+      <p class="small muted">A dish for one meal type replaces "All meal types" for those customers. To upload, save your sheet as CSV with these columns: date, meal, type, dish, details. <a href="#" data-act="menu-sample">Download a sample</a>.</p>`);
+  };
+  function menuUpload(file) {
+    const reader = new FileReader();
+    reader.onload = () => run(async () => {
+      const rows = parseCsv(String(reader.result));
+      if (rows.length < 2) throw new Error('The sheet is empty.');
+      const head = rows[0].map((h) => h.trim().toLowerCase());
+      const col = (n) => head.indexOf(n);
+      if (col('date') < 0 || col('meal') < 0 || col('dish') < 0) throw new Error('The sheet needs columns named date, meal and dish.');
+      const out = [];
+      rows.slice(1).forEach((r, i) => {
+        const line = i + 2;
+        const date = readDate(r[col('date')]);
+        if (!date) throw new Error(`Line ${line}: the date is not readable. Use 2027-03-15 or 15/03/2027.`);
+        const slot = L.slots.find((s) => s.name.toLowerCase() === (r[col('meal')] || '').trim().toLowerCase());
+        if (!slot) throw new Error(`Line ${line}: no meal slot named "${(r[col('meal')] || '').trim()}".`);
+        const tName = col('type') >= 0 ? (r[col('type')] || '').trim().toLowerCase() : '';
+        let variant = null;
+        if (tName && tName !== 'all') {
+          variant = L.variants.find((v) => v.name.toLowerCase() === tName);
+          if (!variant) throw new Error(`Line ${line}: no meal type named "${tName}".`);
+        }
+        out.push({ date, slot_id: slot.id, variant_id: variant?.id || null, name: r[col('dish')] || '', description: col('details') >= 0 ? r[col('details')] || '' : '' });
+      });
+      const res = await rpc('staff_save_menu', { p_rows: out });
+      toast(`${res.saved} dishes saved`);
+      reload();
+    });
+    reader.readAsText(file);
+  }
+
+  // ---------- holidays ----------
+  VIEWS.holidays = async () => {
+    await refreshLookups();
+    const upcoming = L.holidays.filter((h) => h.day >= L.today);
+    app.innerHTML = frame(`<div class="head-row"><h1>Holidays</h1></div>
+      <div class="card pad"><form id="hol-form" class="grid three" style="align-items:end"><label class="f">Date<input type="date" name="day" min="${esc(L.today)}" required></label>
+        <label class="f">Note<input type="text" name="note" placeholder="Diwali"></label><button class="btn primary" type="submit">Add holiday</button></form>
+        <p class="small muted" style="margin:12px 0 0">Meals on a holiday move to the next open day by themselves. If the day's cut-off has passed, the meal is given back.</p></div>
+      <div class="card">${upcoming.length ? `<div class="row-list">${upcoming.map((h) => `<div class="link-row"><span class="grow">${esc(dayLong(h.day))}${h.note ? ` <span class="muted">${esc(h.note)}</span>` : ''}</span><button class="btn sm ghost" data-act="hol-del" data-day="${h.day}">Remove</button></div>`).join('')}</div>` : '<div class="empty">No holidays coming up.</div>'}</div>`);
+    $('#hol-form').addEventListener('submit', (e) => { e.preventDefault(); const f = new FormData(e.target); if (!f.get('day')) return toast('Please pick a date.', true);
+      run(async () => { await rpc('staff_save_rows', { p_kind: 'holidays', p_rows: [{ day: f.get('day'), note: f.get('note') }] }); toast('Holiday added'); reload(); }); });
+  };
+
+  // ---------- team ----------
+  function signInLink() {
+    const shared = ['localhost', '127.0.0.1'].includes(location.hostname) || MealApi.config.SHARED_HOST;
+    return `${location.origin}${location.pathname}${shared ? `?k=${T.slug}` : ''}`;
+  }
+  VIEWS.team = async () => {
+    const r = await rpc('staff_team');
+    S.data = r;
+    const isOwner = r.my_role === 'owner';
+    const accessText = (s) => (['owner', 'manager'].includes(s.role) ? 'Everything' : (s.pages.length ? s.pages.map((p) => PAGES.find((x) => x.key === p)?.label || p).join(', ') : 'Nothing yet'));
+    const editable = (s) => isOwner || !['owner', 'manager'].includes(s.role);
+    app.innerHTML = frame(`<div class="head-row"><h1>Team</h1><span class="grow"></span><button class="btn primary" data-act="team-invite">Add person</button></div>
+      <div class="card pad"><h3>Sign-in page for your team</h3><div class="link-row"><span class="mono">${esc(signInLink())}</span><button class="btn sm" data-act="copy-link">Copy</button></div>
+        <p class="small muted" style="margin:8px 0 0">After you add someone, send them this page. They choose "First time here" and use the same email you entered.</p></div>
+      <div class="card"><div class="scroll-x"><table class="table"><thead><tr><th>Person</th><th>Role</th><th class="hide-sm">Can open</th><th></th></tr></thead><tbody>
+        ${r.staff.map((s) => `<tr><td>${esc(s.name)}${s.id === r.me ? ' <span class="pill">You</span>' : ''}${s.active ? '' : ' <span class="pill bad">Removed</span>'}<div class="small muted">${esc(s.email || '')}</div></td><td>${esc(ROLE_LABEL[s.role])}</td><td class="hide-sm small muted">${esc(accessText(s))}</td><td class="right">${editable(s) ? `<button class="btn sm" data-act="team-edit" data-id="${s.id}">Edit</button>` : ''}</td></tr>`).join('')}
+        ${r.invites.map((i) => `<tr><td>${esc(i.name)} <span class="pill warn">Waiting to sign in</span><div class="small muted">${esc(i.email)}</div></td><td>${esc(ROLE_LABEL[i.role])}</td><td class="hide-sm"></td><td class="right">${isOwner || !['owner', 'manager'].includes(i.role) ? `<button class="btn sm ghost" data-act="team-cancel" data-id="${i.id}">Cancel</button>` : ''}</td></tr>`).join('')}
+      </tbody></table></div></div>`);
+  };
+  function pagesPicker(selected) {
+    return `<div id="pages-box"><div class="small" style="font-weight:500;margin-bottom:5px">Can open</div><div class="chips">${GRANTABLE.map((p) => `<label class="chip"><input type="checkbox" name="page" value="${p.key}" ${selected.includes(p.key) ? 'checked' : ''}><span>${esc(p.label)}</span></label>`).join('')}</div></div>`;
+  }
+  function roleOptions(current) {
+    const isOwner = S.data.my_role === 'owner';
+    return Object.entries(ROLE_LABEL).filter(([k]) => isOwner || !['owner', 'manager'].includes(k)).map(([k, l]) => `<option value="${k}" ${k === current ? 'selected' : ''}>${l}</option>`).join('');
+  }
+  function wireRole(form) {
+    const role = $('[name=role]', form), box = $('#pages-box', form);
+    const sync = (fill) => {
+      const all = ['owner', 'manager'].includes(role.value);
+      box.classList.toggle('hidden', all);
+      if (fill && !all) form.querySelectorAll('[name=page]').forEach((c) => { c.checked = (ROLE_PAGES[role.value] || []).includes(c.value); });
+    };
+    role.addEventListener('change', () => sync(true)); sync(false);
+  }
+  function inviteModal() {
+    openModal({
+      title: 'Add person', submit: 'Add',
+      body: `<div class="grid"><label class="f span2">Name<input type="text" name="name" required></label><label class="f span2">Email<input type="email" name="email" required></label>
+        <label class="f span2">Role<select name="role">${roleOptions('kitchen')}</select></label></div>${pagesPicker(ROLE_PAGES.kitchen)}`,
+      onOpen: wireRole,
+      onSubmit: async (f) => {
+        const r = await rpc('staff_invite', { p_email: f.get('email'), p_name: f.get('name'), p_role: f.get('role'), p_pages: f.getAll('page') });
+        afterChange(r.linked ? 'Added. They can sign in now.' : 'Added. Send them the sign-in page.');
+      },
+    });
+  }
+  function memberModal(s) {
+    const self = s.id === S.data.me;
+    openModal({
+      title: `Edit ${s.name}`,
+      body: `<div class="grid"><label class="f span2">Name<input type="text" name="name" value="${esc(s.name)}" required></label>
+        <label class="f span2">Role<select name="role" ${self ? 'disabled' : ''}>${roleOptions(s.role)}</select></label></div>${pagesPicker(s.pages)}
+        ${self ? '' : `<label class="switch"><input type="checkbox" name="active" ${s.active ? 'checked' : ''}> Can sign in</label>`}`,
+      onOpen: wireRole,
+      onSubmit: async (f, form) => {
+        await rpc('staff_update_member', { p_staff: s.id, p_name: f.get('name'), p_role: self ? s.role : f.get('role'), p_pages: f.getAll('page'), p_active: self ? true : f.get('active') === 'on' });
+        if (self) ME.name = f.get('name');
+        afterChange('Saved');
+      },
+    });
+  }
+
+  // ---------- settings ----------
+  VIEWS.settings = async () => {
+    await refreshLookups();
+    const s = L.settings;
+    S.loc = { lat: s.kitchen_lat, lng: s.kitchen_lng };
+    app.innerHTML = frame(`<div class="head-row"><h1>Settings</h1></div>
+      <form id="set-form">
+      <div class="card pad"><h2 style="margin-bottom:12px">Your kitchen</h2><div class="grid">
+        <label class="f span2">Brand name<input type="text" name="display_name" value="${esc(s.display_name)}" required></label>
+        <label class="f">Support phone<input type="tel" name="support_phone" value="${esc(s.support_phone)}"></label><label class="f">WhatsApp number<input type="tel" name="whatsapp_phone" value="${esc(s.whatsapp_phone)}"></label>
+        <label class="f">Support email<input type="email" name="support_email" value="${esc(s.support_email)}"></label><label class="f">City<input type="text" name="city" value="${esc(s.city)}"></label>
+        <label class="f span2">Address<input type="text" name="address" value="${esc(s.address)}"></label></div></div>
+      <div class="card pad"><h2 style="margin-bottom:12px">Delivery</h2><div class="grid three">
+        <label class="f">Free up to (km)<input type="number" name="delivery_free_km" min="0" step="0.5" value="${esc(s.delivery_free_km)}"></label>
+        <label class="f">Then per km (₹)<input type="number" name="per_km" min="0" step="1" value="${rupees(s.delivery_per_km_paise)}"></label>
+        <label class="f">Furthest (km)<input type="number" name="delivery_max_km" min="0" step="0.5" value="${esc(s.delivery_max_km)}" placeholder="No limit"></label></div>
+        <label class="switch" style="margin-top:14px"><input type="checkbox" name="pickup_enabled" ${s.pickup_enabled ? 'checked' : ''}> Customers can pick up from the kitchen</label>
+        <div style="margin-top:14px"><div class="small muted" style="margin-bottom:6px">Kitchen location. Tap the map to move it.</div><div class="map" id="set-map"></div></div></div>
+      <div class="card pad"><h2 style="margin-bottom:12px">Schedule</h2><div class="small" style="font-weight:500;margin-bottom:6px">Weekly days off</div>
+        <div class="chips">${DAYS.map((d, i) => `<label class="chip"><input type="checkbox" name="off" value="${i + 1}" ${s.weekly_off.includes(i + 1) ? 'checked' : ''}><span>${d}</span></label>`).join('')}</div>
+        <p class="small muted" style="margin:8px 0 14px">Changing this moves upcoming meals for every customer.</p>
+        <label class="switch"><input type="checkbox" name="same_day_start" ${s.same_day_start ? 'checked' : ''}> A new plan can start the same day, if before the cut-off</label></div>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:24px"><button class="btn primary" type="submit">Save settings</button></div></form>
+      <div class="card"><div class="card-head"><h2>Meal slots</h2><span class="grow"></span><button class="btn sm" data-act="row-new" data-kind="slots">Add slot</button></div><div class="scroll-x"><table class="table"><thead><tr><th>Slot</th><th>Starts</th><th>Changes close</th><th></th></tr></thead><tbody>
+        ${L.slots.map((x) => `<tr><td>${esc(x.name)}${onOff(x)}</td><td>${esc(timeShow(x.start_time))}</td><td>${x.cutoff_minutes} min before</td><td class="right" style="white-space:nowrap">${rowBtns('slots', x.id)}</td></tr>`).join('')}</tbody></table></div></div>
+      <div class="card"><div class="card-head"><h2>Meal types</h2><span class="grow"></span><button class="btn sm" data-act="row-new" data-kind="variants">Add type</button></div><div class="scroll-x"><table class="table"><tbody>
+        ${L.variants.map((x) => `<tr><td>${esc(x.name)}${onOff(x)}</td><td class="right" style="white-space:nowrap">${rowBtns('variants', x.id)}</td></tr>`).join('')}</tbody></table></div></div>`);
+    mountPin($('#set-map'), S.loc, (lat, lng) => { S.loc.lat = lat; S.loc.lng = lng; });
+    $('#set-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const f = new FormData(e.target);
+      const off = f.getAll('off').map(Number);
+      const changedOff = off.slice().sort().join() !== s.weekly_off.slice().sort().join();
+      if (changedOff && !confirm('This moves upcoming meals for every customer. Continue?')) return;
+      run(async () => {
+        await rpc('staff_save_settings', { p_data: {
+          display_name: f.get('display_name'), support_phone: f.get('support_phone'), whatsapp_phone: f.get('whatsapp_phone'), support_email: f.get('support_email'), city: f.get('city'), address: f.get('address'),
+          delivery_free_km: Number(f.get('delivery_free_km') || 0), delivery_per_km_paise: toPaise(f.get('per_km') || 0), delivery_max_km: f.get('delivery_max_km') === '' ? '' : Number(f.get('delivery_max_km')),
+          pickup_enabled: f.get('pickup_enabled') === 'on', same_day_start: f.get('same_day_start') === 'on', weekly_off: off, kitchen_lat: S.loc.lat ?? '', kitchen_lng: S.loc.lng ?? '' } });
+        toast('Settings saved');
+        T.brand.name = f.get('display_name');
+        reload();
+      });
+    });
+  };
+
+  // ---------- actions ----------
+  const ACTS = {
+    signout: async () => { await api.signOut(); ME = null; renderLogin(); },
+    reload,
+    print: () => window.print(),
+    'kitchen-day': (el) => { const n = Number(el.dataset.step); S.kitchen.date = n ? addDays(S.kitchen.date, n) : L.today; reload(); },
+    'dl-day': (el) => { const n = Number(el.dataset.step); S.dl.date = n ? addDays(S.dl.date, n) : L.today; reload(); },
+    'dl-csv': deliveriesCsv,
+    'dl-done': (el) => run(() => rpc('staff_mark_delivered', { p_ids: [el.dataset.id] }).then(reload), 'Marked delivered'),
+    'dl-undo': (el) => run(() => rpc('staff_undo_delivered', { p_delivery: el.dataset.id }).then(reload), 'Undone'),
+    'dl-cancel': (el) => cancelDeliveryModal(el.dataset.id, reload),
+    'dl-unskip': (el) => run(() => rpc('staff_unskip', { p_sub: el.dataset.sub, p_date: el.dataset.date }).then(reload), 'Restored'),
+    'dl-all': () => { const ids = shownDeliveries().filter((x) => x.status === 'scheduled').map((x) => x.id); if (!confirm(`Mark ${ids.length} deliveries as delivered?`)) return; run(() => rpc('staff_mark_delivered', { p_ids: ids }).then(reload), 'Marked delivered'); },
+    'cust-new': newCustomerModal,
+    'cust-more': () => run(() => loadCustomers(true)),
+    'c-edit': () => { const c = currentCustomer(); openModal({ title: 'Edit customer', body: customerForm(c), onSubmit: async (f) => { await rpc('staff_save_customer', { p_data: { id: c.id, name: f.get('name'), phone: f.get('phone'), email: f.get('email'), notes: f.get('notes') } }); afterChange('Saved'); } }); },
+    'c-pin': () => { if (!confirm('Make a new PIN for this customer? Their old PIN stops working and they are signed out.')) return; run(async () => { const r = await rpc('staff_reset_pin', { p_customer: currentCustomer().id }); showPin('New PIN', r.pin, reload); }); },
+    'c-skip': (el) => run(() => rpc('staff_skip', { p_sub: el.dataset.sub, p_dates: [el.dataset.date], p_reason: 'By kitchen' }).then(reload), 'Skipped. The meal moved to the end.'),
+    'c-unskip': (el) => run(() => rpc('staff_unskip', { p_sub: el.dataset.sub, p_date: el.dataset.date }).then(reload), 'Restored'),
+    'c-cancel-day': (el) => cancelDeliveryModal(el.dataset.id, reload),
+    'c-undo-done': (el) => run(() => rpc('staff_undo_delivered', { p_delivery: el.dataset.id }).then(reload), 'Undone'),
+    'addr-new': () => addressModal(null),
+    'addr-edit': (el) => addressModal(S.data.addresses.find((a) => a.id === el.dataset.id)),
+    'addr-remove': (el) => { if (confirm('Remove this address?')) run(() => rpc('staff_remove_address', { p_customer: currentCustomer().id, p_address: el.dataset.id }).then(reload), 'Removed'); },
+    'plan-new': () => planModal(null),
+    'plan-renew': (el) => planModal(planById(el.dataset.id)),
+    'plan-edit': (el) => editPlanModal(planById(el.dataset.id)),
+    'plan-meals': (el) => { const p = planById(el.dataset.id); openModal({ title: 'Add or remove meals', submit: 'Save',
+      body: `<p class="muted small" style="margin:0">${p.meals_left} meals left now. Use a minus number to remove.</p><div class="grid"><label class="f">Change<input type="number" name="delta" step="1" required placeholder="2 or -2"></label><label class="f">Reason<input type="text" name="note" required maxlength="200"></label></div>`,
+      onSubmit: async (f) => { await rpc('staff_adjust_meals', { p_sub: p.id, p_delta: Number(f.get('delta') || 0), p_note: f.get('note') }); afterChange('Meals changed'); } }); },
+    'plan-pause': (el) => { openModal({ title: 'Pause plan', submit: 'Pause',
+      body: `<div class="grid"><label class="f">From<input type="date" name="from" value="${esc(S.data.today)}" min="${esc(S.data.today)}"></label><label class="f">Until<input type="date" name="until" min="${esc(S.data.today)}"><span class="hint">Leave empty to pause until you resume it.</span></label></div>`,
+      onSubmit: async (f) => { const r = await rpc('staff_pause', { p_sub: el.dataset.id, p_from: f.get('from') || null, p_until: f.get('until') || null }); afterChange(r.locked ? 'Paused. A meal past its cut-off still goes out.' : 'Paused'); } }); },
+    'plan-resume': (el) => run(() => rpc('staff_resume', { p_sub: el.dataset.id }).then(reload), 'Resumed'),
+    'plan-cancel': (el) => { const p = planById(el.dataset.id); openModal({ title: `Cancel ${p.plan_name}`, submit: 'Cancel plan', danger: true, cancel: 'Keep plan',
+      body: `<p class="muted small" style="margin:0">${p.meals_left} meals are left. Upcoming meals stop. Any refund is separate: record it under Payments below.</p><label class="f">Reason<input type="text" name="reason" required maxlength="200"></label>`,
+      onSubmit: async (f) => { if (!String(f.get('reason')).trim()) throw new Error('Please give a reason.'); await rpc('staff_cancel_plan', { p_sub: p.id, p_reason: f.get('reason') }); afterChange('Plan cancelled'); } }); },
+    'pay-new': recordPaymentModal,
+    'pay-void': (el) => { if (confirm('Remove this payment? Use this only if it was entered by mistake.')) run(() => rpc('staff_void_payment', { p_payment: el.dataset.id }).then(reload), 'Removed'); },
+    'pay-csv': () => download(`payments-${S.pay.from}-to-${S.pay.to}.csv`, toCsv([['Date', 'Customer', 'Phone', 'Plan', 'Amount', 'How', 'Note', 'Recorded by', 'Reference'],
+      ...S.data.rows.map((p) => [dateOnly(p.date), p.customer, p.phone, p.plan_name, p.amount_paise / 100, METHOD[p.provider] || p.provider, p.note, p.recorded_by, p.reference])])),
+    'row-new': (el) => rowModal(el.dataset.kind, null),
+    'row-edit': (el) => rowModal(el.dataset.kind, L[el.dataset.kind].find((r) => r.id === el.dataset.id)),
+    'row-del': (el) => { const r = L[el.dataset.kind].find((x) => x.id === el.dataset.id); removeRow(el.dataset.kind, r, r.name || r.code); },
+    'menu-week': (el) => { S.menu.week = addDays(S.menu.week, Number(el.dataset.step)); reload(); },
+    'menu-save': () => { const rows = {}; app.querySelectorAll('[data-menu]').forEach((i) => { (rows[i.dataset.menu] ||= { date: i.dataset.menu, slot_id: S.menu.slot, variant_id: S.menu.variant || null })[i.dataset.k] = i.value; });
+      run(() => rpc('staff_save_menu', { p_rows: Object.values(rows) }).then(reload), 'Menu saved'); },
+    'menu-copy': () => { if (!confirm('Copy last week\'s menu into this week? Dishes with the same day, slot and type are replaced.')) return;
+      run(async () => { const prev = await rpc('staff_menu', { p_from: addDays(S.menu.week, -7), p_to: addDays(S.menu.week, -1) });
+        if (!prev.length) throw new Error('Last week has no menu.');
+        await rpc('staff_save_menu', { p_rows: prev.map((m) => ({ ...m, date: addDays(m.date, 7) })) }); toast('Copied'); reload(); }); },
+    'menu-upload': () => $('#menu-file').click(),
+    'menu-sample': () => { const s = L.slots[0]?.name || 'Lunch', w = S.menu.week; download('menu-sample.csv', toCsv([['date', 'meal', 'type', 'dish', 'details'], [w, s, 'All', 'Dal, rice, sabzi', 'With salad'], [addDays(w, 1), s, 'All', 'Rajma chawal', '']])); },
+    'hol-del': (el) => { if (confirm('Remove this holiday? Meals move back onto that day.')) run(() => rpc('staff_save_rows', { p_kind: 'holidays', p_rows: [{ day: el.dataset.day, _delete: true }] }).then(reload), 'Removed'); },
+    'team-invite': inviteModal,
+    'team-edit': (el) => memberModal(S.data.staff.find((s) => s.id === el.dataset.id)),
+    'team-cancel': (el) => { if (confirm('Cancel this invite?')) run(() => rpc('staff_cancel_invite', { p_invite: el.dataset.id }).then(reload), 'Cancelled'); },
+    'copy-link': () => navigator.clipboard.writeText(signInLink()).then(() => toast('Copied'), () => toast('Could not copy. Select the text instead.', true)),
+  };
+  const CHANGES = {
+    'kitchen-day': (el) => { if (el.value) { S.kitchen.date = el.value; reload(); } },
+    'dl-day': (el) => { if (el.value) { S.dl.date = el.value; reload(); } },
+    'dl-slot': (el) => { S.dl.slot = el.value; reload(); },
+    'dl-show': (el) => { S.dl.show = el.value; renderDeliveries(); },
+    'cust-filter': (el) => { S.cust.filter = el.value; run(() => loadCustomers()); },
+    'pay-from': (el) => { if (el.value) { S.pay.from = el.value; reload(); } },
+    'pay-to': (el) => { if (el.value) { S.pay.to = el.value; reload(); } },
+    'menu-slot': (el) => { S.menu.slot = el.value; reload(); },
+    'menu-variant': (el) => { S.menu.variant = el.value; reload(); },
+  };
+  document.addEventListener('click', (e) => {
+    const act = e.target.closest('[data-act]');
+    if (act) { e.preventDefault(); ACTS[act.dataset.act]?.(act); return; }
+    const row = e.target.closest('tr[data-href]');
+    if (row && !e.target.closest('a,button')) location.hash = row.dataset.href;
+  });
+  document.addEventListener('change', (e) => {
+    if (e.target.id === 'menu-file' && e.target.files[0]) return menuUpload(e.target.files[0]);
+    const c = e.target.closest('[data-change]');
+    if (c) CHANGES[c.dataset.change]?.(c);
+  });
+
+  // ---------- sign in ----------
+  function renderLogin(msg, mode = 'in') {
+    const name = T?.brand?.name || 'Kitchen admin';
+    app.innerHTML = `<div class="login"><div class="card"><div class="pad">
+      <div class="brand" style="padding:0 0 14px">${T ? `<span class="brand-mark">${T.brand.logo_url ? `<img src="${esc(T.brand.logo_url)}" alt="">` : esc(name[0])}</span>` : ''}<b>${esc(name)}</b></div>
+      <div class="tabs" style="margin-bottom:14px"><button type="button" data-mode="in" class="${mode === 'in' ? 'on' : ''}">Sign in</button><button type="button" data-mode="up" class="${mode === 'up' ? 'on' : ''}">First time here</button></div>
+      <form id="login-form">
+        ${mode === 'up' ? '<p class="small muted" style="margin:0">Use the email your kitchen was added with, and choose a password.</p>' : ''}
+        <label class="f">Email<input type="email" name="email" autocomplete="username" required></label>
+        <label class="f">Password<input type="password" name="password" autocomplete="${mode === 'up' ? 'new-password' : 'current-password'}" required minlength="8"></label>
+        <div class="err">${esc(msg || '')}</div>
+        <button class="btn primary" type="submit">${mode === 'up' ? 'Create login' : 'Sign in'}</button>
+        ${mode === 'in' ? '<p class="small muted" style="margin:0">Forgot your password? Ask your platform contact.</p>' : ''}
+      </form></div></div></div>`;
+    app.querySelectorAll('[data-mode]').forEach((b) => b.addEventListener('click', () => renderLogin('', b.dataset.mode)));
+    $('#login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const f = new FormData(e.target), err = $('.err', e.target);
+      err.textContent = '';
+      const email = String(f.get('email')).trim(), password = String(f.get('password'));
+      try {
+        if (mode === 'up') {
+          if (password.length < 8) throw new Error('Please use at least 8 characters.');
+          const r = await api.signUp(email, password);
+          if (!r.access_token) {
+            app.querySelector('.pad').innerHTML = `<h2>Almost there</h2><p class="muted">If this is a new login, we sent a confirmation link to <b>${esc(email)}</b>. Open it, then come back to this page and sign in.</p><p class="small muted">If you already made a password, just sign in.</p><button class="btn primary" id="back-in">Go to sign in</button>`;
+            $('#back-in').onclick = () => renderLogin('');
+            return;
+          }
+        }
+        await api.signIn(email, password);
+        await enter();
+      } catch (x) { err.textContent = /invalid login/i.test(x.message) ? 'Wrong email or password. New here? Choose "First time here".' : /not confirmed/i.test(x.message) ? 'Please open the confirmation link in your email first.' : x.message; }
+    });
+  }
+  function blocked(title, text) {
+    app.innerHTML = `<div class="login"><div class="card pad"><h2>${esc(title)}</h2><p class="muted">${esc(text)}</p><button class="btn" data-act="signout">Sign out</button></div></div>`;
+  }
+
+  async function enter() {
+    const mine = await api.rpc('staff_claim_invites');
+    if (!T) {
+      if (mine.length === 1) { location.search = `?k=${mine[0].slug}`; return; }
+      if (!mine.length) return blocked('No kitchen yet', 'This login is not part of any kitchen. Ask your manager to add this email.');
+      app.innerHTML = `<div class="login"><div class="card pad"><h2 style="margin-bottom:12px">Choose a kitchen</h2><div style="display:flex;flex-direction:column;gap:8px">${mine.map((k) => `<a class="btn" href="?k=${esc(k.slug)}">${esc(k.name)}</a>`).join('')}</div></div></div>`;
+      return;
+    }
+    try { ME = await api.rpc('staff_me', { p_tenant: T.id }); }
+    catch (e) {
+      if (e.status === 401) { await api.signOut(); return renderLogin('Please sign in again.'); }
+      if (e.status === 403) return blocked(`Not part of ${T.brand.name}`, /suspended/i.test(e.message) ? e.message : 'This login is not on this kitchen\'s team. If you were just added, check you used the same email.');
+      throw e;
+    }
+    T = { ...T, ...ME.tenant };
+    L = await rpc('staff_lookups');
+    route();
+  }
+
+  (async function boot() {
+    try {
+      const qs = new URLSearchParams(location.search);
+      const shared = ['localhost', '127.0.0.1'].includes(location.hostname) || MealApi.config.SHARED_HOST;
+      const key = shared ? qs.get('k') : location.hostname;
+      if (key) {
+        T = await api.rpc('pub_tenant', { p_host: key });
+        if (!T) { app.innerHTML = '<div class="login"><div class="card pad"><h2>Kitchen not found</h2><p class="muted">Please check the web address.</p></div></div>'; return; }
+        document.title = `${T.brand.name} admin`;
+        const root = document.documentElement.style, c = T.brand.color_primary;
+        const [r, g, b] = [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16));
+        root.setProperty('--brand', c);
+        root.setProperty('--brand-ink', 0.299 * r + 0.587 * g + 0.114 * b > 170 ? '#1b1b19' : '#ffffff');
+        root.setProperty('--brand-soft', `rgba(${r},${g},${b},.12)`);
+      }
+      if (!api.signedIn()) return renderLogin();
+      await enter();
+    } catch (e) {
+      if (e.status === 401) { await api.signOut(); return renderLogin(); }
+      app.innerHTML = `<div class="login"><div class="card pad"><h2>Could not load</h2><p class="muted">${esc(e.message)}</p></div></div>`;
+    }
+  })();
+})();
+</script>
+</body>
+</html>
