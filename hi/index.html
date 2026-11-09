@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>टिफ़िन और मील सब्सक्रिप्शन किचन के लिए सॉफ़्टवेयर | Tiffora</title>
+<meta name="description" content="टिफ़िन सर्विस और मील सब्सक्रिप्शन किचन के लिए आसान सॉफ़्टवेयर। ग्राहक अपने फ़ोन से प्लान ख़रीदें, स्किप करें, रोकें। आपको मिले किचन शीट और डिलीवरी लिस्ट।">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#1f5f45">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tiffora">
+<meta property="og:title" content="टिफ़िन और मील सब्सक्रिप्शन किचन के लिए सॉफ़्टवेयर | Tiffora">
+<meta property="og:description" content="अपना टिफ़िन बिज़नेस Excel और WhatsApp पर चलाना बंद करें। ग्राहक अपना प्लान ख़ुद संभालें। आपके किचन को पता रहे कि क्या बनाना है और कहाँ भेजना है।">
+<meta property="og:image" content="https://hii2023.github.io/tiffora-demo/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231f5f45'/%3E%3Cpath d='M9 10h14v3.4h-5.2V24h-3.6V13.4H9z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Devanagari:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://hii2023.github.io/tiffora-demo/hi/">
+<meta property="og:url" content="https://hii2023.github.io/tiffora-demo/hi/">
+<meta property="og:locale" content="hi_IN">
+<link rel="alternate" hreflang="en" href="https://hii2023.github.io/tiffora-demo/">
+<link rel="alternate" hreflang="hi" href="https://hii2023.github.io/tiffora-demo/hi/">
+<link rel="alternate" hreflang="es" href="https://hii2023.github.io/tiffora-demo/es/">
+<link rel="alternate" hreflang="de" href="https://hii2023.github.io/tiffora-demo/de/">
+<link rel="alternate" hreflang="fr" href="https://hii2023.github.io/tiffora-demo/fr/">
+<link rel="alternate" hreflang="x-default" href="https://hii2023.github.io/tiffora-demo/">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebSite",
+   "@id": "https://hii2023.github.io/tiffora-demo/#website",
+   "url": "https://hii2023.github.io/tiffora-demo/",
+   "name": "Tiffora",
+   "inLanguage": "hi"
+  },
+  {
+   "@type": "SoftwareApplication",
+   "name": "Tiffora",
+   "url": "https://hii2023.github.io/tiffora-demo/hi/",
+   "applicationCategory": "BusinessApplication",
+   "operatingSystem": "Web",
+   "description": "टिफ़िन सर्विस और मील सब्सक्रिप्शन किचन के लिए आसान सॉफ़्टवेयर। ग्राहक अपने फ़ोन से प्लान ख़रीदें, स्किप करें, रोकें। आपको मिले किचन शीट और डिलीवरी लिस्ट।",
+   "inLanguage": "hi",
+   "screenshot": [
+    "https://hii2023.github.io/tiffora-demo/img/admin-kitchen.webp",
+    "https://hii2023.github.io/tiffora-demo/img/admin-payments.webp",
+    "https://hii2023.github.io/tiffora-demo/img/cust-home.webp"
+   ],
+   "offers": {
+    "@type": "Offer",
+    "price": "10000",
+    "priceCurrency": "INR"
+   }
+  },
+  {
+   "@type": "FAQPage",
+   "inLanguage": "hi",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "क्या मेरे ग्राहकों को ऐप डाउनलोड करना होगा?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "नहीं। आप एक लिंक शेयर करते हैं। यह फ़ोन के ब्राउज़र में खुलता है और ग्राहक मोबाइल नंबर और 4 अंकों के PIN से लॉगिन करते हैं।"
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "क्या मैं अपने मौजूदा ग्राहक ला सकता हूँ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "हाँ। आपकी टीम हर ग्राहक को उसके प्लान और बचे मील के साथ जोड़ सकती है, ताकि किसी को शून्य से शुरू न करना पड़े।"
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "ग्राहक के पैसे कहाँ जाते हैं?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "सीधे आपके अपने Razorpay खाते में। Tiffora आपके पैसे नहीं रखता और आपकी बिक्री में कोई हिस्सा नहीं लेता। Razorpay के सामान्य चार्ज आपके और Razorpay के बीच हैं।"
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "मेरे कई ग्राहक कैश देते हैं। क्या यह फिर भी चलेगा?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "हाँ। आपकी टीम ग्राहक के नाम कैश, UPI या बैंक पेमेंट दर्ज कर सकती है, और बाक़ी रकम अपने आप अपडेट होती है।"
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "क्या यह मेरे बैंक स्टेटमेंट से अपने आप मिलान करेगा?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "नहीं। Tiffora हर पेमेंट दर्ज करता है और किसी भी तारीख़ों के लिए ऑनलाइन, UPI, बैंक और कैश का कुल देता है। आप इन्हें अपने कैश बॉक्स, बैंक खाते और Razorpay खाते से मिलाते हैं।"
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "अगर ग्राहक कट-ऑफ़ के बाद स्किप करना चाहे तो?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "नहीं कर सकते, क्योंकि आप खाना बनाना शुरू कर चुके होते हैं। हर मील का कट-ऑफ़ समय आप तय करते हैं। उसके बाद वह मील लॉक हो जाता है और आपकी गिनती सही रहती है।"
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "क्या डिलीवरी बॉय ऐप या WhatsApp मैसेजिंग है?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "अभी नहीं। आज आपको डिलीवरी लिस्ट मिलती है जिसे डाउनलोड करके डिलीवरी स्टाफ़ को दे सकते हैं। डिलीवरी ऐप और WhatsApp रिमाइंडर हम आगे बना रहे हैं।"
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
+<style>
+  :root {
+    --bg: #f7f6f2; --paper: #fff; --ink: #1b1b19; --muted: #5f5f58; --line: #e2e0d8;
+    --green: #1f5f45; --green-dark: #174a36; --tint: #e9f1ec; --red: #a23b2a;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 'IBM Plex Sans', system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  h1, h2, h3 { font-weight: 600; letter-spacing: -.018em; line-height: 1.18; margin: 0; }
+  h1, h2, h3, p, li, figcaption { overflow-wrap: break-word; }
+  html[lang="hi"] body { font-family: 'IBM Plex Sans Devanagari', 'IBM Plex Sans', system-ui, sans-serif; line-height: 1.7; }
+  html[lang="hi"] h1, html[lang="hi"] h2, html[lang="hi"] h3 { letter-spacing: 0; line-height: 1.38; }
+  h1 { font-size: clamp(36px, 5.4vw, 56px); }
+  h2 { font-size: clamp(27px, 3.4vw, 37px); }
+  h3 { font-size: 19px; letter-spacing: -.01em; }
+  p { margin: 0; }
+  a { color: inherit; }
+  .muted { color: var(--muted); }
+  section { padding: 76px 0; }
+  .lead { font-size: 19px; color: var(--muted); max-width: 620px; margin-top: 14px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border-radius: 8px; background: var(--green); color: #fff; font-weight: 500; text-decoration: none; }
+  .btn:hover { background: var(--green-dark); }
+  .btn.plain { background: transparent; color: var(--ink); border: 1px solid #cfccc1; }
+  .btn.plain:hover { background: var(--paper); }
+  :focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+  header { position: sticky; top: 0; z-index: 5; background: rgba(247,246,242,.95); border-bottom: 1px solid var(--line); }
+  .bar { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 20px; }
+  .brand { font-size: 20px; font-weight: 600; letter-spacing: -.02em; text-decoration: none; color: var(--green); }
+  nav { display: flex; align-items: center; gap: 26px; font-size: 15px; }
+  nav a { text-decoration: none; color: var(--muted); }
+  nav a:hover { color: var(--ink); }
+  nav a.btn { color: #fff; min-height: 38px; padding: 0 14px; white-space: nowrap; }
+
+  .hero { padding: 72px 0 80px; }
+  .hero .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center; }
+  .hero .lead { margin-top: 20px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .sheet { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 22px; font-size: 15px; }
+  .sheet-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .tag { font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 99px; padding: 1px 9px; }
+  .big { font-size: 46px; font-weight: 600; letter-spacing: -.03em; line-height: 1.1; margin-top: 14px; }
+  .r { display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid var(--line); }
+  .r span:last-child { font-weight: 500; }
+  .sheet-rows { margin-top: 14px; }
+  .sub-h { font-size: 13px; color: var(--muted); margin: 16px 0 4px; }
+  .note { margin-top: 14px; padding: 11px 13px; background: var(--tint); border-radius: 8px; font-size: 14px; }
+
+  figure { margin: 0; }
+  figcaption { font-size: 15px; color: var(--muted); margin-top: 12px; line-height: 1.45; }
+  figcaption b { display: block; font-weight: 500; color: var(--ink); }
+  .frame { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 14px 34px -22px rgba(27,27,25,.35); }
+  .phone { border: 5px solid #23231f; border-radius: 26px; overflow: hidden; background: #fff; box-shadow: 0 14px 34px -22px rgba(27,27,25,.45); }
+  .frame img, .phone img { display: block; width: 100%; height: auto; }
+  .small-note { font-size: 15px; margin-top: 14px; }
+
+  .benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px 40px; margin-top: 40px; }
+  .benefit { border-top: 2px solid var(--green); padding-top: 14px; }
+  .benefit p { color: var(--muted); margin-top: 6px; }
+
+  .phones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; max-width: 880px; margin: 46px auto 0; text-align: center; }
+  .swap-title { margin-top: 60px; }
+  .swap { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; margin-top: 14px; border-top: 1px solid var(--line); }
+  .swap-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+  .msg { background: #e4efe5; border-radius: 10px 10px 10px 2px; padding: 7px 12px; font-size: 15px; line-height: 1.4; flex: 1 1 54%; }
+  .act { font-size: 15px; line-height: 1.4; color: var(--muted); flex: 1 1 46%; }
+
+  .pair { display: grid; grid-template-columns: 250px 1fr; gap: 44px; align-items: start; margin-top: 44px; }
+  .points { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; margin-top: 44px; }
+  .points p { color: var(--muted); margin-top: 6px; }
+
+  .calc { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; margin-top: 52px; }
+  .calc h3 { margin-bottom: 12px; }
+  .chain { list-style: none; margin: 0; padding: 0; counter-reset: c; }
+  .chain li { counter-increment: c; position: relative; padding: 0 0 18px 38px; }
+  .chain li::before { content: counter(c); position: absolute; left: 0; top: 0; width: 25px; height: 25px; border-radius: 50%; background: var(--tint); color: var(--green); font-size: 14px; font-weight: 600; display: grid; place-items: center; }
+  .chain li:not(:last-child)::after { content: ''; position: absolute; left: 12px; top: 27px; bottom: 2px; width: 1px; background: #c5d8cc; }
+  .chain li:last-child { padding-bottom: 0; }
+
+  .media { display: grid; grid-template-columns: 1fr 1.12fr; gap: 56px; align-items: center; }
+  .media .ticks { margin-top: 20px; }
+
+  .tour { display: grid; grid-template-columns: 1fr 1fr; gap: 44px 40px; margin-top: 42px; }
+  .tour-phone { display: grid; grid-template-columns: 170px 1fr; gap: 24px; align-items: center; }
+  .tour-phone figcaption { margin-top: 0; }
+
+  nav { position: relative; }
+  .lang { position: relative; }
+  .lang summary { cursor: pointer; list-style: none; color: var(--muted); padding: 6px 2px; white-space: nowrap; }
+  .lang summary::-webkit-details-marker { display: none; }
+  .lang summary::after { content: ''; display: inline-block; margin-left: 7px; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-3px) rotate(45deg); }
+  .lang-menu { position: absolute; right: 0; top: 100%; margin-top: 8px; min-width: 150px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 6px; box-shadow: 0 14px 30px -18px rgba(27,27,25,.4); }
+  .lang-menu a { display: block; padding: 8px 10px; border-radius: 6px; color: var(--ink); }
+  .lang-menu a:hover { background: var(--bg); }
+  .lang-menu a[aria-current] { color: var(--green); font-weight: 500; }
+
+  .integ { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; margin-top: 42px; }
+  .integ h3 { padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .it { padding: 15px 0; border-bottom: 1px solid var(--line); }
+  .it-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .it-top b { font-weight: 500; line-height: 1.35; }
+  .it p { color: var(--muted); font-size: 15.5px; line-height: 1.45; margin-top: 5px; }
+  .st { flex: none; font-size: 12.5px; line-height: 1.3; padding: 3px 9px; border-radius: 99px; white-space: nowrap; }
+  .st.ok { background: var(--tint); color: var(--green); }
+  .st.req { background: #f1efe7; color: var(--muted); }
+
+  .country { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 16px; font-size: 15px; color: var(--muted); }
+  .country select { font: inherit; color: var(--ink); background: var(--paper); border: 1px solid #cfccc1; border-radius: 8px; min-height: 42px; padding: 0 10px; max-width: 100%; }
+
+  .white { background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .problems { margin-top: 40px; border-top: 1px solid var(--line); }
+  .problem { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding: 26px 0; border-bottom: 1px solid var(--line); }
+  .problem h3 { margin-bottom: 6px; }
+  .label { font-size: 13px; font-weight: 500; margin-bottom: 8px; }
+  .label.bad { color: var(--red); }
+  .label.good { color: var(--green); }
+  .problem p { color: var(--muted); }
+  .fix p { color: var(--ink); }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; margin-top: 40px; counter-reset: s; }
+  .step { counter-increment: s; border-top: 2px solid var(--green); padding-top: 16px; }
+  .step::before { content: counter(s); display: block; font-size: 15px; font-weight: 600; color: var(--green); margin-bottom: 8px; }
+  .step p { color: var(--muted); margin-top: 6px; }
+
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; margin-top: 44px; }
+  .features h3 { padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  ul.ticks { list-style: none; margin: 0; padding: 0; }
+  ul.ticks li { position: relative; padding: 11px 0 11px 24px; border-bottom: 1px solid var(--line); font-size: 16px; line-height: 1.45; }
+  ul.ticks li::before { content: ''; position: absolute; left: 3px; top: 17px; width: 11px; height: 6px; border-left: 2px solid var(--green); border-bottom: 2px solid var(--green); transform: rotate(-45deg); }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .chips span { background: var(--paper); border: 1px solid var(--line); border-radius: 99px; padding: 5px 14px; font-size: 15px; }
+  .next { margin-top: 20px; }
+  .next div { padding: 13px 0; border-top: 1px solid var(--line); }
+  .next b { font-weight: 500; display: block; }
+  .next span { color: var(--muted); font-size: 16px; }
+
+  .price { display: grid; grid-template-columns: .9fr 1.1fr; gap: 56px; align-items: start; }
+  .amount { font-size: clamp(44px, 6vw, 60px); font-weight: 600; letter-spacing: -.03em; line-height: 1; }
+  .amount small { font-size: 18px; font-weight: 400; letter-spacing: 0; color: var(--muted); }
+  .per { color: var(--muted); margin-top: 12px; }
+
+  .faq { margin-top: 32px; max-width: 780px; border-top: 1px solid var(--line); }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary { cursor: pointer; padding: 18px 28px 18px 0; font-weight: 500; list-style: none; position: relative; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; position: absolute; right: 2px; top: 15px; font-size: 22px; font-weight: 400; color: var(--muted); }
+  .faq details[open] summary::after { content: '\2212'; }
+  .faq details p { padding: 0 0 20px; color: var(--muted); max-width: 680px; }
+
+  .final { background: var(--green); color: #fff; text-align: center; }
+  .final .lead { color: #d5e5dc; margin-left: auto; margin-right: auto; }
+  .final .btn { background: #fff; color: var(--green); margin-top: 26px; }
+  .final .btn:hover { background: #eef3f0; }
+  .final .soon { margin-top: 22px; color: #d5e5dc; font-size: 16px; }
+  footer { padding: 26px 0; font-size: 14px; color: var(--muted); }
+  footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  [hidden] { display: none !important; }
+
+  @media (max-width: 1000px) { nav > a:not(.btn) { display: none; } }
+  @media (max-width: 860px) {
+    section { padding: 56px 0; }
+    .wrap { padding: 0 16px; }
+    .hero { padding: 44px 0 56px; }
+    .hero .wrap, .split, .price, .features, .steps { grid-template-columns: 1fr; }
+    .hero .wrap { gap: 36px; }
+    .features, .split, .price { gap: 36px; }
+    .steps { gap: 26px; }
+    .problem { grid-template-columns: 1fr; gap: 16px; }
+    .benefits, .points, .calc, .media, .tour, .swap, .integ { grid-template-columns: 1fr; }
+    .integ { gap: 34px; }
+    .benefits { gap: 24px; }
+    .points { gap: 22px; }
+    .calc, .media { gap: 34px; }
+    .phones { display: flex; gap: 16px; max-width: none; margin-right: -16px; padding: 0 16px 8px 0; overflow-x: auto; scroll-snap-type: x mandatory; }
+    .phones figure { flex: 0 0 66%; scroll-snap-align: start; }
+    .pair { grid-template-columns: 1fr; gap: 30px; }
+    .pair > figure:first-child { max-width: 250px; margin: 0 auto; text-align: center; }
+    .swap-row { align-items: flex-start; }
+    .cta .btn { flex: 1 1 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#top">Tiffora</a>
+    <nav aria-label="मुख्य मेन्यू">
+      <a href="#benefits">फ़ायदे</a>
+      <a href="#features">फ़ीचर</a>
+      <a href="#integrations">इंटीग्रेशन</a>
+      <a href="#price">क़ीमत</a>
+      <a href="#questions">सवाल</a>
+      <details class="lang"><summary aria-label="Language">हिन्दी</summary><div class="lang-menu"><a href="../" hreflang="en" lang="en">English</a><a href="../hi/" hreflang="hi" lang="hi" aria-current=true>हिन्दी</a><a href="../es/" hreflang="es" lang="es">Español</a><a href="../de/" hreflang="de" lang="de">Deutsch</a><a href="../fr/" hreflang="fr" lang="fr">Français</a></div></details>
+      <a class="btn" href="#talk">हमसे बात करें</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <h1>अपना टिफ़िन बिज़नेस Excel और WhatsApp पर चलाना बंद करें।</h1>
+      <p class="lead">Tiffora उन किचन के लिए आसान सॉफ़्टवेयर है जो मील प्लान बेचते हैं। ग्राहक अपने फ़ोन से प्लान ख़रीदते और संभालते हैं। आपकी टीम को साफ़ दिखता है कि क्या बनाना है और कहाँ भेजना है।</p>
+      <div class="cta">
+        <a class="btn" href="#talk">हमसे बात करें</a>
+        <a class="btn plain" href="#one-page">चलता हुआ देखें</a>
+      </div>
+    </div>
+    <aside class="sheet" aria-label="किचन शीट का नमूना">
+      <div class="sheet-top"><h3>आज का लंच</h3><span class="tag">नमूना</span></div>
+      <p class="big">84</p>
+      <p class="muted">मील बनाने हैं। बदलाव 10:30 बजे बंद हो गए।</p>
+      <div class="sheet-rows">
+        <div class="r"><span>रेगुलर</span><span>61</span></div>
+        <div class="r"><span>जैन</span><span>15</span></div>
+        <div class="r"><span>डाइट</span><span>8</span></div>
+      </div>
+      <p class="sub-h">ऐड-ऑन</p>
+      <div class="r"><span>छाछ</span><span>22</span></div>
+      <div class="r"><span>फ्रूट बाउल</span><span>9</span></div>
+      <p class="note">आज तीन ग्राहकों ने स्किप किया। उनके मील प्लान के आख़िर में चले गए, और किसी को शीट नहीं बदलनी पड़ी।</p>
+    </aside>
+  </div>
+</div>
+
+<section id="benefits">
+  <div class="wrap">
+    <h2>आपके बिज़नेस में क्या बदलेगा</h2>
+    <p class="lead">रोज़ की भागदौड़ कम, और आपके खाने, ग्राहकों और पैसों की साफ़ तस्वीर।</p>
+    <div class="benefits">
+      <div class="benefit"><h3>खाना कम बर्बाद</h3><p>आप असली गिनती के हिसाब से बनाते हैं, क्योंकि स्किप और पॉज़ पहले ही घट चुके होते हैं।</p></div>
+      <div class="benefit"><h3>कॉल और मैसेज कम</h3><p>ग्राहक अपना प्लान ख़ुद देखते और बदलते हैं। आपका फ़ोन अब ऑफ़िस नहीं रहता।</p></div>
+      <div class="benefit"><h3>हिसाब में कोई ग़लती नहीं</h3><p>बचे मील, आख़िरी तारीख़, कुल रकम और बाक़ी पैसे, सब सिस्टम निकालता है, हाथ से नहीं।</p></div>
+      <div class="benefit"><h3>पैसों का पक्का हिसाब</h3><p>देखें कि कितना आया, कैसे आया, और किसे अभी देना बाक़ी है।</p></div>
+      <div class="benefit"><h3>ज़्यादा रिन्यूअल</h3><p>आपको पता चलता है कि किसके मील ख़त्म होने वाले हैं, ताकि समय रहते कॉल कर सकें।</p></div>
+      <div class="benefit"><h3>दिन कोई भी संभाल सकता है</h3><p>बिज़नेस अब उस एक इंसान पर निर्भर नहीं जिसे Excel शीट समझ आती है।</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="problems">
+  <div class="wrap">
+    <h2>टिफ़िन बिज़नेस की रोज़ की परेशानियाँ</h2>
+    <p class="lead">अगर आप मील सब्सक्रिप्शन चलाते हैं, तो ये आपको ज़रूर पता होंगी। हर एक का आसान हल है।</p>
+
+    <div class="problems">
+      <article class="problem">
+        <div><p class="label bad">परेशानी</p><h3>"मेरे कितने मील बचे हैं?"</h3><p>कोई हाथ से Excel शीट भरता है। एक एंट्री छूटी, और आप ग्राहक से 2 टिफ़िन के लिए बहस कर रहे होते हैं।</p></div>
+        <div class="fix"><p class="label good">Tiffora के साथ</p><p>हर मील अपने आप गिना जाता है। ग्राहक को वही नंबर दिखता है जो आपको, इसलिए बहस की कोई बात नहीं।</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">परेशानी</p><h3>स्किप के मैसेज WhatsApp में खो जाते हैं</h3><p>ग्राहक रात 11 बजे लिखता है "कल टिफ़िन मत भेजना"। कोई नहीं देखता। टिफ़िन बनता है, जाता है, बर्बाद होता है, और ग्राहक नाराज़।</p></div>
+        <div class="fix"><p class="label good">Tiffora के साथ</p><p>ग्राहक अपने फ़ोन से स्किप या पॉज़ करते हैं, आपके तय किए कट-ऑफ़ समय तक। स्किप किया मील जाता नहीं, प्लान के आख़िर में जुड़ जाता है।</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">परेशानी</p><h3>खाना ज़्यादा बन गया, या कम पड़ गया</h3><p>हर सुबह कोई मैसेज और नोट देखकर गिनता है। या तो खाना बर्बाद होता है, या किसी ग्राहक को मिलता ही नहीं।</p></div>
+        <div class="fix"><p class="label good">Tiffora के साथ</p><p>एक किचन शीट में हर मील टाइम, हर मील टाइप और हर ऐड-ऑन की गिनती दिखती है, ग्राहक के ख़ास नोट के साथ।</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">परेशानी</p><h3>रोज़ डिलीवरी लिस्ट बनाना</h3><p>पते अलग-अलग चैट में बिखरे होते हैं। डिलीवरी वाले बार-बार फ़ोन करते हैं कि कहाँ जाना है और किसे क्या देना है।</p></div>
+        <div class="fix"><p class="label good">Tiffora के साथ</p><p>दिन की लिस्ट अपने आप तैयार, इलाक़े के हिसाब से, फ़ोन नंबर, पता, मील और नोट के साथ। एक क्लिक में डाउनलोड करें।</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">परेशानी</p><h3>एक छुट्टी, 100 तारीख़ें बदलनी</h3><p>त्योहार पर किचन बंद है, और किसी को हर ग्राहक का प्लान हाथ से आगे बढ़ाना पड़ता है।</p></div>
+        <div class="fix"><p class="label good">Tiffora के साथ</p><p>छुट्टी एक बार मार्क करें। हर ग्राहक के मील अपने आप आगे चले जाते हैं। साप्ताहिक छुट्टी भी ऐसे ही चलती है।</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">परेशानी</p><h3>"किसने पैसे दिए और किसने नहीं?"</h3><p>कोई ऑनलाइन देता है, कोई UPI से, कोई कैश। सब मिलाने में बैंक स्टेटमेंट, स्क्रीनशॉट और अंदाज़ा लगता है।</p></div>
+        <div class="fix"><p class="label good">Tiffora के साथ</p><p>ऑनलाइन पेमेंट अपने आप दर्ज होते हैं। आपकी टीम कैश और UPI कुछ सेकंड में जोड़ती है, और आपको बाक़ी रकम कभी भी दिखती है।</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">परेशानी</p><h3>ग्राहक का प्लान ख़त्म होता है और वह चुपचाप चला जाता है</h3><p>किसी ने ध्यान नहीं दिया कि मील ख़त्म हो रहे हैं, इसलिए किसी ने रिन्यूअल की बात नहीं की।</p></div>
+        <div class="fix"><p class="label good">Tiffora के साथ</p><p>आपको उन ग्राहकों की लिस्ट मिलती है जिनके मील कम बचे हैं, ताकि समय पर कॉल कर सकें। वे कुछ ही टैप में फ़ोन से रिन्यू कर सकते हैं।</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">परेशानी</p><h3>बार-बार मेन्यू भेजना</h3><p>ग्राहक पूछते रहते हैं "आज टिफ़िन में क्या है?" और आप वही फ़ोटो भेजते रहते हैं।</p></div>
+        <div class="fix"><p class="label good">Tiffora के साथ</p><p>हफ़्ते में एक बार मेन्यू डालें, या शीट अपलोड करें। ग्राहकों को आने वाली हर डिलीवरी के साथ डिश दिखती है।</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">परेशानी</p><h3>हर स्टाफ़ को सब कुछ दिखता है</h3><p>कुक को आपके पेमेंट का हिसाब नहीं चाहिए, पर एक ही लॉगिन में सब कुछ सबको दिखता है।</p></div>
+        <div class="fix"><p class="label good">Tiffora के साथ</p><p>हर इंसान का अपना लॉगिन होता है और उसे वही पेज दिखते हैं जिनकी आप अनुमति दें।</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="one-page">
+  <div class="wrap">
+    <h2>ग्राहक के लिए एक पेज। दिन भर WhatsApp देखना बंद।</h2>
+    <p class="lead">प्लान की हर बात ग्राहक के फ़ोन पर एक ही पेज पर है। वे आपके कट-ऑफ़ समय तक इसे देख और बदल सकते हैं। आपके किचन तक अपडेट बिना कुछ टाइप किए पहुँच जाता है।</p>
+    <div class="phones">
+      <figure><div class="phone"><img src="../img/cust-home.webp" width="780" height="1600" loading="lazy" decoding="async" alt="ग्राहक का होम पेज जिसमें अगली डिलीवरी, स्किप का बटन और 24 में से 15 मील बचे दिख रहे हैं"></div><figcaption>अगला मील, बचे मील और स्किप बटन</figcaption></figure>
+      <figure><div class="phone"><img src="../img/cust-deliveries.webp" width="780" height="1600" loading="lazy" decoding="async" alt="ग्राहक की डिलीवरी लिस्ट जिसमें हर दिन की डिश, स्किप और अनडू बटन हैं"></div><figcaption>आने वाली हर डिश, स्किप या अनडू</figcaption></figure>
+      <figure><div class="phone"><img src="../img/cust-change.webp" width="780" height="1600" loading="lazy" decoding="async" alt="प्लान बदलने की स्क्रीन जहाँ ग्राहक दिन, मील टाइम, मील टाइप और नोट बदलता है"></div><figcaption>दिन, मील, टाइप और नोट बदलें</figcaption></figure>
+    </div>
+    <h3 class="swap-title">ये मैसेज आने बंद हो जाएँगे</h3>
+    <div class="swap">
+      <div class="swap-row"><p class="msg">"कल का टिफ़िन स्किप कर दीजिए।"</p><p class="act">उस दिन पर स्किप टैप करते हैं</p></div>
+      <div class="swap-row"><p class="msg">"हम अगले हफ़्ते बाहर हैं।"</p><p class="act">उन तारीख़ों के लिए प्लान रोक देते हैं</p></div>
+      <div class="swap-row"><p class="msg">"कितने टिफ़िन बचे हैं?"</p><p class="act">पहली ही स्क्रीन पर बचे मील देखते हैं</p></div>
+      <div class="swap-row"><p class="msg">"कल टिफ़िन में क्या है?"</p><p class="act">हर दिन के साथ डिश देखते हैं</p></div>
+      <div class="swap-row"><p class="msg">"सोमवार से ऑफ़िस भेजना।"</p><p class="act">डिलीवरी का पता बदलते हैं</p></div>
+      <div class="swap-row"><p class="msg">"अगले हफ़्ते से जैन कर दीजिए।"</p><p class="act">मील टाइप बदलते हैं</p></div>
+      <div class="swap-row"><p class="msg">"लंच की जगह डिनर भेजना।"</p><p class="act">मील टाइम बदलते हैं</p></div>
+      <div class="swap-row"><p class="msg">"तेल कम डालना।"</p><p class="act">नोट लिखते हैं, जो आपकी किचन शीट पर दिखता है</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="track">
+  <div class="wrap">
+    <h2>आप और आपका ग्राहक, दोनों एक ही चीज़ देखते हैं</h2>
+    <p class="lead">रिकॉर्ड एक है, दो नहीं। किसी को अपना रजिस्टर ग्राहक की याददाश्त से नहीं मिलाना पड़ता।</p>
+    <div class="pair">
+      <figure><div class="phone"><img src="../img/cust-plan.webp" width="780" height="1600" loading="lazy" decoding="async" alt="ग्राहक का प्लान पेज जिसमें 24 में से 15 मील बचे दिख रहे हैं"></div><figcaption>आपके ग्राहक को यह दिखता है</figcaption></figure>
+      <figure><div class="frame"><img src="../img/admin-customer.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="उसी ग्राहक का किचन एडमिन पेज जिसमें 24 में से 15 मील और हर डिलीवरी दिख रही है"></div><figcaption>उसी ग्राहक के लिए आपकी टीम को यह दिखता है</figcaption></figure>
+    </div>
+    <div class="points">
+      <div><h3>ग्राहक कुछ बदलता है</h3><p>स्किप, पॉज़ या नया पता तुरंत आपकी किचन शीट और डिलीवरी लिस्ट में पहुँच जाता है।</p></div>
+      <div><h3>आप कुछ बदलते हैं</h3><p>मील जोड़ें, प्लान बदलें या छुट्टी मार्क करें, और ग्राहक को अपने पेज पर दिख जाता है।</p></div>
+      <div><h3>हर डिलीवरी का स्टेटस</h3><p>दोनों को दिखता है कि क्या डिलीवर हुआ, क्या स्किप हुआ और आगे क्या आने वाला है।</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="calculation">
+  <div class="wrap">
+    <h2>हिसाब सिस्टम करता है</h2>
+    <p class="lead">कोई कैलकुलेटर लेकर नहीं बैठता। क़ीमत और नियम एक बार तय करें, बाक़ी हर नंबर अपने आप निकलता है।</p>
+    <div class="pair">
+      <figure><div class="phone"><img src="../img/cust-total.webp" width="780" height="1600" loading="lazy" decoding="async" alt="चेकआउट का सारांश जिसमें प्लान, ऐड-ऑन और डिलीवरी चार्ज जुड़कर प्रोमो छूट घटी है"></div><figcaption>चेकआउट पर कुल रकम अपने आप</figcaption></figure>
+      <figure><div class="frame"><img src="../img/admin-kitchen.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="किचन शीट जिसमें मील टाइप की गिनती, ऐड-ऑन की गिनती, आज का मेन्यू और ग्राहकों के नोट हैं"></div><figcaption>हर मील के लिए बनाने की गिनती अपने आप</figcaption></figure>
+    </div>
+    <div class="calc">
+      <div>
+        <h3>एक स्किप, और सब कुछ अपडेट</h3>
+        <ol class="chain">
+          <li>ग्राहक शनिवार स्किप करता है।</li>
+          <li>उस मील का चार्ज नहीं कटता।</li>
+          <li>प्लान की आख़िरी डिलीवरी अगले खुले दिन पर चली जाती है।</li>
+          <li>शनिवार की गिनती एक कम हो जाती है।</li>
+          <li>ग्राहक शनिवार की डिलीवरी लिस्ट से हट जाता है।</li>
+        </ol>
+        <p class="muted small-note">किसी ने शीट को हाथ नहीं लगाया। छुट्टी भी ऐसे ही काम करती है, सभी ग्राहकों के लिए एक साथ।</p>
+      </div>
+      <div>
+        <h3>अपने आप निकलने वाला हिसाब</h3>
+        <ul class="ticks">
+          <li>हर डिलीवरी के बाद बचे मील</li>
+          <li>हर स्किप, पॉज़ या छुट्टी के बाद प्लान की आख़िरी तारीख़</li>
+          <li>प्लान की क़ीमत, ऐड-ऑन, डिलीवरी चार्ज और छूट</li>
+          <li>ग्राहक की दूरी के हिसाब से डिलीवरी चार्ज</li>
+          <li>मील टाइम, मील टाइप और ऐड-ऑन के हिसाब से रोज़ की गिनती</li>
+          <li>हर ग्राहक की बाक़ी रकम</li>
+          <li>मौजूदा प्लान ख़त्म होने के बाद रिन्यूअल की शुरुआत की तारीख़</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="payments">
+  <div class="wrap media">
+    <div>
+      <h2>पेमेंट का मिलान, बिना सिरदर्द के</h2>
+      <p class="lead">दिन या महीने के आख़िर में, जान लें कि पैसों का हिसाब बराबर है।</p>
+      <ul class="ticks">
+        <li>ऑनलाइन पेमेंट सही ग्राहक और प्लान के नाम अपने आप दर्ज होते हैं</li>
+        <li>कैश, UPI और बैंक पेमेंट कुछ सेकंड में नोट के साथ जुड़ते हैं</li>
+        <li>किसी भी तारीख़ों के लिए ऑनलाइन, UPI, बैंक और कैश का अलग-अलग कुल, ताकि आप अपना कैश बॉक्स और बैंक खाता मिला सकें</li>
+        <li>"Still to collect" लिस्ट बताती है कि किसे कितना देना है</li>
+        <li>हर पेमेंट पर दिखता है कि किसने दर्ज किया, और ग़लत एंट्री हटाने पर उसका रिकॉर्ड हिस्ट्री में रहता है</li>
+        <li>अपने अकाउंटेंट के लिए पूरी रिपोर्ट डाउनलोड करें, Razorpay रेफ़रेंस के साथ</li>
+      </ul>
+      <p class="muted small-note">Tiffora आपका बैंक स्टेटमेंट नहीं पढ़ता। यह आपको सही आँकड़े देता है जिनसे आप उसे मिला सकें।</p>
+    </div>
+    <figure><div class="frame"><img src="../img/admin-payments.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="पेमेंट पेज जिसमें UPI, बैंक, कैश और ऑनलाइन का अलग-अलग कुल और बाक़ी रकम की लिस्ट है"></div></figure>
+  </div>
+</section>
+
+<section id="screens">
+  <div class="wrap">
+    <h2>अंदर से देखें</h2>
+    <p class="lead">ये चलते हुए प्रोडक्ट की स्क्रीन हैं। दिखाया गया किचन और ग्राहक नमूने हैं।</p>
+    <p class="small-note muted">ऐप अभी अंग्रेज़ी में है। दूसरी भाषाएँ माँगने पर जोड़ी जा सकती हैं।</p>
+    <div class="tour">
+      <figure><div class="frame"><img src="../img/admin-today.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="टुडे पेज जिसमें आज के मील, कल के मील, जमा रकम और कम मील वाले ग्राहक हैं"></div><figcaption><b>आज का दिन</b> पूरा दिन एक स्क्रीन पर, साथ में किसके मील कम बचे हैं</figcaption></figure>
+      <figure><div class="frame"><img src="../img/admin-deliveries.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="डिलीवरी लिस्ट जिसमें ग्राहक, फ़ोन नंबर, पता, मील और मैप लिंक है"></div><figcaption><b>डिलीवरी लिस्ट</b> पता, फ़ोन, मील और मैप लिंक, एक क्लिक में डाउनलोड</figcaption></figure>
+      <figure><div class="frame"><img src="../img/admin-customers.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="ग्राहक लिस्ट जिसमें प्लान, बचे मील, अगला मील, सर्च और फ़िल्टर हैं"></div><figcaption><b>ग्राहक</b> किसी को भी खोजें, और चालू, कम मील या रुके हुए के हिसाब से छाँटें</figcaption></figure>
+      <figure><div class="frame"><img src="../img/admin-menu.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="हफ़्ते का मेन्यू पेज जिसमें हर दिन की डिश और पिछला हफ़्ता कॉपी या शीट अपलोड के बटन हैं"></div><figcaption><b>हफ़्ते का मेन्यू</b> टाइप करें, पिछला हफ़्ता कॉपी करें, या शीट अपलोड करें</figcaption></figure>
+      <figure><div class="frame"><img src="../img/admin-plans.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="प्लान और क़ीमत का पेज जहाँ किचन प्लान, ऐड-ऑन और प्रोमो कोड संभालता है"></div><figcaption><b>प्लान और क़ीमत</b> प्लान, ऐड-ऑन और प्रोमो कोड ख़ुद बदलें</figcaption></figure>
+      <figure class="tour-phone"><div class="phone"><img src="../img/cust-shop.webp" width="780" height="1600" loading="lazy" decoding="async" alt="ग्राहक का पेज जिसमें ट्रायल, साप्ताहिक, पंद्रह दिन और मासिक प्लान क़ीमत के साथ हैं"></div><figcaption><b>आपके ग्राहकों का पेज</b> आपका नाम, आपका लोगो, आपके प्लान, एक लिंक में शेयर करने के लिए तैयार</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="how">
+  <div class="wrap">
+    <h2>यह कैसे काम करता है</h2>
+    <div class="steps">
+      <div class="step"><h3>हम आपका किचन सेट करते हैं</h3><p>अपने प्लान, क़ीमत, मील टाइम, लोगो और Razorpay की जानकारी दें। हम सब डालकर आपका पेज तैयार करते हैं।</p></div>
+      <div class="step"><h3>आप एक लिंक शेयर करते हैं</h3><p>ग्राहकों को लिंक भेजें। वे प्लान चुनते हैं, ऑनलाइन पैसे देते हैं और सब ख़ुद संभालते हैं।</p></div>
+      <div class="step"><h3>पूरा दिन एक स्क्रीन से चलाएँ</h3><p>किचन शीट खोलें, खाना बनाएँ, डिलीवरी लिस्ट डाउनलोड करें और डिलीवर हुआ मार्क करें।</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <h2>आज ही शामिल सब कुछ</h2>
+    <p class="lead">किसी भी फ़ोन या कंप्यूटर पर चलता है। कुछ इंस्टॉल नहीं करना।</p>
+    <div class="features">
+      <div>
+        <h3>आपके ग्राहकों के लिए</h3>
+        <ul class="ticks">
+          <li>प्लान ख़रीदें और ऑनलाइन पैसे दें</li>
+          <li>ट्रायल प्लान से शुरू करें, अगर आप देते हैं</li>
+          <li>मील टाइप, मील टाइम और डिलीवरी के दिन चुनें</li>
+          <li>छाछ या फल जैसी चीज़ें जोड़ें</li>
+          <li>प्रोमो कोड लगाएँ</li>
+          <li>मैप पर अपना घर मार्क करें</li>
+          <li>कोई दिन स्किप करें या प्लान रोकें</li>
+          <li>दिन, समय, मील टाइप या पता बदलें</li>
+          <li>बचे मील और आने वाली डिश देखें</li>
+          <li>पिछले पेमेंट देखें</li>
+          <li>फ़ोन से रिन्यू करें</li>
+          <li>मोबाइल नंबर और PIN से लॉगिन</li>
+        </ul>
+      </div>
+      <div>
+        <h3>आपकी किचन टीम के लिए</h3>
+        <ul class="ticks">
+          <li>आज के मील की गिनती एक नज़र में</li>
+          <li>कल की गिनती, ताकि ख़रीदारी की योजना बने</li>
+          <li>मील टाइम और टाइप के हिसाब से किचन शीट</li>
+          <li>ऐड-ऑन की गिनती और ग्राहकों के नोट</li>
+          <li>इलाक़े के हिसाब से डिलीवरी लिस्ट</li>
+          <li>डाउनलोड होने वाली डिलीवरी रिपोर्ट</li>
+          <li>मील डिलीवर हुआ मार्क करें</li>
+          <li>ख़ुद लेने आने वाले ग्राहकों की सुविधा</li>
+          <li>हफ़्ते का मेन्यू, पिछले हफ़्ते से कॉपी के साथ</li>
+          <li>शीट से मेन्यू अपलोड करें</li>
+          <li>छुट्टियाँ और साप्ताहिक बंद</li>
+          <li>हर मील का कट-ऑफ़ समय</li>
+        </ul>
+      </div>
+      <div>
+        <h3>आपके लिए, मालिक के तौर पर</h3>
+        <ul class="ticks">
+          <li>आपके नाम और लोगो वाला अपना पेज</li>
+          <li>ऑनलाइन पेमेंट सीधे आपके अपने Razorpay में</li>
+          <li>हर ग्राहक की पूरी हिस्ट्री</li>
+          <li>फ़ोन पर ऑर्डर करने वाले ग्राहक जोड़ें</li>
+          <li>कोई भी प्लान बदलें, मील जोड़ें या घटाएँ</li>
+          <li>कैश, UPI और बैंक पेमेंट दर्ज करें</li>
+          <li>बाक़ी पेमेंट देखें</li>
+          <li>डाउनलोड होने वाली पेमेंट रिपोर्ट</li>
+          <li>कम मील वाले ग्राहकों की लिस्ट</li>
+          <li>प्लान, ऐड-ऑन और प्रोमो कोड तय करें</li>
+          <li>दूरी के हिसाब से डिलीवरी चार्ज, अधिकतम सीमा के साथ</li>
+          <li>आपकी टीम के लिए अलग लॉगिन और अनुमति</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="integrations">
+  <div class="wrap">
+    <h2>आपके पहले से इस्तेमाल होने वाले टूल्स के साथ</h2>
+    <p class="lead">जो आज तैयार है उससे शुरू करें। जिस पर "माँगने पर" लिखा है, वह ज़रूरत पड़ने पर आपके किचन के लिए जोड़ा जाता है।</p>
+    <div class="integ">
+      <div>
+        <h3>पेमेंट</h3>
+        <div class="it"><div class="it-top"><b>Razorpay</b><span class="st ok">आज तैयार</span></div><p>कार्ड, UPI, नेट बैंकिंग और वॉलेट। पैसे आपके अपने खाते में जाते हैं।</p></div>
+        <div class="it"><div class="it-top"><b>PhonePe, Google Pay और Paytm ऐप</b><span class="st ok">आज तैयार</span></div><p>भारत में ग्राहक चेकआउट पर UPI से इन ऐप से पहले ही पैसे दे सकते हैं।</p></div>
+        <div class="it"><div class="it-top"><b>PhonePe पेमेंट गेटवे</b><span class="st req">माँगने पर</span></div><p>PhonePe को अपना मुख्य पेमेंट गेटवे बनाएँ।</p></div>
+        <div class="it"><div class="it-top"><b>Paytm, Cashfree, PayU और CCAvenue</b><span class="st req">माँगने पर</span></div><p>भारत के दूसरे लोकप्रिय पेमेंट गेटवे।</p></div>
+        <div class="it"><div class="it-top"><b>Stripe और PayPal</b><span class="st req">माँगने पर</span></div><p>भारत से बाहर के किचन के लिए।</p></div>
+      </div>
+      <div>
+        <h3>WhatsApp</h3>
+        <div class="it"><div class="it-top"><b>एक टैप में WhatsApp चैट</b><span class="st ok">आज तैयार</span></div><p>आपकी टीम एक टैप में किसी भी ग्राहक से चैट खोलती है। ग्राहक अपने पेज से आपके किचन को मैसेज कर सकते हैं।</p></div>
+        <div class="it"><div class="it-top"><b>अपने आप जाने वाले WhatsApp मैसेज</b><span class="st req">माँगने पर</span></div><p>WhatsApp Business API से रिन्यूअल, पेमेंट और डिलीवरी के रिमाइंडर।</p></div>
+      </div>
+      <div>
+        <h3>मैप</h3>
+        <div class="it"><div class="it-top"><b>चेकआउट पर मैप पिन</b><span class="st ok">आज तैयार</span></div><p>ग्राहक मैप पर अपना घर मार्क करते हैं, और दूरी से डिलीवरी चार्ज अपने आप निकलता है।</p></div>
+        <div class="it"><div class="it-top"><b>Google Maps में खोलें</b><span class="st ok">आज तैयार</span></div><p>हर डिलीवरी में एक लिंक है जो Google Maps में सही जगह खोलता है।</p></div>
+        <div class="it"><div class="it-top"><b>Google Maps से पता खोजना</b><span class="st req">माँगने पर</span></div><p>ग्राहक अपना पता टाइप करके Google के सुझावों से चुनते हैं।</p></div>
+        <div class="it"><div class="it-top"><b>Google से सड़क की दूरी</b><span class="st req">माँगने पर</span></div><p>असली सड़क की दूरी के हिसाब से डिलीवरी चार्ज।</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="who">
+  <div class="wrap split">
+    <div>
+      <h2>मील प्लान बेचने वाले किचन के लिए बना</h2>
+      <p class="lead">यह एक असली मील सब्सक्रिप्शन किचन की रोज़ की परेशानियों से निकला है, किसी सॉफ़्टवेयर कंपनी के अंदाज़े से नहीं।</p>
+      <div class="chips">
+        <span>टिफ़िन सर्विस</span><span>क्लाउड किचन</span><span>डाइट और हेल्दी मील प्लान</span><span>सलाद सब्सक्रिप्शन</span><span>होम किचन</span><span>ऑफ़िस लंच सर्विस</span>
+      </div>
+    </div>
+    <div>
+      <h2>आगे आने वाला</h2>
+      <p class="lead">ये अभी तैयार नहीं हैं। किचन की सबसे ज़्यादा ज़रूरत के हिसाब से हम इन्हें आगे बना रहे हैं।</p>
+      <div class="next">
+        <div><b>डिलीवरी स्टाफ़ ऐप</b><span>दिन का रूट और फ़ोन से डिलीवरी अपडेट।</span></div>
+        <div><b>WhatsApp मैसेज</b><span>रिन्यूअल और पेमेंट के लिए अपने आप रिमाइंडर।</span></div>
+        <div><b>और रिपोर्ट</b><span>बिक्री, रिन्यूअल और ग्राहक कितने समय तक रुकते हैं।</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="price">
+  <div class="wrap price">
+    <div>
+      <h2>एक सीधी क़ीमत</h2>
+      <p class="amount" style="margin-top:22px"><span id="amt">₹10,000</span> <small>प्रति माह</small></p>
+      <p class="per">एक किचन के लिए। आपकी बिक्री में हमारा कोई हिस्सा नहीं।</p>
+      <label class="country"><span>क़ीमत इस देश के लिए</span>
+        <select id="country">
+          <option value="IN" data-price="₹10,000" selected>भारत</option>
+          <option value="US" data-price="$149">अमेरिका</option>
+          <option value="GB" data-price="£119">ब्रिटेन</option>
+          <option value="EU" data-price="€139">यूरोप</option>
+          <option value="AE" data-price="AED 549">संयुक्त अरब अमीरात</option>
+          <option value="CA" data-price="C$199">कनाडा</option>
+          <option value="AU" data-price="A$229">ऑस्ट्रेलिया</option>
+          <option value="SG" data-price="S$199">सिंगापुर</option>
+          <option value="MX" data-price="MX$2,799">मेक्सिको</option>
+          <option value="OTHER" data-price="US$149">बाक़ी दुनिया</option>
+        </select>
+      </label>
+      <div class="cta"><a class="btn" href="#talk">हमसे बात करें</a></div>
+    </div>
+    <ul class="ticks">
+      <li>आपके नाम और लोगो वाला ग्राहकों का पेज</li>
+      <li>आपका किचन एडमिन, टीम के लॉगिन के साथ</li>
+      <li>आपके प्लान, क़ीमत और मील टाइम हम सेट करते हैं</li>
+      <li>ग्राहक के पैसे सीधे आपके अपने Razorpay खाते में जाते हैं</li>
+      <li>इस पेज पर लिखा हर फ़ीचर</li>
+    </ul>
+  </div>
+</section>
+
+<section id="questions">
+  <div class="wrap">
+    <h2>आम सवाल</h2>
+    <div class="faq">
+      <details open><summary>क्या मेरे ग्राहकों को ऐप डाउनलोड करना होगा?</summary><p>नहीं। आप एक लिंक शेयर करते हैं। यह फ़ोन के ब्राउज़र में खुलता है और ग्राहक मोबाइल नंबर और 4 अंकों के PIN से लॉगिन करते हैं।</p></details>
+      <details><summary>क्या मैं अपने मौजूदा ग्राहक ला सकता हूँ?</summary><p>हाँ। आपकी टीम हर ग्राहक को उसके प्लान और बचे मील के साथ जोड़ सकती है, ताकि किसी को शून्य से शुरू न करना पड़े।</p></details>
+      <details><summary>ग्राहक के पैसे कहाँ जाते हैं?</summary><p>सीधे आपके अपने Razorpay खाते में। Tiffora आपके पैसे नहीं रखता और आपकी बिक्री में कोई हिस्सा नहीं लेता। Razorpay के सामान्य चार्ज आपके और Razorpay के बीच हैं।</p></details>
+      <details><summary>मेरे कई ग्राहक कैश देते हैं। क्या यह फिर भी चलेगा?</summary><p>हाँ। आपकी टीम ग्राहक के नाम कैश, UPI या बैंक पेमेंट दर्ज कर सकती है, और बाक़ी रकम अपने आप अपडेट होती है।</p></details>
+      <details><summary>क्या यह मेरे बैंक स्टेटमेंट से अपने आप मिलान करेगा?</summary><p>नहीं। Tiffora हर पेमेंट दर्ज करता है और किसी भी तारीख़ों के लिए ऑनलाइन, UPI, बैंक और कैश का कुल देता है। आप इन्हें अपने कैश बॉक्स, बैंक खाते और Razorpay खाते से मिलाते हैं।</p></details>
+      <details><summary>अगर ग्राहक कट-ऑफ़ के बाद स्किप करना चाहे तो?</summary><p>नहीं कर सकते, क्योंकि आप खाना बनाना शुरू कर चुके होते हैं। हर मील का कट-ऑफ़ समय आप तय करते हैं। उसके बाद वह मील लॉक हो जाता है और आपकी गिनती सही रहती है।</p></details>
+      <details><summary>क्या डिलीवरी बॉय ऐप या WhatsApp मैसेजिंग है?</summary><p>अभी नहीं। आज आपको डिलीवरी लिस्ट मिलती है जिसे डाउनलोड करके डिलीवरी स्टाफ़ को दे सकते हैं। डिलीवरी ऐप और WhatsApp रिमाइंडर हम आगे बना रहे हैं।</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final" id="talk">
+  <div class="wrap">
+    <h2>अपना किचन चलाइए, स्प्रेडशीट नहीं</h2>
+    <p class="lead">हम अभी अपने पहले किचन सेट कर रहे हैं। हमें बताएँ कि आप अपना किचन कैसे चलाते हैं, और हम दिखाएँगे कि यह कैसे काम करेगा।</p>
+    <a class="btn" id="wa" href="#" data-wa-text="नमस्ते, मैं मील सब्सक्रिप्शन किचन चलाता हूँ और Tiffora के बारे में जानना चाहता हूँ।" hidden>WhatsApp पर मैसेज करें</a>
+    <p class="soon" id="soon">हमारी संपर्क जानकारी जल्द ही यहाँ होगी।</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap"><span>Tiffora. टिफ़िन और मील सब्सक्रिप्शन किचन के लिए सॉफ़्टवेयर।</span><span>भारत में बना</span></div>
+</footer>
+
+<script>
+  // Put the sales WhatsApp number here, with country code and no plus sign, for example '919800000000'.
+  const WHATSAPP = '';
+  if (WHATSAPP) {
+    const wa = document.getElementById('wa');
+    wa.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(wa.dataset.waText);
+    wa.hidden = false;
+    document.getElementById('soon').hidden = true;
+  }
+
+  // Picks the price by the visitor's country. It uses the device's time zone, so no outside service sees the visitor.
+  const sel = document.getElementById('country'), amt = document.getElementById('amt');
+  const show = () => { amt.textContent = sel.selectedOptions[0].dataset.price; };
+  function guessCountry() {
+    let tz = '';
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch { /* old browser */ }
+    if (/^Asia\/(Kolkata|Calcutta)$/.test(tz)) return 'IN';
+    if (/^Europe\/(London|Belfast|Jersey|Guernsey|Isle_of_Man)$/.test(tz)) return 'GB';
+    if (/^Europe\/(Moscow|Istanbul|Minsk|Kaliningrad|Samara|Volgograd|Saratov|Ulyanovsk|Astrakhan|Kirov)$/.test(tz)) return 'OTHER';
+    if (/^Europe\//.test(tz)) return 'EU';
+    if (tz === 'Asia/Dubai') return 'AE';
+    if (tz === 'Asia/Singapore') return 'SG';
+    if (/^Australia\//.test(tz)) return 'AU';
+    if (/^America\/(Mexico_City|Cancun|Merida|Monterrey|Matamoros|Mazatlan|Chihuahua|Ciudad_Juarez|Ojinaga|Hermosillo|Tijuana|Bahia_Banderas)$/.test(tz)) return 'MX';
+    if (/^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|St_Johns|Regina|Moncton|Glace_Bay|Goose_Bay|Swift_Current|Dawson|Dawson_Creek|Whitehorse|Yellowknife|Iqaluit|Inuvik|Rankin_Inlet|Resolute|Cambridge_Bay|Fort_Nelson|Creston|Atikokan|Blanc-Sablon)$/.test(tz)) return 'CA';
+    if (/^America\/(New_York|Detroit|Kentucky|Indiana|Chicago|Menominee|North_Dakota|Denver|Boise|Phoenix|Los_Angeles|Anchorage|Juneau|Sitka|Metlakatla|Yakutat|Nome|Adak)/.test(tz) || tz === 'Pacific/Honolulu') return 'US';
+    return tz ? 'OTHER' : null;
+  }
+  let saved = null;
+  try { saved = localStorage.getItem('tiffora.country'); } catch { /* private mode */ }
+  const pick = saved || guessCountry();
+  if (pick && [...sel.options].some((o) => o.value === pick)) sel.value = pick;
+  show();
+  sel.addEventListener('change', () => { show(); try { localStorage.setItem('tiffora.country', sel.value); } catch { /* private mode */ } });
+
+  // Closes the language menu when you tap elsewhere.
+  document.addEventListener('click', (e) => { const d = document.querySelector('.lang'); if (d && d.open && !d.contains(e.target)) d.open = false; });
+</script>
+</body>
+</html>

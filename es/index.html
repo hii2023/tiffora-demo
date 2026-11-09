@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Software para cocinas de comidas por suscripción | Tiffora</title>
+<meta name="description" content="Software sencillo para cocinas de comidas por suscripción. Tus clientes compran, saltan y pausan desde el móvil. Tú recibes hoja de cocina y lista de entregas.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#1f5f45">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tiffora">
+<meta property="og:title" content="Software para cocinas de comidas por suscripción | Tiffora">
+<meta property="og:description" content="Deja de llevar tu negocio de comidas en Excel y WhatsApp. Tus clientes gestionan su propio plan. Tu cocina sabe exactamente qué preparar y a dónde enviarlo.">
+<meta property="og:image" content="https://hii2023.github.io/tiffora-demo/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231f5f45'/%3E%3Cpath d='M9 10h14v3.4h-5.2V24h-3.6V13.4H9z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://hii2023.github.io/tiffora-demo/es/">
+<meta property="og:url" content="https://hii2023.github.io/tiffora-demo/es/">
+<meta property="og:locale" content="es_ES">
+<link rel="alternate" hreflang="en" href="https://hii2023.github.io/tiffora-demo/">
+<link rel="alternate" hreflang="hi" href="https://hii2023.github.io/tiffora-demo/hi/">
+<link rel="alternate" hreflang="es" href="https://hii2023.github.io/tiffora-demo/es/">
+<link rel="alternate" hreflang="de" href="https://hii2023.github.io/tiffora-demo/de/">
+<link rel="alternate" hreflang="fr" href="https://hii2023.github.io/tiffora-demo/fr/">
+<link rel="alternate" hreflang="x-default" href="https://hii2023.github.io/tiffora-demo/">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebSite",
+   "@id": "https://hii2023.github.io/tiffora-demo/#website",
+   "url": "https://hii2023.github.io/tiffora-demo/",
+   "name": "Tiffora",
+   "inLanguage": "es"
+  },
+  {
+   "@type": "SoftwareApplication",
+   "name": "Tiffora",
+   "url": "https://hii2023.github.io/tiffora-demo/es/",
+   "applicationCategory": "BusinessApplication",
+   "operatingSystem": "Web",
+   "description": "Software sencillo para cocinas de comidas por suscripción. Tus clientes compran, saltan y pausan desde el móvil. Tú recibes hoja de cocina y lista de entregas.",
+   "inLanguage": "es",
+   "screenshot": [
+    "https://hii2023.github.io/tiffora-demo/img/admin-kitchen.webp",
+    "https://hii2023.github.io/tiffora-demo/img/admin-payments.webp",
+    "https://hii2023.github.io/tiffora-demo/img/cust-home.webp"
+   ],
+   "offers": {
+    "@type": "Offer",
+    "price": "139",
+    "priceCurrency": "EUR"
+   }
+  },
+  {
+   "@type": "FAQPage",
+   "inLanguage": "es",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "¿Mis clientes tienen que descargar una app?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. Compartes un enlace. Se abre en el navegador del móvil y los clientes entran con su número de móvil y un PIN de 4 dígitos."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "¿Puedo traer a mis clientes actuales?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Sí. Tu equipo puede añadir a cada cliente con su plan y las comidas que le quedan, para que nadie empiece de cero."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "¿A dónde va el dinero de los clientes?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Directamente a tu propia cuenta de pagos. En India usamos Razorpay. Fuera de India, Stripe o PayPal se añaden bajo petición. Tiffora no guarda tu dinero ni se queda parte de tus ventas."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Tengo muchos clientes que pagan en efectivo. ¿Funciona igual?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Sí. Tu equipo puede registrar pagos en efectivo o por transferencia de cada cliente, y el importe pendiente se actualiza solo."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "¿Concilia automáticamente con mi extracto bancario?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. Tiffora registra cada pago y te da los totales de online, banco y efectivo para las fechas que quieras. Tú comparas esos totales con tu caja y tu cuenta bancaria."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "¿Y si un cliente quiere saltar después de la hora límite?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No puede, porque ya has empezado a cocinar. Tú eliges la hora límite de cada comida. Cuando pasa, esa comida queda bloqueada y tu cantidad sigue siendo correcta."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "¿Hay app para repartidores o mensajes de WhatsApp?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Todavía no. Hoy tienes una lista de entregas que puedes descargar y compartir con tus repartidores. La app de reparto y los recordatorios de WhatsApp son lo próximo que estamos construyendo."
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
+<style>
+  :root {
+    --bg: #f7f6f2; --paper: #fff; --ink: #1b1b19; --muted: #5f5f58; --line: #e2e0d8;
+    --green: #1f5f45; --green-dark: #174a36; --tint: #e9f1ec; --red: #a23b2a;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 'IBM Plex Sans', system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  h1, h2, h3 { font-weight: 600; letter-spacing: -.018em; line-height: 1.18; margin: 0; }
+  h1, h2, h3, p, li, figcaption { overflow-wrap: break-word; }
+  html[lang="hi"] body { font-family: 'IBM Plex Sans Devanagari', 'IBM Plex Sans', system-ui, sans-serif; line-height: 1.7; }
+  html[lang="hi"] h1, html[lang="hi"] h2, html[lang="hi"] h3 { letter-spacing: 0; line-height: 1.38; }
+  h1 { font-size: clamp(36px, 5.4vw, 56px); }
+  h2 { font-size: clamp(27px, 3.4vw, 37px); }
+  h3 { font-size: 19px; letter-spacing: -.01em; }
+  p { margin: 0; }
+  a { color: inherit; }
+  .muted { color: var(--muted); }
+  section { padding: 76px 0; }
+  .lead { font-size: 19px; color: var(--muted); max-width: 620px; margin-top: 14px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border-radius: 8px; background: var(--green); color: #fff; font-weight: 500; text-decoration: none; }
+  .btn:hover { background: var(--green-dark); }
+  .btn.plain { background: transparent; color: var(--ink); border: 1px solid #cfccc1; }
+  .btn.plain:hover { background: var(--paper); }
+  :focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+  header { position: sticky; top: 0; z-index: 5; background: rgba(247,246,242,.95); border-bottom: 1px solid var(--line); }
+  .bar { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 20px; }
+  .brand { font-size: 20px; font-weight: 600; letter-spacing: -.02em; text-decoration: none; color: var(--green); }
+  nav { display: flex; align-items: center; gap: 26px; font-size: 15px; }
+  nav a { text-decoration: none; color: var(--muted); }
+  nav a:hover { color: var(--ink); }
+  nav a.btn { color: #fff; min-height: 38px; padding: 0 14px; white-space: nowrap; }
+
+  .hero { padding: 72px 0 80px; }
+  .hero .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center; }
+  .hero .lead { margin-top: 20px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .sheet { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 22px; font-size: 15px; }
+  .sheet-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .tag { font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 99px; padding: 1px 9px; }
+  .big { font-size: 46px; font-weight: 600; letter-spacing: -.03em; line-height: 1.1; margin-top: 14px; }
+  .r { display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid var(--line); }
+  .r span:last-child { font-weight: 500; }
+  .sheet-rows { margin-top: 14px; }
+  .sub-h { font-size: 13px; color: var(--muted); margin: 16px 0 4px; }
+  .note { margin-top: 14px; padding: 11px 13px; background: var(--tint); border-radius: 8px; font-size: 14px; }
+
+  figure { margin: 0; }
+  figcaption { font-size: 15px; color: var(--muted); margin-top: 12px; line-height: 1.45; }
+  figcaption b { display: block; font-weight: 500; color: var(--ink); }
+  .frame { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 14px 34px -22px rgba(27,27,25,.35); }
+  .phone { border: 5px solid #23231f; border-radius: 26px; overflow: hidden; background: #fff; box-shadow: 0 14px 34px -22px rgba(27,27,25,.45); }
+  .frame img, .phone img { display: block; width: 100%; height: auto; }
+  .small-note { font-size: 15px; margin-top: 14px; }
+
+  .benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px 40px; margin-top: 40px; }
+  .benefit { border-top: 2px solid var(--green); padding-top: 14px; }
+  .benefit p { color: var(--muted); margin-top: 6px; }
+
+  .phones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; max-width: 880px; margin: 46px auto 0; text-align: center; }
+  .swap-title { margin-top: 60px; }
+  .swap { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; margin-top: 14px; border-top: 1px solid var(--line); }
+  .swap-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+  .msg { background: #e4efe5; border-radius: 10px 10px 10px 2px; padding: 7px 12px; font-size: 15px; line-height: 1.4; flex: 1 1 54%; }
+  .act { font-size: 15px; line-height: 1.4; color: var(--muted); flex: 1 1 46%; }
+
+  .pair { display: grid; grid-template-columns: 250px 1fr; gap: 44px; align-items: start; margin-top: 44px; }
+  .points { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; margin-top: 44px; }
+  .points p { color: var(--muted); margin-top: 6px; }
+
+  .calc { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; margin-top: 52px; }
+  .calc h3 { margin-bottom: 12px; }
+  .chain { list-style: none; margin: 0; padding: 0; counter-reset: c; }
+  .chain li { counter-increment: c; position: relative; padding: 0 0 18px 38px; }
+  .chain li::before { content: counter(c); position: absolute; left: 0; top: 0; width: 25px; height: 25px; border-radius: 50%; background: var(--tint); color: var(--green); font-size: 14px; font-weight: 600; display: grid; place-items: center; }
+  .chain li:not(:last-child)::after { content: ''; position: absolute; left: 12px; top: 27px; bottom: 2px; width: 1px; background: #c5d8cc; }
+  .chain li:last-child { padding-bottom: 0; }
+
+  .media { display: grid; grid-template-columns: 1fr 1.12fr; gap: 56px; align-items: center; }
+  .media .ticks { margin-top: 20px; }
+
+  .tour { display: grid; grid-template-columns: 1fr 1fr; gap: 44px 40px; margin-top: 42px; }
+  .tour-phone { display: grid; grid-template-columns: 170px 1fr; gap: 24px; align-items: center; }
+  .tour-phone figcaption { margin-top: 0; }
+
+  nav { position: relative; }
+  .lang { position: relative; }
+  .lang summary { cursor: pointer; list-style: none; color: var(--muted); padding: 6px 2px; white-space: nowrap; }
+  .lang summary::-webkit-details-marker { display: none; }
+  .lang summary::after { content: ''; display: inline-block; margin-left: 7px; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-3px) rotate(45deg); }
+  .lang-menu { position: absolute; right: 0; top: 100%; margin-top: 8px; min-width: 150px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 6px; box-shadow: 0 14px 30px -18px rgba(27,27,25,.4); }
+  .lang-menu a { display: block; padding: 8px 10px; border-radius: 6px; color: var(--ink); }
+  .lang-menu a:hover { background: var(--bg); }
+  .lang-menu a[aria-current] { color: var(--green); font-weight: 500; }
+
+  .integ { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; margin-top: 42px; }
+  .integ h3 { padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .it { padding: 15px 0; border-bottom: 1px solid var(--line); }
+  .it-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .it-top b { font-weight: 500; line-height: 1.35; }
+  .it p { color: var(--muted); font-size: 15.5px; line-height: 1.45; margin-top: 5px; }
+  .st { flex: none; font-size: 12.5px; line-height: 1.3; padding: 3px 9px; border-radius: 99px; white-space: nowrap; }
+  .st.ok { background: var(--tint); color: var(--green); }
+  .st.req { background: #f1efe7; color: var(--muted); }
+
+  .country { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 16px; font-size: 15px; color: var(--muted); }
+  .country select { font: inherit; color: var(--ink); background: var(--paper); border: 1px solid #cfccc1; border-radius: 8px; min-height: 42px; padding: 0 10px; max-width: 100%; }
+
+  .white { background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .problems { margin-top: 40px; border-top: 1px solid var(--line); }
+  .problem { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding: 26px 0; border-bottom: 1px solid var(--line); }
+  .problem h3 { margin-bottom: 6px; }
+  .label { font-size: 13px; font-weight: 500; margin-bottom: 8px; }
+  .label.bad { color: var(--red); }
+  .label.good { color: var(--green); }
+  .problem p { color: var(--muted); }
+  .fix p { color: var(--ink); }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; margin-top: 40px; counter-reset: s; }
+  .step { counter-increment: s; border-top: 2px solid var(--green); padding-top: 16px; }
+  .step::before { content: counter(s); display: block; font-size: 15px; font-weight: 600; color: var(--green); margin-bottom: 8px; }
+  .step p { color: var(--muted); margin-top: 6px; }
+
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; margin-top: 44px; }
+  .features h3 { padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  ul.ticks { list-style: none; margin: 0; padding: 0; }
+  ul.ticks li { position: relative; padding: 11px 0 11px 24px; border-bottom: 1px solid var(--line); font-size: 16px; line-height: 1.45; }
+  ul.ticks li::before { content: ''; position: absolute; left: 3px; top: 17px; width: 11px; height: 6px; border-left: 2px solid var(--green); border-bottom: 2px solid var(--green); transform: rotate(-45deg); }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .chips span { background: var(--paper); border: 1px solid var(--line); border-radius: 99px; padding: 5px 14px; font-size: 15px; }
+  .next { margin-top: 20px; }
+  .next div { padding: 13px 0; border-top: 1px solid var(--line); }
+  .next b { font-weight: 500; display: block; }
+  .next span { color: var(--muted); font-size: 16px; }
+
+  .price { display: grid; grid-template-columns: .9fr 1.1fr; gap: 56px; align-items: start; }
+  .amount { font-size: clamp(44px, 6vw, 60px); font-weight: 600; letter-spacing: -.03em; line-height: 1; }
+  .amount small { font-size: 18px; font-weight: 400; letter-spacing: 0; color: var(--muted); }
+  .per { color: var(--muted); margin-top: 12px; }
+
+  .faq { margin-top: 32px; max-width: 780px; border-top: 1px solid var(--line); }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary { cursor: pointer; padding: 18px 28px 18px 0; font-weight: 500; list-style: none; position: relative; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; position: absolute; right: 2px; top: 15px; font-size: 22px; font-weight: 400; color: var(--muted); }
+  .faq details[open] summary::after { content: '\2212'; }
+  .faq details p { padding: 0 0 20px; color: var(--muted); max-width: 680px; }
+
+  .final { background: var(--green); color: #fff; text-align: center; }
+  .final .lead { color: #d5e5dc; margin-left: auto; margin-right: auto; }
+  .final .btn { background: #fff; color: var(--green); margin-top: 26px; }
+  .final .btn:hover { background: #eef3f0; }
+  .final .soon { margin-top: 22px; color: #d5e5dc; font-size: 16px; }
+  footer { padding: 26px 0; font-size: 14px; color: var(--muted); }
+  footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  [hidden] { display: none !important; }
+
+  @media (max-width: 1000px) { nav > a:not(.btn) { display: none; } }
+  @media (max-width: 860px) {
+    section { padding: 56px 0; }
+    .wrap { padding: 0 16px; }
+    .hero { padding: 44px 0 56px; }
+    .hero .wrap, .split, .price, .features, .steps { grid-template-columns: 1fr; }
+    .hero .wrap { gap: 36px; }
+    .features, .split, .price { gap: 36px; }
+    .steps { gap: 26px; }
+    .problem { grid-template-columns: 1fr; gap: 16px; }
+    .benefits, .points, .calc, .media, .tour, .swap, .integ { grid-template-columns: 1fr; }
+    .integ { gap: 34px; }
+    .benefits { gap: 24px; }
+    .points { gap: 22px; }
+    .calc, .media { gap: 34px; }
+    .phones { display: flex; gap: 16px; max-width: none; margin-right: -16px; padding: 0 16px 8px 0; overflow-x: auto; scroll-snap-type: x mandatory; }
+    .phones figure { flex: 0 0 66%; scroll-snap-align: start; }
+    .pair { grid-template-columns: 1fr; gap: 30px; }
+    .pair > figure:first-child { max-width: 250px; margin: 0 auto; text-align: center; }
+    .swap-row { align-items: flex-start; }
+    .cta .btn { flex: 1 1 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#top">Tiffora</a>
+    <nav aria-label="Principal">
+      <a href="#benefits">Ventajas</a>
+      <a href="#features">Funciones</a>
+      <a href="#integrations">Integraciones</a>
+      <a href="#price">Precio</a>
+      <a href="#questions">Preguntas</a>
+      <details class="lang"><summary aria-label="Language">Español</summary><div class="lang-menu"><a href="../" hreflang="en" lang="en">English</a><a href="../hi/" hreflang="hi" lang="hi">हिन्दी</a><a href="../es/" hreflang="es" lang="es" aria-current=true>Español</a><a href="../de/" hreflang="de" lang="de">Deutsch</a><a href="../fr/" hreflang="fr" lang="fr">Français</a></div></details>
+      <a class="btn" href="#talk">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Deja de llevar tu negocio de comidas en Excel y WhatsApp.</h1>
+      <p class="lead">Tiffora es un software sencillo para cocinas que venden planes de comidas. Tus clientes compran y gestionan su plan desde el móvil. Tu equipo ve exactamente qué preparar y a dónde enviarlo.</p>
+      <div class="cta">
+        <a class="btn" href="#talk">Contacto</a>
+        <a class="btn plain" href="#one-page">Verlo en acción</a>
+      </div>
+    </div>
+    <aside class="sheet" aria-label="Ejemplo de hoja de cocina">
+      <div class="sheet-top"><h3>Almuerzo de hoy</h3><span class="tag">Ejemplo</span></div>
+      <p class="big">84</p>
+      <p class="muted">comidas por preparar. Cambios cerrados a las 10:30.</p>
+      <div class="sheet-rows">
+        <div class="r"><span>Normal</span><span>61</span></div>
+        <div class="r"><span>Vegetariano</span><span>15</span></div>
+        <div class="r"><span>Dieta</span><span>8</span></div>
+      </div>
+      <p class="sub-h">Extras</p>
+      <div class="r"><span>Zumo</span><span>22</span></div>
+      <div class="r"><span>Fruta</span><span>9</span></div>
+      <p class="note">Tres clientes han saltado hoy. Sus comidas pasaron al final de su plan y nadie tuvo que actualizar ninguna hoja.</p>
+    </aside>
+  </div>
+</div>
+
+<section id="benefits">
+  <div class="wrap">
+    <h2>Qué cambia en tu negocio</h2>
+    <p class="lead">Menos carreras cada día y una visión clara de tu comida, tus clientes y tu dinero.</p>
+    <div class="benefits">
+      <div class="benefit"><h3>Menos comida desperdiciada</h3><p>Cocinas para el número real, porque los saltos y las pausas ya están descontados antes de empezar.</p></div>
+      <div class="benefit"><h3>Menos llamadas y mensajes</h3><p>Los clientes consultan su plan y hacen los cambios ellos mismos. Tu teléfono deja de ser la oficina.</p></div>
+      <div class="benefit"><h3>Sin errores de cálculo</h3><p>Comidas restantes, fechas de fin, totales e importes pendientes los calcula el sistema, no una persona.</p></div>
+      <div class="benefit"><h3>Dinero en el que puedes confiar</h3><p>Mira qué ha entrado, cómo ha entrado y quién tiene que pagar todavía.</p></div>
+      <div class="benefit"><h3>Más renovaciones</h3><p>Ves quién se está quedando sin comidas cuando aún hay tiempo de llamarle.</p></div>
+      <div class="benefit"><h3>Cualquiera puede llevar el día</h3><p>El negocio ya no depende de la única persona que entiende el Excel.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="problems">
+  <div class="wrap">
+    <h2>Los dolores de cabeza diarios de un negocio de comidas</h2>
+    <p class="lead">Si vendes comidas por suscripción, seguro que los conoces. Cada uno tiene una solución sencilla.</p>
+
+    <div class="problems">
+      <article class="problem">
+        <div><p class="label bad">El problema</p><h3>"¿Cuántas comidas me quedan?"</h3><p>Alguien actualiza un Excel a mano. Una entrada olvidada y acabas discutiendo con un cliente por 2 comidas.</p></div>
+        <div class="fix"><p class="label good">Con Tiffora</p><p>Cada comida se cuenta sola. El cliente ve el mismo número que tú, así que no hay nada que discutir.</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">El problema</p><h3>Los avisos de cancelación se pierden en WhatsApp</h3><p>Un cliente escribe "mañana no quiero comida" a las 11 de la noche. Nadie lo ve. La comida se prepara, se envía y se tira, y el cliente se enfada.</p></div>
+        <div class="fix"><p class="label good">Con Tiffora</p><p>Los clientes saltan o pausan desde su móvil, hasta la hora límite que tú elijas. La comida saltada no se pierde, pasa al final del plan.</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">El problema</p><h3>Cocinar de más o de menos</h3><p>Cada mañana alguien cuenta a partir de mensajes y notas. Se desperdicia comida o un cliente se queda sin nada.</p></div>
+        <div class="fix"><p class="label good">Con Tiffora</p><p>Una sola hoja de cocina muestra la cantidad por horario, por tipo de comida y por extra, con las notas especiales de cada cliente.</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">El problema</p><h3>Hacer la lista de entregas todos los días</h3><p>Las direcciones están repartidas por los chats. Los repartidores llaman una y otra vez para preguntar a dónde ir y qué llevar.</p></div>
+        <div class="fix"><p class="label good">Con Tiffora</p><p>La lista del día se prepara sola, ordenada por zona, con teléfono, dirección, comida y notas. Descárgala con un clic.</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">El problema</p><h3>Un día festivo, 100 fechas que cambiar</h3><p>La cocina cierra un festivo y alguien tiene que mover a mano el plan de cada cliente.</p></div>
+        <div class="fix"><p class="label good">Con Tiffora</p><p>Marca el festivo una vez. Las comidas de todos los clientes se mueven solas. Tu día libre semanal funciona igual.</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">El problema</p><h3>"¿Quién ha pagado y quién no?"</h3><p>Unos pagan online, otros por transferencia, otros en efectivo. Comprobarlo todo significa extractos, capturas de pantalla y suposiciones.</p></div>
+        <div class="fix"><p class="label good">Con Tiffora</p><p>Los pagos online se registran solos. Tu equipo añade efectivo y transferencias en segundos, y ves el total pendiente en cualquier momento.</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">El problema</p><h3>Los clientes terminan su plan y se van sin decir nada</h3><p>Nadie se dio cuenta de que se les acababa, así que nadie les habló de renovar.</p></div>
+        <div class="fix"><p class="label good">Con Tiffora</p><p>Recibes una lista de clientes a los que les quedan pocas comidas, para llamarles a tiempo. Pueden renovar desde el móvil en unos toques.</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">El problema</p><h3>Enviar el menú una y otra vez</h3><p>Los clientes siguen preguntando "¿qué hay hoy de comer?" y tú sigues enviando la misma foto.</p></div>
+        <div class="fix"><p class="label good">Con Tiffora</p><p>Añade el menú una vez por semana o sube una hoja. Los clientes ven el plato junto a cada próxima entrega.</p></div>
+      </article>
+      <article class="problem">
+        <div><p class="label bad">El problema</p><h3>Todo el personal lo ve todo</h3><p>El cocinero no necesita tus registros de pagos, pero un único acceso compartido se lo enseña todo a todos.</p></div>
+        <div class="fix"><p class="label good">Con Tiffora</p><p>Cada persona tiene su propio acceso y solo ve las páginas que tú permitas.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="one-page">
+  <div class="wrap">
+    <h2>Una página para tu cliente. Se acabó mirar WhatsApp todo el día.</h2>
+    <p class="lead">Todo sobre el plan está en una sola página en el móvil del cliente. Puede verlo y cambiarlo hasta tu hora límite. Tu cocina recibe el cambio sin que nadie escriba nada.</p>
+    <div class="phones">
+      <figure><div class="phone"><img src="../img/cust-home.webp" width="780" height="1600" loading="lazy" decoding="async" alt="Página de inicio del cliente con la próxima entrega, un botón para saltar el día y 15 de 24 comidas restantes"></div><figcaption>Próxima comida, comidas restantes y botón de saltar</figcaption></figure>
+      <figure><div class="phone"><img src="../img/cust-deliveries.webp" width="780" height="1600" loading="lazy" decoding="async" alt="Lista de entregas del cliente con el plato de cada día y botones para saltar y deshacer"></div><figcaption>Cada plato próximo, saltar o deshacer</figcaption></figure>
+      <figure><div class="phone"><img src="../img/cust-change.webp" width="780" height="1600" loading="lazy" decoding="async" alt="Pantalla donde el cliente cambia días de entrega, horario, tipo de comida y notas"></div><figcaption>Cambia días, horario, tipo y notas</figcaption></figure>
+    </div>
+    <h3 class="swap-title">Los mensajes que dejas de recibir</h3>
+    <div class="swap">
+      <div class="swap-row"><p class="msg">"Por favor, mañana no me mandes comida."</p><p class="act">Toca Saltar en ese día</p></div>
+      <div class="swap-row"><p class="msg">"La semana que viene estamos fuera."</p><p class="act">Pausa el plan en esas fechas</p></div>
+      <div class="swap-row"><p class="msg">"¿Cuántas comidas me quedan?"</p><p class="act">Ve las comidas restantes en la primera pantalla</p></div>
+      <div class="swap-row"><p class="msg">"¿Qué hay de comer mañana?"</p><p class="act">Ve el plato de cada día</p></div>
+      <div class="swap-row"><p class="msg">"Desde el lunes mándalo a la oficina."</p><p class="act">Cambia la dirección de entrega</p></div>
+      <div class="swap-row"><p class="msg">"Desde la semana que viene, vegetariano."</p><p class="act">Cambia el tipo de comida</p></div>
+      <div class="swap-row"><p class="msg">"Cena en lugar de almuerzo, por favor."</p><p class="act">Cambia el horario</p></div>
+      <div class="swap-row"><p class="msg">"Con poco aceite, por favor."</p><p class="act">Añade una nota que aparece en tu hoja de cocina</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="track">
+  <div class="wrap">
+    <h2>Tú y tu cliente seguís lo mismo</h2>
+    <p class="lead">Hay un solo registro, no dos. Nadie tiene que comparar tu libreta con su memoria.</p>
+    <div class="pair">
+      <figure><div class="phone"><img src="../img/cust-plan.webp" width="780" height="1600" loading="lazy" decoding="async" alt="Página del plan del cliente con 15 de 24 comidas restantes"></div><figcaption>Lo que ve tu cliente</figcaption></figure>
+      <figure><div class="frame"><img src="../img/admin-customer.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="Página de administración del mismo cliente con 15 de 24 comidas restantes y cada entrega"></div><figcaption>Lo que ve tu equipo, del mismo cliente</figcaption></figure>
+    </div>
+    <div class="points">
+      <div><h3>El cliente cambia algo</h3><p>Un salto, una pausa o una dirección nueva llegan al momento a tu hoja de cocina y a la lista de entregas.</p></div>
+      <div><h3>Tú cambias algo</h3><p>Añade comidas, mueve un plan o marca un festivo, y el cliente lo ve en su página.</p></div>
+      <div><h3>Cada entrega tiene un estado</h3><p>Ambas partes ven qué se ha entregado, qué se ha saltado y qué viene después.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="calculation">
+  <div class="wrap">
+    <h2>El sistema hace los cálculos</h2>
+    <p class="lead">Nadie se sienta con una calculadora. Fija tus precios y reglas una vez, y todos los números salen de ahí.</p>
+    <div class="pair">
+      <figure><div class="phone"><img src="../img/cust-total.webp" width="780" height="1600" loading="lazy" decoding="async" alt="Resumen de compra que suma plan, extras y gastos de envío y resta un descuento"></div><figcaption>Total calculado al comprar</figcaption></figure>
+      <figure><div class="frame"><img src="../img/admin-kitchen.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="Hoja de cocina con cantidades por tipo de comida, extras, menú del día y notas de clientes"></div><figcaption>Cantidades calculadas para cada comida</figcaption></figure>
+    </div>
+    <div class="calc">
+      <div>
+        <h3>Un salto, y todo se actualiza</h3>
+        <ol class="chain">
+          <li>El cliente salta el sábado.</li>
+          <li>Esa comida no se cobra.</li>
+          <li>La última entrega del plan pasa al siguiente día abierto.</li>
+          <li>La cantidad del sábado baja en una.</li>
+          <li>El cliente desaparece de la lista de entregas del sábado.</li>
+        </ol>
+        <p class="muted small-note">Nadie ha tocado ninguna hoja. Un festivo funciona igual, para todos los clientes a la vez.</p>
+      </div>
+      <div>
+        <h3>Calculado automáticamente</h3>
+        <ul class="ticks">
+          <li>Comidas restantes, después de cada entrega</li>
+          <li>Fecha de fin del plan, tras cada salto, pausa o festivo</li>
+          <li>Precio del plan, extras, gastos de envío y descuento</li>
+          <li>Gastos de envío según la distancia al cliente</li>
+          <li>Cantidad diaria por horario, tipo de comida y extra</li>
+          <li>Importe pendiente de cada cliente</li>
+          <li>Fecha de inicio de una renovación, cuando acaba el plan actual</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="payments">
+  <div class="wrap media">
+    <div>
+      <h2>Conciliación de pagos, sin dolores de cabeza</h2>
+      <p class="lead">Al final del día o del mes, sabes que las cuentas cuadran.</p>
+      <ul class="ticks">
+        <li>Los pagos online se registran solos, con el cliente y el plan correctos</li>
+        <li>Los pagos en efectivo y por transferencia se añaden en segundos, con una nota</li>
+        <li>Totales separados de online, banco y efectivo, para las fechas que elijas, para cuadrar la caja y la cuenta bancaria</li>
+        <li>Una lista "Still to collect" muestra quién debe y cuánto</li>
+        <li>Cada pago indica quién lo registró, y si se elimina una entrada errónea queda constancia en el historial</li>
+        <li>Descarga el informe completo para tu gestor, con las referencias de pago online</li>
+      </ul>
+      <p class="muted small-note">Tiffora no lee tu extracto bancario. Te da las cifras exactas para compararlas con él.</p>
+    </div>
+    <figure><div class="frame"><img src="../img/admin-payments.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="Página de pagos con el total cobrado separado por método y una lista de importes pendientes"></div></figure>
+  </div>
+</section>
+
+<section id="screens">
+  <div class="wrap">
+    <h2>Un vistazo al interior</h2>
+    <p class="lead">Son pantallas del producto real, de una cocina en India. La cocina y los clientes que aparecen son ejemplos.</p>
+    <p class="small-note muted">La aplicación está hoy en inglés. Otros idiomas se pueden añadir bajo petición.</p>
+    <div class="tour">
+      <figure><div class="frame"><img src="../img/admin-today.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="Página de hoy con comidas de hoy, comidas de mañana, dinero cobrado y clientes con pocas comidas"></div><figcaption><b>Hoy</b> Todo tu día en una pantalla, incluido quién se queda sin comidas</figcaption></figure>
+      <figure><div class="frame"><img src="../img/admin-deliveries.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="Lista de entregas con cliente, teléfono, dirección, comida y enlace al mapa"></div><figcaption><b>Lista de entregas</b> Dirección, teléfono, comida y enlace al mapa, con descarga en un clic</figcaption></figure>
+      <figure><div class="frame"><img src="../img/admin-customers.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="Lista de clientes con plan, comidas restantes y próxima comida, con búsqueda y filtros"></div><figcaption><b>Clientes</b> Busca a cualquiera y filtra por activos, con pocas comidas o en pausa</figcaption></figure>
+      <figure><div class="frame"><img src="../img/admin-menu.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="Página de menú semanal con un plato por día y botones para copiar la semana pasada o subir una hoja"></div><figcaption><b>Menú semanal</b> Escríbelo, copia la semana pasada o sube una hoja</figcaption></figure>
+      <figure><div class="frame"><img src="../img/admin-plans.webp" width="1513" height="1224" loading="lazy" decoding="async" alt="Página de planes y precios donde la cocina gestiona planes, extras y códigos promocionales"></div><figcaption><b>Planes y precios</b> Cambia tú mismo planes, extras y códigos promocionales</figcaption></figure>
+      <figure class="tour-phone"><div class="phone"><img src="../img/cust-shop.webp" width="780" height="1600" loading="lazy" decoding="async" alt="Página del cliente con planes de prueba, semanal, quincenal y mensual y sus precios"></div><figcaption><b>La página de tus clientes</b> Tu nombre, tu logo, tus planes, listo para compartir en un solo enlace</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="how">
+  <div class="wrap">
+    <h2>Cómo funciona</h2>
+    <div class="steps">
+      <div class="step"><h3>Preparamos tu cocina</h3><p>Comparte tus planes, precios, horarios, logo y datos de pago. Lo introducimos todo y dejamos tu página lista.</p></div>
+      <div class="step"><h3>Compartes un enlace</h3><p>Envía el enlace a tus clientes. Eligen un plan, pagan online y lo gestionan todo ellos mismos.</p></div>
+      <div class="step"><h3>Llevas el día desde una pantalla</h3><p>Abre la hoja de cocina, cocina, descarga la lista de entregas y marca lo entregado.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <h2>Todo lo que incluye hoy</h2>
+    <p class="lead">Funciona en cualquier móvil u ordenador. No hay nada que instalar.</p>
+    <div class="features">
+      <div>
+        <h3>Para tus clientes</h3>
+        <ul class="ticks">
+          <li>Comprar un plan y pagar online</li>
+          <li>Empezar con un plan de prueba, si lo ofreces</li>
+          <li>Elegir tipo de comida, horario y días de entrega</li>
+          <li>Añadir extras como zumo o fruta</li>
+          <li>Aplicar un código promocional</li>
+          <li>Marcar su casa en un mapa</li>
+          <li>Saltar un día o pausar el plan</li>
+          <li>Cambiar días, horario, tipo de comida o dirección</li>
+          <li>Ver comidas restantes y próximos platos</li>
+          <li>Ver pagos anteriores</li>
+          <li>Renovar desde el móvil</li>
+          <li>Entrar con número de móvil y PIN</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Para tu equipo de cocina</h3>
+        <ul class="ticks">
+          <li>Las comidas de hoy de un vistazo</li>
+          <li>La cantidad de mañana, para planificar la compra</li>
+          <li>Hoja de cocina por horario y tipo</li>
+          <li>Cantidades de extras y notas de clientes</li>
+          <li>Lista de entregas ordenada por zona</li>
+          <li>Informe de entregas descargable</li>
+          <li>Marcar comidas como entregadas</li>
+          <li>Opción de recogida para clientes</li>
+          <li>Menú semanal, copiando la semana pasada</li>
+          <li>Subir el menú desde una hoja</li>
+          <li>Festivos y días libres semanales</li>
+          <li>Hora límite para cada comida</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Para ti, el propietario</h3>
+        <ul class="ticks">
+          <li>Tu propia página con tu nombre y logo</li>
+          <li>Pagos online en tu propia cuenta de pagos</li>
+          <li>Historial completo de cada cliente</li>
+          <li>Añadir clientes que piden por teléfono</li>
+          <li>Cambiar cualquier plan, añadir o quitar comidas</li>
+          <li>Registrar pagos en efectivo y por transferencia</li>
+          <li>Ver pagos pendientes</li>
+          <li>Informe de pagos descargable</li>
+          <li>Lista de clientes con pocas comidas</li>
+          <li>Definir planes, extras y códigos promocionales</li>
+          <li>Gastos de envío por distancia, con distancia máxima</li>
+          <li>Accesos y permisos separados para tu equipo</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="integrations">
+  <div class="wrap">
+    <h2>Funciona con las herramientas que ya usas</h2>
+    <p class="lead">Empieza con lo que ya está listo. Lo marcado como "Bajo petición" se añade para tu cocina cuando lo necesites.</p>
+    <div class="integ">
+      <div>
+        <h3>Pagos</h3>
+        <div class="it"><div class="it-top"><b>Razorpay</b><span class="st ok">Listo hoy</span></div><p>Tarjetas, UPI, banca online y monederos, para cocinas en India. El dinero va a tu propia cuenta.</p></div>
+        <div class="it"><div class="it-top"><b>Apps PhonePe, Google Pay y Paytm</b><span class="st ok">Listo hoy</span></div><p>Los clientes en India ya pueden pagar desde estas apps, con UPI al finalizar la compra.</p></div>
+        <div class="it"><div class="it-top"><b>Pasarela de pago PhonePe</b><span class="st req">Bajo petición</span></div><p>Usa PhonePe como tu pasarela de pago principal.</p></div>
+        <div class="it"><div class="it-top"><b>Paytm, Cashfree, PayU y CCAvenue</b><span class="st req">Bajo petición</span></div><p>Otras pasarelas de pago populares en India.</p></div>
+        <div class="it"><div class="it-top"><b>Stripe y PayPal</b><span class="st req">Bajo petición</span></div><p>Para cocinas fuera de India.</p></div>
+      </div>
+      <div>
+        <h3>WhatsApp</h3>
+        <div class="it"><div class="it-top"><b>Chat de WhatsApp con un toque</b><span class="st ok">Listo hoy</span></div><p>Tu equipo abre un chat con cualquier cliente con un toque. Los clientes pueden escribir a tu cocina desde su página.</p></div>
+        <div class="it"><div class="it-top"><b>Mensajes automáticos de WhatsApp</b><span class="st req">Bajo petición</span></div><p>Recordatorios de renovación, pago y entrega con la API de WhatsApp Business.</p></div>
+      </div>
+      <div>
+        <h3>Mapas</h3>
+        <div class="it"><div class="it-top"><b>Marcador en el mapa al comprar</b><span class="st ok">Listo hoy</span></div><p>Los clientes marcan su casa en el mapa y los gastos de envío se calculan según la distancia.</p></div>
+        <div class="it"><div class="it-top"><b>Abrir en Google Maps</b><span class="st ok">Listo hoy</span></div><p>Cada entrega tiene un enlace que abre la ubicación exacta en Google Maps.</p></div>
+        <div class="it"><div class="it-top"><b>Búsqueda de direcciones con Google Maps</b><span class="st req">Bajo petición</span></div><p>Los clientes escriben su dirección y la eligen entre las sugerencias de Google.</p></div>
+        <div class="it"><div class="it-top"><b>Distancia por carretera de Google</b><span class="st req">Bajo petición</span></div><p>Gastos de envío según la distancia real por carretera.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="who">
+  <div class="wrap split">
+    <div>
+      <h2>Hecho para cocinas que venden planes de comidas</h2>
+      <p class="lead">Nace de los problemas diarios de una cocina real de comidas por suscripción, no de lo que imagina una empresa de software.</p>
+      <div class="chips">
+        <span>Comidas a domicilio</span><span>Cocinas fantasma</span><span>Planes de dieta y comida sana</span><span>Suscripciones de ensaladas</span><span>Cocinas caseras</span><span>Comidas para oficinas</span>
+      </div>
+    </div>
+    <div>
+      <h2>Próximamente</h2>
+      <p class="lead">Esto aún no está listo. Lo construimos a continuación, según lo que más necesiten las cocinas.</p>
+      <div class="next">
+        <div><b>App para repartidores</b><span>Ruta del día y actualizaciones de entrega desde el móvil.</span></div>
+        <div><b>Mensajes de WhatsApp</b><span>Recordatorios automáticos de renovación y pago.</span></div>
+        <div><b>Más informes</b><span>Ventas, renovaciones y cuánto tiempo se quedan los clientes.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="price">
+  <div class="wrap price">
+    <div>
+      <h2>Un precio sencillo</h2>
+      <p class="amount" style="margin-top:22px"><span id="amt">€139</span> <small>al mes</small></p>
+      <p class="per">Por cocina. No nos quedamos ninguna parte de tus ventas.</p>
+      <label class="country"><span>Precio para</span>
+        <select id="country">
+          <option value="IN" data-price="₹10,000">India</option>
+          <option value="US" data-price="$149">Estados Unidos</option>
+          <option value="GB" data-price="£119">Reino Unido</option>
+          <option value="EU" data-price="€139" selected>Europa</option>
+          <option value="AE" data-price="AED 549">Emiratos Árabes Unidos</option>
+          <option value="CA" data-price="C$199">Canadá</option>
+          <option value="AU" data-price="A$229">Australia</option>
+          <option value="SG" data-price="S$199">Singapur</option>
+          <option value="MX" data-price="MX$2,799">México</option>
+          <option value="OTHER" data-price="US$149">Resto del mundo</option>
+        </select>
+      </label>
+      <div class="cta"><a class="btn" href="#talk">Contacto</a></div>
+    </div>
+    <ul class="ticks">
+      <li>La página de tus clientes, con tu nombre y logo</li>
+      <li>El panel de tu cocina, con accesos para tu equipo</li>
+      <li>Nosotros configuramos tus planes, precios y horarios</li>
+      <li>El dinero de los clientes va directamente a tu propia cuenta de pagos</li>
+      <li>Todas las funciones de esta página</li>
+    </ul>
+  </div>
+</section>
+
+<section id="questions">
+  <div class="wrap">
+    <h2>Preguntas frecuentes</h2>
+    <div class="faq">
+      <details open><summary>¿Mis clientes tienen que descargar una app?</summary><p>No. Compartes un enlace. Se abre en el navegador del móvil y los clientes entran con su número de móvil y un PIN de 4 dígitos.</p></details>
+      <details><summary>¿Puedo traer a mis clientes actuales?</summary><p>Sí. Tu equipo puede añadir a cada cliente con su plan y las comidas que le quedan, para que nadie empiece de cero.</p></details>
+      <details><summary>¿A dónde va el dinero de los clientes?</summary><p>Directamente a tu propia cuenta de pagos. En India usamos Razorpay. Fuera de India, Stripe o PayPal se añaden bajo petición. Tiffora no guarda tu dinero ni se queda parte de tus ventas.</p></details>
+      <details><summary>Tengo muchos clientes que pagan en efectivo. ¿Funciona igual?</summary><p>Sí. Tu equipo puede registrar pagos en efectivo o por transferencia de cada cliente, y el importe pendiente se actualiza solo.</p></details>
+      <details><summary>¿Concilia automáticamente con mi extracto bancario?</summary><p>No. Tiffora registra cada pago y te da los totales de online, banco y efectivo para las fechas que quieras. Tú comparas esos totales con tu caja y tu cuenta bancaria.</p></details>
+      <details><summary>¿Y si un cliente quiere saltar después de la hora límite?</summary><p>No puede, porque ya has empezado a cocinar. Tú eliges la hora límite de cada comida. Cuando pasa, esa comida queda bloqueada y tu cantidad sigue siendo correcta.</p></details>
+      <details><summary>¿Hay app para repartidores o mensajes de WhatsApp?</summary><p>Todavía no. Hoy tienes una lista de entregas que puedes descargar y compartir con tus repartidores. La app de reparto y los recordatorios de WhatsApp son lo próximo que estamos construyendo.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final" id="talk">
+  <div class="wrap">
+    <h2>Dirige tu cocina, no tus hojas de cálculo</h2>
+    <p class="lead">Estamos preparando nuestras primeras cocinas. Cuéntanos cómo llevas la tuya y te enseñamos cómo funcionaría.</p>
+    <a class="btn" id="wa" href="#" data-wa-text="Hola, tengo una cocina de comidas por suscripción y quiero saber más sobre Tiffora." hidden>Escríbenos por WhatsApp</a>
+    <p class="soon" id="soon">Nuestros datos de contacto estarán aquí muy pronto.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap"><span>Tiffora. Software para cocinas de comidas por suscripción.</span><span>Hecho en India</span></div>
+</footer>
+
+<script>
+  // Put the sales WhatsApp number here, with country code and no plus sign, for example '919800000000'.
+  const WHATSAPP = '';
+  if (WHATSAPP) {
+    const wa = document.getElementById('wa');
+    wa.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(wa.dataset.waText);
+    wa.hidden = false;
+    document.getElementById('soon').hidden = true;
+  }
+
+  // Picks the price by the visitor's country. It uses the device's time zone, so no outside service sees the visitor.
+  const sel = document.getElementById('country'), amt = document.getElementById('amt');
+  const show = () => { amt.textContent = sel.selectedOptions[0].dataset.price; };
+  function guessCountry() {
+    let tz = '';
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch { /* old browser */ }
+    if (/^Asia\/(Kolkata|Calcutta)$/.test(tz)) return 'IN';
+    if (/^Europe\/(London|Belfast|Jersey|Guernsey|Isle_of_Man)$/.test(tz)) return 'GB';
+    if (/^Europe\/(Moscow|Istanbul|Minsk|Kaliningrad|Samara|Volgograd|Saratov|Ulyanovsk|Astrakhan|Kirov)$/.test(tz)) return 'OTHER';
+    if (/^Europe\//.test(tz)) return 'EU';
+    if (tz === 'Asia/Dubai') return 'AE';
+    if (tz === 'Asia/Singapore') return 'SG';
+    if (/^Australia\//.test(tz)) return 'AU';
+    if (/^America\/(Mexico_City|Cancun|Merida|Monterrey|Matamoros|Mazatlan|Chihuahua|Ciudad_Juarez|Ojinaga|Hermosillo|Tijuana|Bahia_Banderas)$/.test(tz)) return 'MX';
+    if (/^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|St_Johns|Regina|Moncton|Glace_Bay|Goose_Bay|Swift_Current|Dawson|Dawson_Creek|Whitehorse|Yellowknife|Iqaluit|Inuvik|Rankin_Inlet|Resolute|Cambridge_Bay|Fort_Nelson|Creston|Atikokan|Blanc-Sablon)$/.test(tz)) return 'CA';
+    if (/^America\/(New_York|Detroit|Kentucky|Indiana|Chicago|Menominee|North_Dakota|Denver|Boise|Phoenix|Los_Angeles|Anchorage|Juneau|Sitka|Metlakatla|Yakutat|Nome|Adak)/.test(tz) || tz === 'Pacific/Honolulu') return 'US';
+    return tz ? 'OTHER' : null;
+  }
+  let saved = null;
+  try { saved = localStorage.getItem('tiffora.country'); } catch { /* private mode */ }
+  const pick = saved || guessCountry();
+  if (pick && [...sel.options].some((o) => o.value === pick)) sel.value = pick;
+  show();
+  sel.addEventListener('change', () => { show(); try { localStorage.setItem('tiffora.country', sel.value); } catch { /* private mode */ } });
+
+  // Closes the language menu when you tap elsewhere.
+  document.addEventListener('click', (e) => { const d = document.querySelector('.lang'); if (d && d.open && !d.contains(e.target)) d.open = false; });
+</script>
+</body>
+</html>
